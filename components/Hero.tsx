@@ -13,7 +13,7 @@ export function Hero({ name, tagline }: HeroProps) {
         transition={{ duration: 1.2, ease: "easeOut" }}
         className="mb-8 text-[11px] uppercase tracking-[0.5em] text-ink-muted/70"
       >
-        books · 2025 —
+        — Books —
       </motion.div>
 
       <motion.h1
@@ -33,17 +33,6 @@ export function Hero({ name, tagline }: HeroProps) {
       >
         {tagline}
       </motion.p>
-
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.4, duration: 1.5 }}
-        className="mt-12 flex items-center gap-3 text-[11px] uppercase tracking-[0.4em] text-ink-muted/60"
-      >
-        <span className="h-px w-10 bg-gradient-to-r from-transparent via-violet-bright/60 to-transparent" />
-        Limbus Company + everything else
-        <span className="h-px w-10 bg-gradient-to-r from-transparent via-violet-bright/60 to-transparent" />
-      </motion.div>
 
       <motion.a
         href="#intro"

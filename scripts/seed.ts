@@ -50,7 +50,7 @@ async function main() {
   console.log("Seeding site_content…");
   await sql`
     INSERT INTO site_content (key, value)
-    VALUES ('intro', ${INTRO}), ('about', ${ABOUT}), ('hero_name', 'Sunday''s Reading'), ('hero_tagline', 'Book reviews and recommendations')
+    VALUES ('intro', ${INTRO}), ('about', ${ABOUT}), ('hero_name', 'Sunday''s Shelf'), ('hero_tagline', 'Book reviews and recommendations')
     ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, updated_at = NOW()
   `;
 

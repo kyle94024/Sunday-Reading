@@ -1,0 +1,123 @@
+/* Admin-only styles. Keeps the site theme but tunes form ergonomics. */
+
+.admin-shell input[type="text"],
+.admin-shell input[type="number"],
+.admin-shell input[type="url"],
+.admin-shell input[type="date"],
+.admin-shell input[type="password"],
+.admin-shell select,
+.admin-shell textarea {
+  width: 100%;
+  background: color-mix(in oklab, #1a0b2e 70%, transparent);
+  border: 1px solid color-mix(in oklab, #a855f7 30%, transparent);
+  border-radius: 8px;
+  padding: 0.55rem 0.75rem;
+  color: var(--color-ink);
+  font: inherit;
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.admin-shell input::placeholder,
+.admin-shell textarea::placeholder {
+  color: color-mix(in oklab, var(--color-ink-muted) 60%, transparent);
+}
+
+.admin-shell input:focus,
+.admin-shell select:focus,
+.admin-shell textarea:focus {
+  outline: none;
+  border-color: color-mix(in oklab, #c084fc 60%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in oklab, #c084fc 20%, transparent);
+}
+
+.admin-shell textarea {
+  min-height: 140px;
+  resize: vertical;
+  line-height: 1.55;
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.admin-shell label.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.admin-shell label.field > .label {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--color-ink-muted) 75%, transparent);
+}
+
+.admin-shell .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: 8px;
+  padding: 0.55rem 1rem;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 200ms ease;
+}
+
+.admin-shell .btn-primary {
+  background: linear-gradient(135deg, #6d28d9, #a855f7);
+  color: white;
+  box-shadow: 0 6px 20px -6px rgba(168, 85, 247, 0.6);
+}
+.admin-shell .btn-primary:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 8px 26px -6px rgba(168, 85, 247, 0.8);
+}
+.admin-shell .btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.admin-shell .btn-ghost {
+  border-color: color-mix(in oklab, #a855f7 35%, transparent);
+  background: color-mix(in oklab, #1a0b2e 50%, transparent);
+  color: var(--color-ink-muted);
+}
+.admin-shell .btn-ghost:hover {
+  color: var(--color-ink);
+  border-color: color-mix(in oklab, #c084fc 60%, transparent);
+}
+
+.admin-shell .btn-danger {
+  background: color-mix(in oklab, #b91c1c 80%, transparent);
+  color: white;
+  border-color: color-mix(in oklab, #ef4444 50%, transparent);
+}
+.admin-shell .btn-danger:hover {
+  background: #dc2626;
+}
+
+.admin-shell .panel {
+  background: color-mix(in oklab, #120628 70%, transparent);
+  border: 1px solid color-mix(in oklab, #a855f7 18%, transparent);
+  border-radius: 14px;
+  padding: 1.5rem;
+}
+
+.admin-shell .toast {
+  border-radius: 10px;
+  padding: 0.65rem 0.9rem;
+  font-size: 13px;
+  border: 1px solid transparent;
+}
+.admin-shell .toast-ok {
+  background: color-mix(in oklab, #16a34a 12%, transparent);
+  border-color: color-mix(in oklab, #4ade80 35%, transparent);
+  color: #bbf7d0;
+}
+.admin-shell .toast-err {
+  background: color-mix(in oklab, #b91c1c 18%, transparent);
+  border-color: color-mix(in oklab, #ef4444 40%, transparent);
+  color: #fecaca;
+}

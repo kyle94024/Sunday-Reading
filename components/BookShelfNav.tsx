@@ -13,8 +13,8 @@ type ShelfBook = {
 };
 
 const SHELF: ShelfBook[] = [
-  { href: "/", label: "Home", h: 78, accent: "#a855f7" },
-  { href: "/about", label: "About", h: 92, accent: "#ec4899" },
+  { href: "/", label: "Home", h: 86, accent: "#a855f7" },
+  { href: "/about", label: "About", h: 96, accent: "#ec4899" },
 ];
 
 const FALL_MS = 320;
@@ -85,7 +85,7 @@ export function BookShelfNav() {
             />
             <span className="font-display text-lg tracking-[0.05em] text-ink sm:text-xl">
               Sunday&rsquo;s{" "}
-              <span className="text-gradient-violet">Reading</span>
+              <span className="text-gradient-violet">Shelf</span>
             </span>
           </Link>
 
@@ -206,9 +206,9 @@ function BookSpine({
       style={{
         transformOrigin: "50% 100%",
         height: book.h,
-        width: 26,
+        width: 32,
         borderColor: `${book.accent}99`,
-        background: `linear-gradient(180deg, ${book.accent}15 0%, ${book.accent}05 60%, transparent 100%)`,
+        background: `linear-gradient(180deg, ${book.accent}1a 0%, ${book.accent}08 60%, transparent 100%)`,
         zIndex: falling ? 10 : 1,
         boxShadow: active
           ? `0 6px 18px -6px ${book.accent}aa, inset 0 0 0 1px ${book.accent}22`
@@ -235,11 +235,12 @@ function BookSpine({
       />
       {/* vertical label */}
       <span
-        className="pointer-events-none absolute inset-0 flex items-center justify-center font-display text-[10px] uppercase tracking-[0.32em]"
+        className="pointer-events-none absolute inset-0 flex items-center justify-center font-sans text-[13px] font-semibold uppercase tracking-[0.16em]"
         style={{
           writingMode: "vertical-rl",
           textOrientation: "mixed",
-          color: active ? "#fff" : "rgba(245,243,255,0.78)",
+          color: active ? "#fff" : "rgba(245,243,255,0.9)",
+          textShadow: "0 1px 2px rgba(0,0,0,0.5)",
         }}
       >
         {book.label}

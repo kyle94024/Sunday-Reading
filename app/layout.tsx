@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Italiana, Inter, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { BookShelfNav } from "@/components/BookShelfNav";
-import { CosmicBackground } from "@/components/CosmicBackground";
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
@@ -28,7 +26,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Sunday's Reading",
+  title: "Sunday's Shelf",
   description: "Book reviews and recommendations by Sunday.",
 };
 
@@ -40,15 +38,7 @@ export default function RootLayout({
       lang="en"
       className={`${cormorant.variable} ${italiana.variable} ${inter.variable} ${geistMono.variable}`}
     >
-      <body className="min-h-screen bg-bg text-ink">
-        <CosmicBackground />
-        <div className="grain" aria-hidden />
-        <BookShelfNav />
-        <main className="relative z-10">{children}</main>
-        <footer className="relative z-10 border-t border-violet-bright/10 mt-32 py-10 text-center text-xs uppercase tracking-[0.3em] text-ink-muted/60">
-          <span className="text-gradient-violet">Sunday&rsquo;s Reading</span>
-        </footer>
-      </body>
+      <body className="min-h-screen bg-bg text-ink">{children}</body>
     </html>
   );
 }
