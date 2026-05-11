@@ -27,12 +27,12 @@ export function Intro({ text }: { text: string }) {
                   <button
                     type="button"
                     onClick={() => setShowTpov((s) => !s)}
-                    className="group/lnk inline-flex items-baseline gap-1 italic underline decoration-violet-bright/40 decoration-1 underline-offset-4 transition-colors hover:decoration-violet-glow hover:text-violet-glow"
+                    className="group/lnk inline-flex items-baseline gap-1 italic text-violet-glow underline decoration-violet-bright/55 decoration-1 underline-offset-4 transition-colors hover:text-lavender hover:decoration-violet-glow"
                   >
                     <span>{children}</span>
                     <span
                       aria-hidden
-                      className="not-italic text-[0.8em] text-violet-bright/70 transition-transform group-hover/lnk:translate-y-px"
+                      className="not-italic text-[0.8em] text-violet-glow transition-transform group-hover/lnk:translate-y-px"
                     >
                       {showTpov ? "▾" : "▸"}
                     </span>
@@ -44,7 +44,7 @@ export function Intro({ text }: { text: string }) {
                   href={href ?? "#"}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="underline decoration-violet-bright/40 decoration-1 underline-offset-4 transition-colors hover:decoration-violet-glow hover:text-violet-glow"
+                  className="text-violet-glow underline decoration-violet-bright/55 decoration-1 underline-offset-4 transition-colors hover:text-lavender hover:decoration-violet-glow"
                 >
                   {children}
                 </a>

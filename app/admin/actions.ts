@@ -3,7 +3,13 @@
 import { neon } from "@neondatabase/serverless";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { attemptLogin, isLoggedIn, logout } from "@/lib/auth";
+import {
+  attemptLogin,
+  changeStoredPassword,
+  isLoggedIn,
+  logout,
+  verifyCurrentPassword,
+} from "@/lib/auth";
 
 const sql = neon(process.env.DATABASE_URL!);
 
@@ -24,6 +30,30 @@ export async function loginAction(
 export async function logoutAction() {
   await logout();
   redirect("/admin/login");
+}
+
+export type ChangePasswordState = { error?: string; ok?: boolean };
+
+export async function changePasswordAction(
+  _prev: ChangePasswordState,
+  formData: FormData
+): Promise<ChangePasswordState> {
+  await ensureAuth();
+  const current = String(formData.get("current") ?? "");
+  const next = String(formData.get("next") ?? "");
+  const confirm = String(formData.get("confirm") ?? "");
+  if (!current || !next) return { error: "Both fields are required." };
+  if (next !== confirm) return { error: "New passwords don't match." };
+  if (next.length < 6) return { error: "New password must be at least 6 characters." };
+  if (next === current) return { error: "New password must differ from current." };
+  const ok = await verifyCurrentPassword(current);
+  if (!ok) return { error: "Current password is wrong." };
+  try {
+    await changeStoredPassword(next);
+  } catch (err) {
+    return { error: (err as Error).message };
+  }
+  return { ok: true };
 }
 
 // ───────── Helpers ─────────

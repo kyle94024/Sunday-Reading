@@ -1,6 +1,8 @@
 import "server-only";
 import { cookies } from "next/headers";
 import { createHmac, timingSafeEqual } from "node:crypto";
+import bcrypt from "bcryptjs";
+import { neon } from "@neondatabase/serverless";
 
 const COOKIE = "sunday_admin";
 const SESSION_TAG = "v1.ok";
@@ -28,12 +30,24 @@ function safeEqualHex(a: string, b: string): boolean {
   }
 }
 
+async function getStoredHash(): Promise<string | null> {
+  const sql = neon(process.env.DATABASE_URL!);
+  const rows = (await sql`
+    SELECT password_hash FROM admin_users WHERE username = 'admin' LIMIT 1
+  `) as { password_hash: string }[];
+  return rows[0]?.password_hash ?? null;
+}
+
 export async function attemptLogin(password: string): Promise<boolean> {
-  const expected = process.env.ADMIN_PASSWORD;
-  if (!expected) {
-    throw new Error("ADMIN_PASSWORD is not set in env.");
+  if (!password) return false;
+  const hash = await getStoredHash();
+  if (!hash) {
+    throw new Error(
+      "No admin user found. Run `npm run admin:password -- <password>` to create one."
+    );
   }
-  if (password.length === 0 || password !== expected) return false;
+  const ok = await bcrypt.compare(password, hash);
+  if (!ok) return false;
   const c = await cookies();
   c.set(COOKIE, sign(SESSION_TAG), {
     httpOnly: true,
@@ -59,4 +73,22 @@ export async function isLoggedIn(): Promise<boolean> {
   } catch {
     return false;
   }
+}
+
+export async function verifyCurrentPassword(password: string): Promise<boolean> {
+  const hash = await getStoredHash();
+  if (!hash) return false;
+  return bcrypt.compare(password, hash);
+}
+
+export async function changeStoredPassword(newPassword: string): Promise<void> {
+  if (newPassword.length < 6) {
+    throw new Error("New password must be at least 6 characters.");
+  }
+  const sql = neon(process.env.DATABASE_URL!);
+  const hash = await bcrypt.hash(newPassword, 12);
+  await sql`
+    UPDATE admin_users SET password_hash = ${hash}, updated_at = NOW()
+    WHERE username = 'admin'
+  `;
 }

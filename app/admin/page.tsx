@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { isLoggedIn } from "@/lib/auth";
 import { sql } from "@/lib/db";
+import { ChangePasswordCard } from "./ChangePasswordCard";
 
 export const dynamic = "force-dynamic";
 
@@ -69,6 +70,8 @@ export default async function AdminDashboard() {
           description="Edit the intro, about page, and hero text."
         />
       </div>
+
+      <ChangePasswordCard />
     </div>
   );
 }
