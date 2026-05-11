@@ -8,6 +8,7 @@ type Props = {
   accent?: string | null;
   coverUrl?: string | null;
   index?: string | number;
+  compact?: boolean;
 };
 
 // Scale the title font based on length so even long titles fit on the spine
@@ -20,7 +21,14 @@ function titleSizeClass(title: string): string {
   return "text-sm leading-[1.2]";
 }
 
-export function BookCover({ title, author, accent, coverUrl, index }: Props) {
+export function BookCover({
+  title,
+  author,
+  accent,
+  coverUrl,
+  index,
+  compact = false,
+}: Props) {
   if (coverUrl) {
     return (
       <div className="relative aspect-[2/3] w-full overflow-hidden rounded-md">
@@ -39,7 +47,7 @@ export function BookCover({ title, author, accent, coverUrl, index }: Props) {
   const a = accent || "#a855f7";
   return (
     <div
-      className="relative aspect-[2/3] w-full overflow-hidden rounded-md"
+      className="relative aspect-[2/3] w-full overflow-hidden rounded-md transition-all duration-500"
       style={{
         background: `
           radial-gradient(120% 80% at 30% 20%, ${a}38 0%, transparent 60%),
@@ -50,7 +58,7 @@ export function BookCover({ title, author, accent, coverUrl, index }: Props) {
     >
       {/* Spine */}
       <div
-        className="absolute inset-y-0 left-0 w-[10px]"
+        className="absolute inset-y-0 left-0 w-[8px] transition-all duration-500"
         style={{
           background: `linear-gradient(90deg, ${a}55, transparent)`,
           boxShadow: `inset -1px 0 0 ${a}40`,
@@ -59,28 +67,48 @@ export function BookCover({ title, author, accent, coverUrl, index }: Props) {
       {/* Top index */}
       {index !== undefined && (
         <div
-          className="absolute right-3 top-3 font-display text-[10px] uppercase tracking-[0.35em]"
+          className={`absolute font-display uppercase transition-all duration-500 ${
+            compact
+              ? "right-1.5 top-1.5 text-[8px] tracking-[0.25em]"
+              : "right-3 top-3 text-[10px] tracking-[0.35em]"
+          }`}
           style={{ color: `${a}cc` }}
         >
           № {index}
         </div>
       )}
-      {/* Title block */}
-      <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 px-4 text-left">
-        <div
-          className={`font-serif text-ink/95 ${titleSizeClass(title)}`}
-          style={{ hyphens: "auto", wordBreak: "break-word" }}
-        >
-          {title}
+
+      {/* Compact: monogram. Expanded: full title block. */}
+      {compact ? (
+        <div className="absolute inset-0 flex items-center justify-center pl-2">
+          <span
+            className="font-display text-3xl tracking-tight"
+            style={{
+              color: `${a}cc`,
+              textShadow: `0 0 12px ${a}55`,
+            }}
+          >
+            {title.charAt(0)}
+          </span>
         </div>
-        <div className="mt-2 h-px w-8" style={{ background: a }} />
-        <div
-          className="mt-2 font-mono text-[9px] uppercase tracking-[0.25em] text-ink-muted/80"
-          style={{ wordBreak: "break-word" }}
-        >
-          {author}
+      ) : (
+        <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 px-4 text-left">
+          <div
+            className={`font-serif text-ink/95 ${titleSizeClass(title)}`}
+            style={{ hyphens: "auto", wordBreak: "break-word" }}
+          >
+            {title}
+          </div>
+          <div className="mt-2 h-px w-8" style={{ background: a }} />
+          <div
+            className="mt-2 font-mono text-[9px] uppercase tracking-[0.25em] text-ink-muted/80"
+            style={{ wordBreak: "break-word" }}
+          >
+            {author}
+          </div>
         </div>
-      </div>
+      )}
+
       {/* Subtle bottom shimmer */}
       <div
         aria-hidden
