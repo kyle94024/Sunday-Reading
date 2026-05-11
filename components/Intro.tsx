@@ -17,7 +17,7 @@ export function Intro({ text }: { text: string }) {
         className="mb-10 flex items-center gap-4 text-[11px] uppercase tracking-[0.45em] text-ink-muted/70"
       >
         <span className="h-px flex-1 bg-gradient-to-r from-transparent to-violet-bright/40" />
-        Prologue
+        How this started
         <span className="h-px flex-1 bg-gradient-to-l from-transparent to-violet-bright/40" />
       </motion.div>
 

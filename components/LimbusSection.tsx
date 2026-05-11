@@ -55,8 +55,7 @@ export function LimbusSection({ books }: { books: Book[] }) {
             LIMBUS
           </h2>
           <p className="mx-auto mt-4 max-w-xl font-serif italic text-ink-muted/85">
-            The point of departure. Each carriage carries a sinner, and each
-            sinner carries a book.
+            Where this all started. Twelve sinners, twelve books — one for each.
           </p>
         </motion.div>
 

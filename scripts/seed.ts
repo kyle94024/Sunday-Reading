@@ -10,11 +10,11 @@ Thereby, it was inevitable that I soon discovered *Limbus Company*, a game for w
 
 I adopted a vow to pierce into the world of iconic literary fiction, using Limbus' reference list of 14 books as a point of departure. After reading *Hell Screen*, *The Stranger*, and *Crime and Punishment*, this effort bloomed into a larger interest in the literary world…`;
 
-const ABOUT = `I'm Sunday — a student, a wanderer of soundtracks, and a slow but determined reader. This corner of the internet is my reading room. Pull up a chair.
+const ABOUT = `Hi, I'm Sunday. This is where I keep notes on what I'm reading.
 
-I tend to read late, in fragments, with music running underneath the page. The classics I choose almost always come to me through a song first — Mili, Project Moon, the occasional film score — and the book becomes a way of sitting longer with whatever the music made me feel.
+I'm a student, so most of my reading happens late at night. A lot of the books here started with a song first — usually Mili, sometimes a Project Moon track, sometimes whatever else is stuck in my head that month — and I followed the song to the book.
 
-If a review here is short, it's because the book hasn't finished happening to me yet. I'd rather come back later than fake a verdict.`;
+If a review is short or missing, it's usually because I haven't finished thinking about the book yet. I'd rather leave it blank than write something I don't mean.`;
 
 type Seed = {
   slug: string;

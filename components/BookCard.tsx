@@ -158,10 +158,10 @@ export function BookCard({
                   />
                   <span>
                     {book.status === "read"
-                      ? "Notes are still settling. Come back soon."
+                      ? "Haven't written this one up yet."
                       : book.status === "reading"
-                      ? "Currently in progress — review will appear when finished."
-                      : "Not yet read. Patient on the shelf."}
+                      ? "Still reading — notes coming after."
+                      : "Haven't read this one yet."}
                   </span>
                 </div>
               )}

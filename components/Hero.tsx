@@ -13,7 +13,7 @@ export function Hero({ name, tagline }: HeroProps) {
         transition={{ duration: 1.2, ease: "easeOut" }}
         className="mb-8 text-[11px] uppercase tracking-[0.5em] text-ink-muted/70"
       >
-        — a reading log —
+        books · 2025 —
       </motion.div>
 
       <motion.h1
@@ -41,7 +41,7 @@ export function Hero({ name, tagline }: HeroProps) {
         className="mt-12 flex items-center gap-3 text-[11px] uppercase tracking-[0.45em] text-ink-muted/60"
       >
         <span className="h-px w-12 bg-gradient-to-r from-transparent via-violet-bright/60 to-transparent" />
-        Limbus &amp; the wider library
+        12 limbus books + everything else
         <span className="h-px w-12 bg-gradient-to-r from-transparent via-violet-bright/60 to-transparent" />
       </motion.div>
 

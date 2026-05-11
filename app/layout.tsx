@@ -46,8 +46,7 @@ export default function RootLayout({
         <Navigation />
         <main className="relative z-10">{children}</main>
         <footer className="relative z-10 border-t border-violet-bright/10 mt-32 py-10 text-center text-xs uppercase tracking-[0.3em] text-ink-muted/60">
-          <span className="text-gradient-violet">Sunday Reading</span> ·{" "}
-          <span>kept under deep purple skies</span>
+          <span className="text-gradient-violet">Sunday Reading</span>
         </footer>
       </body>
     </html>

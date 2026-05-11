@@ -55,7 +55,7 @@ export function AboutContent({ text, name }: { text: string; name: string }) {
             {name.toUpperCase()}
           </h1>
           <p className="mt-2 text-[11px] uppercase tracking-[0.4em] text-ink-muted/70">
-            Reader · Listener · Slow Walker
+            Student · Slow reader
           </p>
           <div className="mt-6 h-px w-20 bg-gradient-to-r from-violet-bright/60 to-transparent" />
           <dl className="mt-6 space-y-3 text-sm text-ink-muted/85 font-serif">
@@ -63,19 +63,19 @@ export function AboutContent({ text, name }: { text: string; name: string }) {
               <dt className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink-muted/60">
                 Reading
               </dt>
-              <dd className="italic">at the speed of soundtracks</dd>
+              <dd>slowly, mostly at night</dd>
             </div>
             <div>
               <dt className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink-muted/60">
                 Currently
               </dt>
-              <dd className="italic">tracing Limbus' twelve threads</dd>
+              <dd>working through Limbus</dd>
             </div>
             <div>
               <dt className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink-muted/60">
-                Begun
+                Started
               </dt>
-              <dd className="italic">school year, 2025</dd>
+              <dd>school year, 2025</dd>
             </div>
           </dl>
         </motion.aside>
@@ -88,15 +88,15 @@ export function AboutContent({ text, name }: { text: string; name: string }) {
           className="font-serif text-[1.15rem] leading-[1.85] text-ink/90 [&_p]:mb-6 [&_em]:text-violet-glow [&_em]:not-italic [&_em]:font-medium"
         >
           <h2 className="mb-8 font-display text-3xl text-ink/95">
-            <span className="shimmer">Hello —</span>
+            <span className="shimmer">Hi.</span>
           </h2>
           <ReactMarkdown>{text}</ReactMarkdown>
 
           <div className="mt-12 grid gap-4 sm:grid-cols-3">
             {[
-              { label: "Books read", value: "3", sub: "and counting" },
-              { label: "On the shelf", value: "9", sub: "from Limbus alone" },
-              { label: "Soundtracks", value: "∞", sub: "always running" },
+              { label: "Books read", value: "3", sub: "so far" },
+              { label: "On the shelf", value: "9", sub: "still to go" },
+              { label: "Started", value: "2025", sub: "school year" },
             ].map((stat) => (
               <div
                 key={stat.label}

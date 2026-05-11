@@ -24,22 +24,42 @@ export function CosmicBackground() {
     setStars(generateStars());
   }, []);
 
-  // Subtle parallax on mouse
+  // Subtle parallax on mouse + a gentle drift on scroll
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
     let raf = 0;
-    const onMove = (e: MouseEvent) => {
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        const x = (e.clientX / window.innerWidth - 0.5) * 14;
-        const y = (e.clientY / window.innerHeight - 0.5) * 10;
-        el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-      });
+    let mouseX = 0;
+    let mouseY = 0;
+
+    const apply = () => {
+      const x = mouseX * 14;
+      const baseY = mouseY * 10;
+      // Scroll progress 0..1, capped so the image never drifts past its bleed.
+      const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      const progress = Math.min(1, Math.max(0, window.scrollY / max));
+      const scrollOffset = -progress * window.innerHeight * 0.08;
+      el.style.transform = `translate3d(${x}px, ${baseY + scrollOffset}px, 0)`;
     };
+
+    const onMove = (e: MouseEvent) => {
+      mouseX = e.clientX / window.innerWidth - 0.5;
+      mouseY = e.clientY / window.innerHeight - 0.5;
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(apply);
+    };
+    const onScroll = () => {
+      apply();
+    };
+
+    apply();
     window.addEventListener("mousemove", onMove);
+    window.addEventListener("scroll", onScroll, { passive: true, capture: true });
+    document.addEventListener("scroll", onScroll, { passive: true, capture: true });
     return () => {
       window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("scroll", onScroll, { capture: true });
+      document.removeEventListener("scroll", onScroll, { capture: true });
       cancelAnimationFrame(raf);
     };
   }, []);
@@ -49,11 +69,15 @@ export function CosmicBackground() {
       aria-hidden
       className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-bg"
     >
-      {/* Painted nebula */}
+      {/* Painted nebula — extra bleed so the scroll drift never reveals an edge */}
       <div
         ref={ref}
-        className="absolute inset-[-6%] bg-cover bg-center opacity-90 transition-transform duration-[4000ms] ease-out"
-        style={{ backgroundImage: "url(/bg/cosmos.png)" }}
+        className="absolute inset-[-10%] bg-cover bg-center opacity-90"
+        style={{
+          backgroundImage: "url(/bg/cosmos.png)",
+          transition: "transform 600ms cubic-bezier(0.22, 1, 0.36, 1)",
+          willChange: "transform",
+        }}
       />
       {/* Vignette */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,#07030f_85%)]" />

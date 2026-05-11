@@ -23,15 +23,14 @@ export function WiderLibrarySection({ books }: { books: Book[] }) {
           THE WIDER LIBRARY
         </h2>
         <p className="mx-auto mt-4 max-w-xl font-serif italic text-ink-muted/85">
-          Books I've reached for outside the original twelve — found through
-          friends, footnotes, and falling down rabbit holes.
+          Other books I've picked up along the way.
         </p>
       </motion.div>
 
       {books.length === 0 ? (
         <div className="mx-auto max-w-md rounded-xl border border-violet-bright/20 bg-violet-deep/20 p-10 text-center">
           <p className="font-serif italic text-ink-muted/80">
-            The shelf is still being arranged. New entries soon.
+            Nothing here yet — I'll add things as I read them.
           </p>
         </div>
       ) : (
