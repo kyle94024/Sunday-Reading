@@ -26,7 +26,7 @@ export function WiderLibrarySection({ books }: { books: Book[] }) {
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div className="flex flex-col gap-5">
           {books.map((b) => (
             <BookCard key={b.id} book={b} />
           ))}

@@ -55,7 +55,7 @@ export function BookCard({
           setOpen((o) => !o);
         }
       }}
-      className={`group relative flex cursor-pointer flex-col overflow-hidden rounded-xl p-5 transition-all duration-500 ${
+      className={`group relative flex cursor-pointer flex-col overflow-hidden rounded-xl p-5 transition-all duration-500 sm:p-7 ${
         isLimbus ? "glass-crimson" : "glass"
       } hover:-translate-y-1`}
       style={{
@@ -64,8 +64,8 @@ export function BookCard({
           : undefined,
       }}
     >
-      <motion.div layout className="flex flex-row items-start gap-5">
-        <div className="w-[110px] shrink-0 sm:w-[140px]">
+      <motion.div layout className="flex flex-row items-start gap-5 sm:gap-7">
+        <div className="w-[110px] shrink-0 sm:w-[150px]">
           <BookCover
             title={book.title}
             author={book.author}
@@ -105,10 +105,10 @@ export function BookCard({
             )}
           </div>
 
-          <h3 className="mt-3 font-serif text-2xl leading-tight text-ink sm:text-3xl">
+          <h3 className="mt-3 font-serif text-2xl leading-tight text-ink sm:text-3xl md:text-4xl">
             {book.title}
           </h3>
-          <p className="mt-1 font-serif italic text-ink-muted/90">
+          <p className="mt-1 font-serif italic text-ink-muted/90 sm:text-lg">
             by {book.author}
           </p>
 
@@ -148,28 +148,35 @@ export function BookCard({
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
             className="overflow-hidden"
           >
             <div
-              className="mt-6 border-t pt-6 font-serif text-[1.02rem] leading-[1.85] text-ink/85"
-              style={{ borderColor: `${accent}30` }}
+              className="mt-7 min-h-[200px] rounded-lg border-t px-1 pt-7 font-serif text-[1.05rem] leading-[1.85] text-ink/90 sm:px-2 sm:text-[1.1rem] [&_p]:mb-4 [&_em]:italic [&_strong]:font-semibold"
+              style={{
+                borderColor: `${accent}30`,
+                background: `linear-gradient(180deg, ${accent}08, transparent 80%)`,
+              }}
             >
               {hasReview ? (
                 <ReactMarkdown>{book.review!}</ReactMarkdown>
               ) : (
-                <div className="flex items-center gap-3 text-ink/80 italic">
+                <div className="flex h-full min-h-[160px] flex-col items-center justify-center gap-3 italic text-ink/70">
                   <span
-                    className="inline-block h-px w-6"
+                    className="inline-block h-px w-12"
                     style={{ background: accent }}
                   />
-                  <span>
+                  <span className="text-base">
                     {book.status === "read"
                       ? "Haven't written this one up yet."
                       : book.status === "reading"
                       ? "Still reading — notes coming after."
                       : "Haven't read this one yet."}
                   </span>
+                  <span
+                    className="inline-block h-px w-12"
+                    style={{ background: accent }}
+                  />
                 </div>
               )}
             </div>

@@ -47,11 +47,11 @@ export function LimbusSection({ books }: { books: Book[] }) {
           className="mt-16 mb-10 text-center"
         >
           <h2 className="font-display text-4xl tracking-[0.06em] text-gradient-crimson sm:text-6xl">
-            Limbus Company
+            Limbus Company Books
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div className="flex flex-col gap-5">
           {books.map((b, i) => (
             <BookCard key={b.id} book={b} index={i} variant="limbus" />
           ))}

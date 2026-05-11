@@ -10,8 +10,16 @@ type Props = {
   index?: string | number;
 };
 
-// Stylized book cover placeholder shown when no real cover exists.
-// Designed to look intentional rather than missing.
+// Scale the title font based on length so even long titles fit on the spine
+// without overflowing the placeholder cover.
+function titleSizeClass(title: string): string {
+  const len = title.length;
+  if (len <= 10) return "text-xl";
+  if (len <= 18) return "text-lg leading-[1.1]";
+  if (len <= 28) return "text-base leading-[1.15]";
+  return "text-sm leading-[1.2]";
+}
+
 export function BookCover({ title, author, accent, coverUrl, index }: Props) {
   if (coverUrl) {
     return (
@@ -58,12 +66,18 @@ export function BookCover({ title, author, accent, coverUrl, index }: Props) {
         </div>
       )}
       {/* Title block */}
-      <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 px-5 text-left">
-        <div className="font-serif text-xl leading-tight text-ink/95 sm:text-2xl">
+      <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 px-4 text-left">
+        <div
+          className={`font-serif text-ink/95 ${titleSizeClass(title)}`}
+          style={{ hyphens: "auto", wordBreak: "break-word" }}
+        >
           {title}
         </div>
-        <div className="mt-3 h-px w-10" style={{ background: a }} />
-        <div className="mt-3 font-mono text-[10px] uppercase tracking-[0.3em] text-ink-muted/80">
+        <div className="mt-2 h-px w-8" style={{ background: a }} />
+        <div
+          className="mt-2 font-mono text-[9px] uppercase tracking-[0.25em] text-ink-muted/80"
+          style={{ wordBreak: "break-word" }}
+        >
           {author}
         </div>
       </div>
