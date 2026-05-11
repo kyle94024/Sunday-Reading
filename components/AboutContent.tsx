@@ -51,8 +51,8 @@ export function AboutContent({ text, name }: { text: string; name: string }) {
               </span>
             </div>
           </button>
-          <h1 className="mt-8 font-display text-4xl tracking-[0.18em] text-gradient-violet">
-            {name.toUpperCase()}
+          <h1 className="mt-8 font-display text-5xl tracking-[0.04em] text-gradient-violet">
+            Sunday
           </h1>
           <p className="mt-2 text-[11px] uppercase tracking-[0.4em] text-ink-muted/70">
             Student · Slow reader

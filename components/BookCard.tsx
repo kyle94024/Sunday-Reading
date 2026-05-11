@@ -45,7 +45,17 @@ export function BookCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      className={`group relative flex flex-col overflow-hidden rounded-xl p-5 transition-all duration-500 ${
+      role="button"
+      tabIndex={0}
+      aria-expanded={open}
+      onClick={() => setOpen((o) => !o)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          setOpen((o) => !o);
+        }
+      }}
+      className={`group relative flex cursor-pointer flex-col overflow-hidden rounded-xl p-5 transition-all duration-500 ${
         isLimbus ? "glass-crimson" : "glass"
       } hover:-translate-y-1`}
       style={{
@@ -109,12 +119,9 @@ export function BookCard({
           )}
 
           <div className="mt-auto flex items-center justify-between pt-5">
-            <button
-              onClick={() => setOpen((o) => !o)}
-              className="group/btn inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.3em] text-ink-muted/80 transition hover:text-ink"
-            >
+            <span className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.3em] text-ink-muted/80 transition group-hover:text-ink">
               <span
-                className="h-px w-6 transition-all group-hover/btn:w-10"
+                className="h-px w-6 transition-all group-hover:w-10"
                 style={{ background: accent }}
               />
               {open
@@ -122,7 +129,7 @@ export function BookCard({
                 : hasReview
                 ? "Read review"
                 : "Open notes"}
-            </button>
+            </span>
             <span
               className="font-mono text-[10px] uppercase tracking-widest"
               style={{ color: `${accent}aa` }}

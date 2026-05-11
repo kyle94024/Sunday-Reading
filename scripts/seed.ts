@@ -4,11 +4,11 @@ import { neon } from "@neondatabase/serverless";
 
 const sql = neon(process.env.DATABASE_URL!);
 
-const INTRO = `Near the start of the 2025 school year, Mili's *Library of Ruina* soundtrack sparked a reflection upon my abundance — or rather a lack thereof — of literary exploration. I found that, as school progressed, the pressures of time's finitude drew me unarguably towards work; regardless of whether that *zugzwang* manifested as tangible progress, or as wasted time on social media. Still, the soundtrack resonated with my sentiments in unexplainable ways.
+const INTRO = `Near the start of the 2025 school year, Mili's [*Library of Ruina*](https://open.spotify.com/album/1OVibN37sJiU2M9cCbL950?si=ed3wbXsdQ4ure5vrp8GRwQ) soundtrack sparked a reflection upon my abundance — or rather a lack thereof — of literary exploration. I found that, as school progressed, the pressures of time's finitude drew me unarguably towards work; regardless of whether that *zugzwang* manifested as tangible progress, or as wasted time on social media. Still, the soundtrack resonated with my sentiments in unexplainable ways.
 
-Thereby, it was inevitable that I soon discovered *Limbus Company*, a game for which Mili had composed soundtracks, each attuned to a canonical literary character from classical works of fiction. Although I never courted the game, I quickly fell in love with their most-listened song, *Through Patches of Violet*, which is based on Emily Brontë's *Wuthering Heights*. The game itself features archaic characters, such as Charon, Mephistopheles, and Dante (as a shortlist from many more) — famous figures from Greek, Faustian, and medieval mythologies of hell. But the range of literary characters span millennia, including modern works such as *The Stranger* by Albert Camus and *Moby Dick* by Herman Melville.
+Thereby, it was inevitable that I soon discovered *Limbus Company*, a game for which Mili had composed soundtracks, each attuned to a canonical literary character from classical works of fiction. Although I never courted the game, I quickly fell in love with their most-listened song, [*Through Patches of Violet*](#tpov), which is based on Emily Brontë's *Wuthering Heights*. The game itself features archaic characters, such as Charon, Mephistopheles, and Dante (as a shortlist from many more) — famous figures from Greek, Faustian, and medieval mythologies of hell. But the range of literary characters span millennia, including modern works such as *The Stranger* by Albert Camus and *Moby Dick* by Herman Melville.
 
-I adopted a vow to pierce into the world of iconic literary fiction, using Limbus' reference list of 14 books as a point of departure. After reading *Hell Screen*, *The Stranger*, and *Crime and Punishment*, this effort bloomed into a larger interest in the literary world…`;
+I adopted a vow to pierce into the world of iconic literary fiction, using Limbus' [reference list of 14 books](https://www.goodreads.com/list/show/180411.Limbus_Company) as a point of departure. After reading *Hell Screen*, *The Stranger*, and *Crime and Punishment*, this effort bloomed into a larger interest in the literary world…`;
 
 const ABOUT = `Hi, I'm Sunday. This is where I keep notes on what I'm reading.
 
@@ -50,7 +50,7 @@ async function main() {
   console.log("Seeding site_content…");
   await sql`
     INSERT INTO site_content (key, value)
-    VALUES ('intro', ${INTRO}), ('about', ${ABOUT}), ('hero_name', 'Sunday'), ('hero_tagline', 'a reading log, in deep purple')
+    VALUES ('intro', ${INTRO}), ('about', ${ABOUT}), ('hero_name', 'Sunday''s Reading'), ('hero_tagline', 'Book reviews and recommendations')
     ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, updated_at = NOW()
   `;
 

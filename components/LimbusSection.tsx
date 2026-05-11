@@ -46,17 +46,9 @@ export function LimbusSection({ books }: { books: Book[] }) {
           transition={{ duration: 0.9 }}
           className="mt-16 mb-10 text-center"
         >
-          <div className="mb-5 flex items-center justify-center gap-3 text-[11px] uppercase tracking-[0.45em] text-ember/80">
-            <span className="h-px w-12 bg-gradient-to-r from-transparent to-crimson-bright/60" />
-            Bus 8 · 12 sinners · 12 books
-            <span className="h-px w-12 bg-gradient-to-l from-transparent to-crimson-bright/60" />
-          </div>
-          <h2 className="font-display text-5xl tracking-[0.18em] text-gradient-crimson sm:text-6xl">
-            LIMBUS
+          <h2 className="font-display text-4xl tracking-[0.06em] text-gradient-crimson sm:text-6xl">
+            Limbus Company
           </h2>
-          <p className="mx-auto mt-4 max-w-xl font-serif italic text-ink-muted/85">
-            Where this all started. Twelve sinners, twelve books — one for each.
-          </p>
         </motion.div>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">

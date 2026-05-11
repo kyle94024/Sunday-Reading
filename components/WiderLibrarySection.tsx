@@ -14,17 +14,9 @@ export function WiderLibrarySection({ books }: { books: Book[] }) {
         transition={{ duration: 0.9 }}
         className="mb-12 text-center"
       >
-        <div className="mb-5 flex items-center justify-center gap-3 text-[11px] uppercase tracking-[0.45em] text-ink-muted/70">
-          <span className="h-px w-12 bg-gradient-to-r from-transparent to-violet-bright/60" />
-          Beyond Limbus
-          <span className="h-px w-12 bg-gradient-to-l from-transparent to-violet-bright/60" />
-        </div>
-        <h2 className="font-display text-5xl tracking-[0.18em] text-gradient-violet sm:text-6xl">
-          THE WIDER LIBRARY
+        <h2 className="font-display text-4xl tracking-[0.06em] text-gradient-violet sm:text-6xl">
+          all book reviews
         </h2>
-        <p className="mx-auto mt-4 max-w-xl font-serif italic text-ink-muted/85">
-          Other books I've picked up along the way.
-        </p>
       </motion.div>
 
       {books.length === 0 ? (

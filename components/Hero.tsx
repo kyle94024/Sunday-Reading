@@ -17,12 +17,12 @@ export function Hero({ name, tagline }: HeroProps) {
       </motion.div>
 
       <motion.h1
-        initial={{ opacity: 0, y: 30, letterSpacing: "0.6em" }}
-        animate={{ opacity: 1, y: 0, letterSpacing: "0.18em" }}
+        initial={{ opacity: 0, y: 30, letterSpacing: "0.2em" }}
+        animate={{ opacity: 1, y: 0, letterSpacing: "0.02em" }}
         transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
-        className="font-display text-[clamp(3.5rem,12vw,9rem)] leading-none tracking-[0.18em] text-gradient-violet"
+        className="font-display text-[clamp(2.25rem,6.5vw,5rem)] leading-[1.02] text-gradient-violet max-w-[92vw]"
       >
-        {name.toUpperCase()}
+        {name}
       </motion.h1>
 
       <motion.p
@@ -38,11 +38,11 @@ export function Hero({ name, tagline }: HeroProps) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.4, duration: 1.5 }}
-        className="mt-12 flex items-center gap-3 text-[11px] uppercase tracking-[0.45em] text-ink-muted/60"
+        className="mt-12 flex items-center gap-3 text-[11px] uppercase tracking-[0.4em] text-ink-muted/60"
       >
-        <span className="h-px w-12 bg-gradient-to-r from-transparent via-violet-bright/60 to-transparent" />
-        12 limbus books + everything else
-        <span className="h-px w-12 bg-gradient-to-r from-transparent via-violet-bright/60 to-transparent" />
+        <span className="h-px w-10 bg-gradient-to-r from-transparent via-violet-bright/60 to-transparent" />
+        Limbus Company + everything else
+        <span className="h-px w-10 bg-gradient-to-r from-transparent via-violet-bright/60 to-transparent" />
       </motion.div>
 
       <motion.a
