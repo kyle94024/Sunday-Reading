@@ -2,10 +2,67 @@
 
 import { AnimatePresence, motion } from "motion/react";
 import ReactMarkdown from "react-markdown";
-import { useState } from "react";
+import { useState, useMemo } from "react";
+
+function splitAtTpov(text: string): [string, string | null] {
+  const paragraphs = text.split(/\n\n+/);
+  const idx = paragraphs.findIndex((p) => p.includes("(#tpov)"));
+  if (idx === -1) return [text, null];
+  const before = paragraphs.slice(0, idx + 1).join("\n\n");
+  const after = paragraphs.slice(idx + 1).join("\n\n");
+  return [before, after || null];
+}
+
+type LinkProps = {
+  href?: string;
+  children?: React.ReactNode;
+  onTogglePlayer: () => void;
+  playerOpen: boolean;
+};
+
+function MarkdownLink({ href, children, onTogglePlayer, playerOpen }: LinkProps) {
+  if (href === "#tpov") {
+    return (
+      <button
+        type="button"
+        onClick={onTogglePlayer}
+        className="group/lnk inline-flex items-baseline gap-1 italic text-violet-glow underline decoration-violet-bright/55 decoration-1 underline-offset-4 transition-colors hover:text-lavender hover:decoration-violet-glow"
+      >
+        <span>{children}</span>
+        <span
+          aria-hidden
+          className="not-italic text-[0.8em] text-violet-glow transition-transform group-hover/lnk:translate-y-px"
+        >
+          {playerOpen ? "▾" : "▸"}
+        </span>
+      </button>
+    );
+  }
+  return (
+    <a
+      href={href ?? "#"}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-violet-glow underline decoration-violet-bright/55 decoration-1 underline-offset-4 transition-colors hover:text-lavender hover:decoration-violet-glow"
+    >
+      {children}
+    </a>
+  );
+}
 
 export function Intro({ text }: { text: string }) {
   const [showTpov, setShowTpov] = useState(false);
+  const [before, after] = useMemo(() => splitAtTpov(text), [text]);
+
+  const linkComponents = {
+    a: (props: { href?: string; children?: React.ReactNode }) => (
+      <MarkdownLink
+        {...props}
+        onTogglePlayer={() => setShowTpov((s) => !s)}
+        playerOpen={showTpov}
+      />
+    ),
+  };
 
   return (
     <section
@@ -17,52 +74,23 @@ export function Intro({ text }: { text: string }) {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
-        className="dropcap font-serif text-[1.18rem] leading-[1.85] text-ink/90 [&_p]:mb-6"
+        className="dropcap font-serif text-[1.18rem] font-medium leading-[1.85] text-ink [&_p]:mb-6"
       >
-        <ReactMarkdown
-          components={{
-            a: ({ href, children }) => {
-              if (href === "#tpov") {
-                return (
-                  <button
-                    type="button"
-                    onClick={() => setShowTpov((s) => !s)}
-                    className="group/lnk inline-flex items-baseline gap-1 italic text-violet-glow underline decoration-violet-bright/55 decoration-1 underline-offset-4 transition-colors hover:text-lavender hover:decoration-violet-glow"
-                  >
-                    <span>{children}</span>
-                    <span
-                      aria-hidden
-                      className="not-italic text-[0.8em] text-violet-glow transition-transform group-hover/lnk:translate-y-px"
-                    >
-                      {showTpov ? "▾" : "▸"}
-                    </span>
-                  </button>
-                );
-              }
-              return (
-                <a
-                  href={href ?? "#"}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-violet-glow underline decoration-violet-bright/55 decoration-1 underline-offset-4 transition-colors hover:text-lavender hover:decoration-violet-glow"
-                >
-                  {children}
-                </a>
-              );
-            },
-          }}
-        >
-          {text}
-        </ReactMarkdown>
+        <ReactMarkdown components={linkComponents}>{before}</ReactMarkdown>
 
         <AnimatePresence initial={false}>
           {showTpov && (
             <motion.div
               key="tpov-embed"
-              initial={{ opacity: 0, height: 0, marginTop: 0 }}
-              animate={{ opacity: 1, height: "auto", marginTop: 24 }}
-              exit={{ opacity: 0, height: 0, marginTop: 0 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              initial={{ opacity: 0, height: 0, marginTop: 0, marginBottom: 0 }}
+              animate={{
+                opacity: 1,
+                height: "auto",
+                marginTop: "0.5rem",
+                marginBottom: "2rem",
+              }}
+              exit={{ opacity: 0, height: 0, marginTop: 0, marginBottom: 0 }}
+              transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
               className="overflow-hidden"
             >
               <div className="rounded-xl border border-violet-bright/15 bg-violet-deep/15 p-3 backdrop-blur-sm">
@@ -92,6 +120,8 @@ export function Intro({ text }: { text: string }) {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {after && <ReactMarkdown components={linkComponents}>{after}</ReactMarkdown>}
       </motion.div>
     </section>
   );
