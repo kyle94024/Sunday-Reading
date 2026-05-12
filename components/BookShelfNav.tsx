@@ -30,6 +30,7 @@ export function BookShelfNav() {
   const [falling, setFalling] = useState<string | null>(null);
   const [wiping, setWiping] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const isAbout = pathname === "/about";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -65,7 +66,9 @@ export function BookShelfNav() {
     <>
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-          scrolled
+          isAbout
+            ? "backdrop-blur-md bg-white/35 border-b border-violet/20"
+            : scrolled
             ? "backdrop-blur-xl bg-bg/55 border-b border-violet-bright/10"
             : "backdrop-blur-0 bg-transparent border-b border-transparent"
         }`}
@@ -83,7 +86,11 @@ export function BookShelfNav() {
               aria-hidden
               className="block h-2 w-2 rounded-full bg-violet-bright shadow-[0_0_12px_rgba(192,132,252,0.9)] transition-transform duration-500 group-hover:scale-150"
             />
-            <span className="font-display text-lg tracking-[0.05em] text-ink sm:text-xl">
+            <span
+              className={`font-display text-lg tracking-[0.05em] sm:text-xl ${
+                isAbout ? "text-violet-deep" : "text-ink"
+              }`}
+            >
               Sunday&rsquo;s{" "}
               <span className="text-gradient-violet">Shelf</span>
             </span>

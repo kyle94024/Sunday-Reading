@@ -1,13 +1,11 @@
 import Link from "next/link";
 import { BookShelfNav } from "@/components/BookShelfNav";
-import { CosmicBackground } from "@/components/CosmicBackground";
 
 export default function PublicLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <>
-      <CosmicBackground />
       <div className="grain" aria-hidden />
       <BookShelfNav />
       <main className="relative z-10">{children}</main>

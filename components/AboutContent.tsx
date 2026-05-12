@@ -20,9 +20,9 @@ export function AboutContent({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.1 }}
-        className="mb-10 flex items-center gap-4 text-[11px] uppercase tracking-[0.45em] text-ink-muted/70"
+        className="mb-10 flex items-center gap-4 text-[11px] uppercase tracking-[0.45em] text-violet-deep/55"
       >
-        <span className="h-px w-12 bg-gradient-to-r from-transparent to-violet-bright/60" />
+        <span className="h-px w-12 bg-gradient-to-r from-transparent to-violet/55" />
         Profile
       </motion.div>
 
@@ -37,7 +37,11 @@ export function AboutContent({
           <button
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
-            className="group relative h-28 w-28 overflow-hidden rounded-full glow-ring transition-transform duration-700 hover:scale-[1.04]"
+            className="group relative h-28 w-28 overflow-hidden rounded-full transition-transform duration-700 hover:scale-[1.04]"
+            style={{
+              boxShadow:
+                "0 0 0 1px rgba(168,85,247,0.35), 0 10px 40px -10px rgba(168,85,247,0.45), 0 0 60px -20px rgba(192,132,252,0.55)",
+            }}
             aria-label="Kyle"
           >
             <div
@@ -61,28 +65,37 @@ export function AboutContent({
               />
             </div>
           </button>
-          <h1 className="mt-7 font-display text-4xl tracking-[0.04em] text-gradient-violet">
+          <h1
+            className="mt-7 font-display text-4xl tracking-[0.04em]"
+            style={{
+              background:
+                "linear-gradient(120deg, #4c1d95 0%, #6d28d9 40%, #a855f7 70%, #ec4899 100%)",
+              WebkitBackgroundClip: "text",
+              backgroundClip: "text",
+              color: "transparent",
+            }}
+          >
             Kyle
           </h1>
-          <p className="mt-2 text-[11px] uppercase tracking-[0.4em] text-ink-muted/70">
+          <p className="mt-2 text-[11px] uppercase tracking-[0.4em] text-violet-deep/60">
             Student · Reader of fiction
           </p>
-          <div className="mt-5 h-px w-20 bg-gradient-to-r from-violet-bright/60 to-transparent" />
-          <dl className="mt-5 space-y-3 text-sm text-ink-muted/85 font-serif">
+          <div className="mt-5 h-px w-20 bg-gradient-to-r from-violet/50 to-transparent" />
+          <dl className="mt-5 space-y-3 text-sm font-serif text-violet-deep/85">
             <div>
-              <dt className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink-muted/60">
+              <dt className="font-mono text-[10px] uppercase tracking-[0.3em] text-violet-deep/55">
                 Reading
               </dt>
               <dd>fiction, mostly</dd>
             </div>
             <div>
-              <dt className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink-muted/60">
+              <dt className="font-mono text-[10px] uppercase tracking-[0.3em] text-violet-deep/55">
                 Currently
               </dt>
               <dd>working through Limbus</dd>
             </div>
             <div>
-              <dt className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink-muted/60">
+              <dt className="font-mono text-[10px] uppercase tracking-[0.3em] text-violet-deep/55">
                 Started
               </dt>
               <dd>school year, 2025</dd>
@@ -95,21 +108,21 @@ export function AboutContent({
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-          className="font-serif text-[1.18rem] font-medium leading-[1.85] text-ink [&_p]:mb-6"
+          className="font-serif text-[1.18rem] font-medium leading-[1.85] text-violet-deep [&_p]:mb-6"
         >
           {contributors && contributors.length > 0 && (
             <div className="mb-12 flex flex-col items-start gap-3">
-              <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.45em] text-ink-muted/65">
-                <span className="h-px w-10 bg-gradient-to-r from-transparent to-violet-bright/40" />
+              <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.45em] text-violet-deep/55">
+                <span className="h-px w-10 bg-gradient-to-r from-transparent to-violet/50" />
                 Contributors
-                <span className="h-px w-10 bg-gradient-to-l from-transparent to-violet-bright/40" />
+                <span className="h-px w-10 bg-gradient-to-l from-transparent to-violet/50" />
               </div>
-              <ul className="flex flex-wrap items-center gap-x-3 gap-y-1 font-serif italic text-ink-muted/90">
+              <ul className="flex flex-wrap items-center gap-x-3 gap-y-1 font-serif italic text-violet-deep/80">
                 {contributors.map((name, i) => (
                   <li key={name} className="inline-flex items-center gap-3">
                     <span>{name}</span>
                     {i < contributors.length - 1 && (
-                      <span aria-hidden className="text-violet-bright/50">
+                      <span aria-hidden className="text-violet/60">
                         ·
                       </span>
                     )}
@@ -122,8 +135,17 @@ export function AboutContent({
           <ReactMarkdown
             components={{
               h2: ({ children }) => (
-                <h2 className="mb-6 mt-12 font-display text-3xl tracking-[0.04em] text-ink/95 first:mt-0 sm:text-4xl">
-                  <span className="shimmer">{children}</span>
+                <h2
+                  className="mb-6 mt-12 font-display text-3xl tracking-[0.04em] first:mt-0 sm:text-4xl"
+                  style={{
+                    background:
+                      "linear-gradient(120deg, #4c1d95 0%, #7c3aed 35%, #c026d3 75%, #ec4899 100%)",
+                    WebkitBackgroundClip: "text",
+                    backgroundClip: "text",
+                    color: "transparent",
+                  }}
+                >
+                  {children}
                 </h2>
               ),
             }}

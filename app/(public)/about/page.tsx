@@ -1,4 +1,5 @@
 import { getSiteContentMap, sql } from "@/lib/db";
+import { AboutBackground } from "@/components/AboutBackground";
 import { AboutContent } from "@/components/AboutContent";
 
 export const revalidate = 60;
@@ -17,5 +18,10 @@ export default async function AboutPage() {
     (r) => r.reviewer_name
   );
   const contributors = ["Kyle", ...guests];
-  return <AboutContent text={content.about ?? ""} contributors={contributors} />;
+  return (
+    <>
+      <AboutBackground />
+      <AboutContent text={content.about ?? ""} contributors={contributors} />
+    </>
+  );
 }

@@ -1,4 +1,5 @@
 import { getAllBooks, getSiteContentMap } from "@/lib/db";
+import { CosmicBackground } from "@/components/CosmicBackground";
 import { Hero } from "@/components/Hero";
 import { Intro } from "@/components/Intro";
 import { LimbusSection } from "@/components/LimbusSection";
@@ -17,6 +18,7 @@ export default async function HomePage() {
 
   return (
     <>
+      <CosmicBackground />
       <Hero
         name={content.hero_name ?? "Sunday's Shelf"}
         tagline={content.hero_tagline ?? "Book reviews and recommendations"}
