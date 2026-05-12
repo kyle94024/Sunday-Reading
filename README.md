@@ -37,8 +37,9 @@ Required env vars in `.env.local`:
 
 ```
 DATABASE_URL='postgresql://...neon.tech/neondb?sslmode=require'
-OPENAI_API_KEY='sk-...'  # local-only, for bg art generation
-ADMIN_SECRET='32-byte-hex' # HMAC key for the admin session cookie
+OPENAI_API_KEY='sk-...'             # local-only, for bg art generation
+ADMIN_SECRET='32-byte-hex'           # HMAC key for the admin session cookie
+BLOB_READ_WRITE_TOKEN='vercel_blob_rw_…'  # optional; enables cover-image uploads
 ```
 
 Generate a fresh `ADMIN_SECRET` with `openssl rand -hex 32` (or `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`).
@@ -63,10 +64,14 @@ This runs [scripts/set-admin-password.ts](scripts/set-admin-password.ts), hashes
 
 ## Editing content (admin)
 
-Visit `/admin/login`, enter `ADMIN_PASSWORD`, and you get:
+**How to get there:** either visit `/admin/login` directly, or click the tiny purple dot in the public site's footer (right next to the *Sunday's Shelf* wordmark — barely visible at rest, glows on hover). Sign in with the password you set via `npm run admin:password`.
+
+You then have access to:
 
 - **Dashboard** (`/admin`) — counts (Limbus / other / read / reading / queued) plus links into Books and Site copy.
-- **Books** (`/admin/books`) — table of every entry with filter tabs (All / Limbus / Other). Click any row to edit; the form covers title, author, year, cover URL, status, rating, date read, collection (`limbus` or none), Limbus sinner (with a datalist of the 12), accent color (with a real color picker), display order, slug, and the full markdown review with an inline preview pane. Delete has a confirm dialog. *New book* drops you into the same form, blank.
+- **Books** (`/admin/books`) — table of every entry with filter tabs (All / Limbus / Other). Click any row to edit; the form covers title, author, year, cover image (paste URL or upload — see Vercel Blob below), status, rating, date read, collection (`limbus` or none), Limbus sinner (datalist of the 12 + Dante), accent color (real color picker), display order, slug, **guest reviewer name** (leave blank if Sunday wrote it), a **Publish review** toggle (draft text still saves on every save; the public site only shows it when this is checked), and the full markdown review with an inline preview pane. Delete has a confirm dialog. *New book* drops you into the same form, blank.
+
+  *Cover image uploads* go through Vercel Blob — enable Blob storage in your Vercel project (Storage → Blob → Create), then `vercel env pull .env.local` to get the `BLOB_READ_WRITE_TOKEN` locally. Until then, the Upload button errors with a helpful message and you can still paste a URL.
 - **Site copy** (`/admin/content`) — hero name, hero tagline, intro markdown, and about markdown, each with a markdown preview toggle. The hint reminds you that `[*Through Patches of Violet*](#tpov)` is the special hash that toggles the Spotify embed on the intro.
 
 Auth is a bcrypt-hashed password in the `admin_users` table plus an HMAC-signed cookie ([lib/auth.ts](lib/auth.ts)) — no external auth provider, no env-var password. Sessions last two weeks. Sign out clears the cookie. There's a **Change password** card on the dashboard and a `npm run admin:password` CLI for resets.
@@ -122,6 +127,7 @@ public/bg/                     cosmos.png, limbus-veil.png, starfield.png
 3. Add environment variables in **Settings → Environment Variables**:
    - `DATABASE_URL` (Neon pooled connection string)
    - `ADMIN_SECRET` (random 32-byte hex — `openssl rand -hex 32`)
+   - *(optional)* enable **Storage → Blob** on the project — `BLOB_READ_WRITE_TOKEN` is then injected automatically and the admin cover-image upload button works in production.
 4. Set the admin password once (from your local machine, against the same Neon DB):
    ```bash
    npm run admin:password -- <password>
@@ -146,6 +152,8 @@ CREATE TABLE books (
   limbus_color    TEXT,                 -- hex string, used for card accents
   date_read       DATE,
   display_order   INT NOT NULL DEFAULT 0,
+  reviewer_name   TEXT,                 -- guest reviewer; NULL = Sunday
+  review_published BOOLEAN NOT NULL DEFAULT TRUE,
   created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );

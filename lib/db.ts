@@ -23,13 +23,15 @@ export type Book = {
   limbus_color: string | null;
   date_read: string | null;
   display_order: number;
+  reviewer_name: string | null;
+  review_published: boolean;
 };
 
 export async function getAllBooks(): Promise<Book[]> {
   const rows = (await sql`
     SELECT id, slug, title, author, year_published, cover_url, review,
            rating, status, collection, limbus_sinner, limbus_color,
-           date_read::text, display_order
+           date_read::text, display_order, reviewer_name, review_published
     FROM books
     ORDER BY display_order ASC, id ASC
   `) as Book[];
@@ -40,7 +42,7 @@ export async function getBookBySlug(slug: string): Promise<Book | null> {
   const rows = (await sql`
     SELECT id, slug, title, author, year_published, cover_url, review,
            rating, status, collection, limbus_sinner, limbus_color,
-           date_read::text, display_order
+           date_read::text, display_order, reviewer_name, review_published
     FROM books WHERE slug = ${slug} LIMIT 1
   `) as Book[];
   return rows[0] ?? null;

@@ -36,7 +36,15 @@ export function BookCard({
   const [open, setOpen] = useState(false);
   const accent = book.limbus_color || "#a855f7";
   const isLimbus = variant === "limbus";
-  const hasReview = !!book.review && book.review.trim().length > 0;
+  // Public visibility: a review only shows if it has content AND is published.
+  const hasReview =
+    !!book.review &&
+    book.review.trim().length > 0 &&
+    book.review_published !== false;
+  const isDraft =
+    !!book.review &&
+    book.review.trim().length > 0 &&
+    book.review_published === false;
 
   return (
     <motion.article
@@ -197,7 +205,19 @@ export function BookCard({
           }}
         >
           {hasReview ? (
-            <ReactMarkdown>{book.review!}</ReactMarkdown>
+            <>
+              {book.reviewer_name && (
+                <div className="mb-5 flex items-center gap-2 text-[10px] uppercase tracking-[0.32em] text-ink-muted/65">
+                  <span
+                    className="inline-block h-px w-5"
+                    style={{ background: accent }}
+                  />
+                  Guest review by{" "}
+                  <span className="text-ink-muted">{book.reviewer_name}</span>
+                </div>
+              )}
+              <ReactMarkdown>{book.review!}</ReactMarkdown>
+            </>
           ) : (
             <div className="flex h-full min-h-[160px] flex-col items-center justify-center gap-3 italic text-ink/70">
               <span
@@ -205,7 +225,9 @@ export function BookCard({
                 style={{ background: accent }}
               />
               <span className="text-base">
-                {book.status === "read"
+                {isDraft
+                  ? "Review still cooking — published soon."
+                  : book.status === "read"
                   ? "Haven't written this one up yet."
                   : book.status === "reading"
                   ? "Still reading — notes coming after."

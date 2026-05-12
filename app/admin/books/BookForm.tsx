@@ -1,12 +1,13 @@
 "use client";
 
-import { useActionState, useState, useTransition } from "react";
+import { useActionState, useRef, useState, useTransition } from "react";
 import ReactMarkdown from "react-markdown";
 import Link from "next/link";
 import {
   createBook,
   updateBook,
   deleteBook,
+  uploadCoverImage,
   type BookFormState,
 } from "../actions";
 import type { Book } from "@/lib/db";
@@ -24,6 +25,7 @@ const SINNERS = [
   "Sinclair",
   "Outis",
   "Gregor",
+  "Dante",
 ];
 
 export function BookForm({ book }: { book?: Book }) {
@@ -42,7 +44,31 @@ export function BookForm({ book }: { book?: Book }) {
   const [color, setColor] = useState(book?.limbus_color ?? "#a855f7");
   const [collection, setCollection] = useState<string>(book?.collection ?? "");
   const [coverUrl, setCoverUrl] = useState(book?.cover_url ?? "");
+  const [reviewerName, setReviewerName] = useState(book?.reviewer_name ?? "");
+  const [publishReview, setPublishReview] = useState(
+    book?.review_published ?? true
+  );
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [deletePending, startDelete] = useTransition();
+
+  async function handleUpload(file: File) {
+    setUploadError(null);
+    setUploading(true);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      const res = await uploadCoverImage(fd);
+      if (res.error) setUploadError(res.error);
+      if (res.url) setCoverUrl(res.url);
+    } catch (e) {
+      setUploadError((e as Error).message);
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  }
 
   return (
     <div className="space-y-6">
@@ -100,14 +126,43 @@ export function BookForm({ book }: { book?: Book }) {
                 />
               </label>
               <label className="field">
-                <span className="label">cover URL</span>
-                <input
-                  type="url"
-                  name="cover_url"
-                  value={coverUrl}
-                  onChange={(e) => setCoverUrl(e.target.value)}
-                  placeholder="https://covers.openlibrary.org/…"
-                />
+                <span className="label">cover image</span>
+                <div className="flex gap-2">
+                  <input
+                    type="url"
+                    name="cover_url"
+                    value={coverUrl}
+                    onChange={(e) => setCoverUrl(e.target.value)}
+                    placeholder="paste URL or upload →"
+                    className="flex-1"
+                  />
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => {
+                      const f = e.target.files?.[0];
+                      if (f) handleUpload(f);
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={uploading}
+                    className="btn btn-ghost shrink-0 text-[11px]"
+                  >
+                    {uploading ? "Uploading…" : "Upload"}
+                  </button>
+                </div>
+                {uploadError && (
+                  <span className="mt-1 text-[11px] text-ember">{uploadError}</span>
+                )}
+                {coverUrl && !uploadError && (
+                  <span className="mt-1 truncate text-[10px] text-ink-muted/55">
+                    {coverUrl.slice(0, 80)}
+                  </span>
+                )}
               </label>
             </div>
           </div>
@@ -196,20 +251,59 @@ export function BookForm({ book }: { book?: Book }) {
               defaultValue={book?.display_order ?? 0}
             />
           </label>
-          <label className="field md:col-span-2">
+          <label className="field">
             <span className="label">slug</span>
             <input
               type="text"
               name="slug"
               defaultValue={book?.slug ?? ""}
-              placeholder="auto-generated from title if blank"
+              placeholder="auto-generated"
             />
+          </label>
+          <label className="field md:col-span-2">
+            <span className="label">guest reviewer name</span>
+            <input
+              type="text"
+              name="reviewer_name"
+              value={reviewerName}
+              onChange={(e) => setReviewerName(e.target.value)}
+              placeholder="leave blank if Sunday wrote it"
+            />
+          </label>
+        </div>
+
+        <div className="panel space-y-3 p-4">
+          <label className="flex cursor-pointer items-center gap-3">
+            <input
+              type="checkbox"
+              name="review_published"
+              checked={publishReview}
+              onChange={(e) => setPublishReview(e.target.checked)}
+              className="!h-4 !w-4 cursor-pointer accent-violet-bright"
+            />
+            <div>
+              <div className="text-sm font-medium text-ink">
+                Publish review on the public site
+              </div>
+              <div className="text-[12px] text-ink-muted/70">
+                Uncheck to keep this as a draft. Draft text is still saved on
+                every save — the public site just shows a placeholder until you
+                check this box.
+              </div>
+            </div>
           </label>
         </div>
 
         <label className="field">
           <span className="flex items-center justify-between">
-            <span className="label">review (markdown)</span>
+            <span className="label">
+              review (markdown){" "}
+              {!publishReview && (
+                <span className="ml-2 rounded-full bg-violet-deep/40 px-2 py-0.5 text-[9px] tracking-[0.18em] text-violet-glow">
+                  DRAFT
+                </span>
+              )}
+            </span>
             <button
               type="button"
               onClick={() => setShowPreview((s) => !s)}

@@ -1,6 +1,7 @@
 "use server";
 
 import { neon } from "@neondatabase/serverless";
+import { put } from "@vercel/blob";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import {
@@ -126,6 +127,8 @@ function readBookForm(formData: FormData) {
     limbus_color: nullIfEmpty(formData.get("limbus_color")),
     date_read: nullIfEmpty(formData.get("date_read")),
     display_order: intOrNull(formData.get("display_order")) ?? 0,
+    reviewer_name: nullIfEmpty(formData.get("reviewer_name")),
+    review_published: formData.get("review_published") === "on",
   };
 }
 
@@ -143,12 +146,13 @@ export async function createBook(
       INSERT INTO books
         (slug, title, author, year_published, cover_url, review, rating,
          status, collection, limbus_sinner, limbus_color, date_read,
-         display_order)
+         display_order, reviewer_name, review_published)
       VALUES
         (${b.slug}, ${b.title}, ${b.author}, ${b.year_published},
          ${b.cover_url}, ${b.review}, ${b.rating}, ${b.status},
          ${b.collection}, ${b.limbus_sinner}, ${b.limbus_color},
-         ${b.date_read}, ${b.display_order})
+         ${b.date_read}, ${b.display_order}, ${b.reviewer_name},
+         ${b.review_published})
     `;
   } catch (err) {
     return { error: (err as Error).message };
@@ -184,6 +188,8 @@ export async function updateBook(
         limbus_color = ${b.limbus_color},
         date_read = ${b.date_read},
         display_order = ${b.display_order},
+        reviewer_name = ${b.reviewer_name},
+        review_published = ${b.review_published},
         updated_at = NOW()
       WHERE id = ${id}
     `;
@@ -194,6 +200,42 @@ export async function updateBook(
   revalidatePath("/admin/books");
   revalidatePath(`/admin/books/${id}`);
   return { ok: true };
+}
+
+// ───────── Image upload (Vercel Blob) ─────────
+
+export type UploadCoverResult = { url?: string; error?: string };
+
+export async function uploadCoverImage(
+  formData: FormData
+): Promise<UploadCoverResult> {
+  await ensureAuth();
+  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    return {
+      error:
+        "BLOB_READ_WRITE_TOKEN is not set. Enable Vercel Blob in your project, then `vercel env pull` to get the token locally.",
+    };
+  }
+  const file = formData.get("file");
+  if (!(file instanceof File) || file.size === 0) {
+    return { error: "No file selected." };
+  }
+  if (file.size > 5 * 1024 * 1024) {
+    return { error: "Max file size is 5 MB." };
+  }
+  if (!file.type.startsWith("image/")) {
+    return { error: "File must be an image." };
+  }
+  try {
+    const safeName = file.name.replace(/[^a-zA-Z0-9._-]+/g, "-").slice(-60);
+    const blob = await put(`covers/${Date.now()}-${safeName}`, file, {
+      access: "public",
+      addRandomSuffix: true,
+    });
+    return { url: blob.url };
+  } catch (err) {
+    return { error: (err as Error).message };
+  }
 }
 
 export async function deleteBook(id: number) {

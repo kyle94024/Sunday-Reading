@@ -49,6 +49,10 @@ async function main() {
   await sql`CREATE INDEX IF NOT EXISTS books_collection_idx ON books(collection)`;
   await sql`CREATE INDEX IF NOT EXISTS books_status_idx ON books(status)`;
 
+  // Newer columns added after initial release.
+  await sql`ALTER TABLE books ADD COLUMN IF NOT EXISTS reviewer_name TEXT`;
+  await sql`ALTER TABLE books ADD COLUMN IF NOT EXISTS review_published BOOLEAN NOT NULL DEFAULT TRUE`;
+
   console.log("Done.");
 }
 

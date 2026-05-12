@@ -4,11 +4,11 @@ import { motion } from "motion/react";
 import ReactMarkdown from "react-markdown";
 import { useState } from "react";
 
-export function AboutContent({ text, name }: { text: string; name: string }) {
+export function AboutContent({ text }: { text: string; name?: string }) {
   const [hovered, setHovered] = useState(false);
 
   return (
-    <div className="relative mx-auto max-w-5xl px-6 pt-40 pb-32">
+    <div className="relative mx-auto max-w-5xl px-6 pt-32 pb-32 sm:pt-40">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -19,7 +19,7 @@ export function AboutContent({ text, name }: { text: string; name: string }) {
         Profile
       </motion.div>
 
-      <div className="grid gap-12 lg:grid-cols-[280px_1fr] lg:gap-16">
+      <div className="grid gap-12 lg:grid-cols-[260px_1fr] lg:gap-16">
         {/* Profile column */}
         <motion.aside
           initial={{ opacity: 0, x: -30 }}
@@ -30,7 +30,7 @@ export function AboutContent({ text, name }: { text: string; name: string }) {
           <button
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
-            className="group relative h-44 w-44 overflow-hidden rounded-full glow-ring transition-transform duration-700 hover:scale-[1.04]"
+            className="group relative h-40 w-40 overflow-hidden rounded-full glow-ring transition-transform duration-700 hover:scale-[1.04]"
             aria-label="Profile portrait"
           >
             <div
@@ -47,23 +47,23 @@ export function AboutContent({ text, name }: { text: string; name: string }) {
               className="absolute inset-[3px] rounded-full bg-bg flex items-center justify-center"
             >
               <span className="font-display text-6xl text-gradient-violet">
-                {name.charAt(0)}
+                K
               </span>
             </div>
           </button>
-          <h1 className="mt-8 font-display text-5xl tracking-[0.04em] text-gradient-violet">
-            Sunday
+          <h1 className="mt-7 font-display text-4xl tracking-[0.04em] text-gradient-violet">
+            Kyle
           </h1>
           <p className="mt-2 text-[11px] uppercase tracking-[0.4em] text-ink-muted/70">
-            Student · Slow reader
+            Student · Reader of fiction
           </p>
-          <div className="mt-6 h-px w-20 bg-gradient-to-r from-violet-bright/60 to-transparent" />
-          <dl className="mt-6 space-y-3 text-sm text-ink-muted/85 font-serif">
+          <div className="mt-5 h-px w-20 bg-gradient-to-r from-violet-bright/60 to-transparent" />
+          <dl className="mt-5 space-y-3 text-sm text-ink-muted/85 font-serif">
             <div>
               <dt className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink-muted/60">
                 Reading
               </dt>
-              <dd>slowly, mostly at night</dd>
+              <dd>fiction, mostly</dd>
             </div>
             <div>
               <dt className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink-muted/60">
@@ -85,35 +85,9 @@ export function AboutContent({ text, name }: { text: string; name: string }) {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-          className="font-serif text-[1.15rem] leading-[1.85] text-ink/90 [&_p]:mb-6 [&_em]:text-violet-glow [&_em]:not-italic [&_em]:font-medium"
+          className="font-serif text-[1.18rem] font-medium leading-[1.85] text-ink [&_p]:mb-6"
         >
-          <h2 className="mb-8 font-display text-3xl text-ink/95">
-            <span className="shimmer">Hi.</span>
-          </h2>
           <ReactMarkdown>{text}</ReactMarkdown>
-
-          <div className="mt-12 grid gap-4 sm:grid-cols-3">
-            {[
-              { label: "Books read", value: "3", sub: "so far" },
-              { label: "On the shelf", value: "9", sub: "still to go" },
-              { label: "Started", value: "2025", sub: "school year" },
-            ].map((stat) => (
-              <div
-                key={stat.label}
-                className="glass rounded-xl p-5 text-center transition hover:-translate-y-1"
-              >
-                <div className="font-display text-4xl text-gradient-violet">
-                  {stat.value}
-                </div>
-                <div className="mt-2 font-mono text-[10px] uppercase tracking-[0.3em] text-ink-muted/70">
-                  {stat.label}
-                </div>
-                <div className="mt-1 font-serif italic text-sm text-ink-muted/80">
-                  {stat.sub}
-                </div>
-              </div>
-            ))}
-          </div>
         </motion.div>
       </div>
     </div>
