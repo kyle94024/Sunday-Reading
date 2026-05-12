@@ -20,9 +20,9 @@ export function AboutContent({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.1 }}
-        className="mb-10 flex items-center gap-4 text-[11px] uppercase tracking-[0.45em] text-violet-deep/55"
+        className="mb-10 flex items-center gap-4 text-[11px] uppercase tracking-[0.45em] text-violet-deep/80"
       >
-        <span className="h-px w-12 bg-gradient-to-r from-transparent to-violet/55" />
+        <span className="h-px w-12 bg-gradient-to-r from-transparent to-violet-deep/70" />
         Profile
       </motion.div>
 
@@ -67,35 +67,29 @@ export function AboutContent({
           </button>
           <h1
             className="mt-7 font-display text-4xl tracking-[0.04em]"
-            style={{
-              background:
-                "linear-gradient(120deg, #4c1d95 0%, #6d28d9 40%, #a855f7 70%, #ec4899 100%)",
-              WebkitBackgroundClip: "text",
-              backgroundClip: "text",
-              color: "transparent",
-            }}
+            style={{ color: "#1a0a3a" }}
           >
             Kyle
           </h1>
-          <p className="mt-2 text-[11px] uppercase tracking-[0.4em] text-violet-deep/60">
+          <p className="mt-2 text-[11px] uppercase tracking-[0.4em] text-violet-deep/85">
             Student · Reader of fiction
           </p>
-          <div className="mt-5 h-px w-20 bg-gradient-to-r from-violet/50 to-transparent" />
-          <dl className="mt-5 space-y-3 text-sm font-serif text-violet-deep/85">
+          <div className="mt-5 h-px w-20 bg-gradient-to-r from-violet-deep/60 to-transparent" />
+          <dl className="mt-5 space-y-3 text-sm font-serif text-violet-deep">
             <div>
-              <dt className="font-mono text-[10px] uppercase tracking-[0.3em] text-violet-deep/55">
+              <dt className="font-mono text-[10px] uppercase tracking-[0.3em] text-violet-deep/75">
                 Reading
               </dt>
               <dd>fiction, mostly</dd>
             </div>
             <div>
-              <dt className="font-mono text-[10px] uppercase tracking-[0.3em] text-violet-deep/55">
+              <dt className="font-mono text-[10px] uppercase tracking-[0.3em] text-violet-deep/75">
                 Currently
               </dt>
               <dd>working through Limbus</dd>
             </div>
             <div>
-              <dt className="font-mono text-[10px] uppercase tracking-[0.3em] text-violet-deep/55">
+              <dt className="font-mono text-[10px] uppercase tracking-[0.3em] text-violet-deep/75">
                 Started
               </dt>
               <dd>school year, 2025</dd>
@@ -108,21 +102,22 @@ export function AboutContent({
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-          className="font-serif text-[1.18rem] font-medium leading-[1.85] text-violet-deep [&_p]:mb-6"
+          className="font-serif text-[1.18rem] font-medium leading-[1.85] [&_p]:mb-6"
+          style={{ color: "#1a0a3a" }}
         >
           {contributors && contributors.length > 0 && (
             <div className="mb-12 flex flex-col items-start gap-3">
-              <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.45em] text-violet-deep/55">
-                <span className="h-px w-10 bg-gradient-to-r from-transparent to-violet/50" />
+              <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.45em] text-violet-deep/80">
+                <span className="h-px w-10 bg-gradient-to-r from-transparent to-violet-deep/65" />
                 Contributors
-                <span className="h-px w-10 bg-gradient-to-l from-transparent to-violet/50" />
+                <span className="h-px w-10 bg-gradient-to-l from-transparent to-violet-deep/65" />
               </div>
-              <ul className="flex flex-wrap items-center gap-x-3 gap-y-1 font-serif italic text-violet-deep/80">
+              <ul className="flex flex-wrap items-center gap-x-3 gap-y-1 font-serif italic text-violet-deep">
                 {contributors.map((name, i) => (
                   <li key={name} className="inline-flex items-center gap-3">
                     <span>{name}</span>
                     {i < contributors.length - 1 && (
-                      <span aria-hidden className="text-violet/60">
+                      <span aria-hidden className="text-violet-deep/55">
                         ·
                       </span>
                     )}
@@ -137,13 +132,7 @@ export function AboutContent({
               h2: ({ children }) => (
                 <h2
                   className="mb-6 mt-12 font-display text-3xl tracking-[0.04em] first:mt-0 sm:text-4xl"
-                  style={{
-                    background:
-                      "linear-gradient(120deg, #4c1d95 0%, #7c3aed 35%, #c026d3 75%, #ec4899 100%)",
-                    WebkitBackgroundClip: "text",
-                    backgroundClip: "text",
-                    color: "transparent",
-                  }}
+                  style={{ color: "#1a0a3a" }}
                 >
                   {children}
                 </h2>

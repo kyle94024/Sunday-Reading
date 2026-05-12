@@ -88,11 +88,17 @@ export function BookShelfNav() {
             />
             <span
               className={`font-display text-lg tracking-[0.05em] sm:text-xl ${
-                isAbout ? "text-violet-deep" : "text-ink"
+                isAbout ? "" : "text-ink"
               }`}
+              style={isAbout ? { color: "#1a0a3a" } : undefined}
             >
               Sunday&rsquo;s{" "}
-              <span className="text-gradient-violet">Shelf</span>
+              <span
+                className={isAbout ? "" : "text-gradient-violet"}
+                style={isAbout ? { color: "#5b21b6" } : undefined}
+              >
+                Shelf
+              </span>
             </span>
           </Link>
 
