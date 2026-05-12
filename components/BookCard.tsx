@@ -81,6 +81,11 @@ export function BookCard({
         boxShadow: open
           ? `0 24px 80px -30px ${accent}80, inset 0 0 0 1px ${accent}50`
           : undefined,
+        // When expanded, layer a darker tint over the glass so the
+        // review prose reads cleanly against the nebula behind.
+        background: open
+          ? `linear-gradient(180deg, rgba(7,3,15,0.55) 0%, ${accent}12 60%, rgba(15,4,30,0.45) 100%)`
+          : undefined,
       }}
     >
       <div
