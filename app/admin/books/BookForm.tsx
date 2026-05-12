@@ -182,11 +182,12 @@ export function BookForm({ book }: { book?: Book }) {
             <span className="label">rating (0–5)</span>
             <input
               type="number"
-              step="0.5"
+              step="0.1"
               min="0"
               max="5"
               name="rating"
               defaultValue={book?.rating ?? ""}
+              placeholder="e.g. 4.8"
             />
           </label>
           <label className="field">

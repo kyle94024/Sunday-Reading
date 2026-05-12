@@ -9,7 +9,7 @@ export function LimbusSection({ books }: { books: Book[] }) {
   return (
     <section
       id="limbus"
-      className="relative mt-20 overflow-hidden border-y border-crimson-bright/20 py-24"
+      className="relative mt-20 overflow-hidden border-y border-crimson-bright/20 py-24 isolate"
     >
       {/* Crimson veil background */}
       <div
