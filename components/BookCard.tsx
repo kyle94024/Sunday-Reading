@@ -84,7 +84,7 @@ export function BookCard({
         // When expanded, layer a darker tint over the glass so the
         // review prose reads cleanly against the nebula behind.
         background: open
-          ? `linear-gradient(180deg, rgba(7,3,15,0.82) 0%, ${accent}18 60%, rgba(15,4,30,0.78) 100%)`
+          ? `linear-gradient(180deg, rgba(7,3,15,0.94) 0%, ${accent}1a 55%, rgba(15,4,30,0.92) 100%)`
           : undefined,
       }}
     >
