@@ -51,7 +51,10 @@ export function LimbusSection({ books }: { books: Book[] }) {
           </h2>
         </motion.div>
 
-        <div className="flex flex-col gap-5">
+        <div
+          className="grid grid-cols-1 gap-5 sm:grid-cols-2"
+          style={{ gridAutoFlow: "dense" }}
+        >
           {books.map((b, i) => (
             <BookCard key={b.id} book={b} index={i} variant="limbus" />
           ))}

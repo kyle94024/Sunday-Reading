@@ -48,10 +48,15 @@ export function BookCard({
 
   return (
     <motion.article
+      layout
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "400px 0px" }}
-      transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+      transition={{
+        layout: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+        opacity: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
+        y: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
+      }}
       role="button"
       tabIndex={0}
       aria-expanded={open}
@@ -64,7 +69,7 @@ export function BookCard({
       }}
       className={`group relative flex cursor-pointer flex-col overflow-hidden rounded-xl transition-all duration-500 ${
         isLimbus ? "glass-crimson" : "glass"
-      } hover:-translate-y-0.5 ${open ? "p-6 sm:p-7" : "p-3.5 sm:p-4"}`}
+      } hover:-translate-y-0.5 ${open ? "p-6 sm:col-span-2 sm:p-7" : "p-3.5 sm:p-4"}`}
       style={{
         boxShadow: open
           ? `0 24px 80px -30px ${accent}80, inset 0 0 0 1px ${accent}50`
