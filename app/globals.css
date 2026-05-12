@@ -112,6 +112,28 @@ body {
 /* Smooth scrolling */
 html { scroll-behavior: smooth; }
 
+/*
+ * Paired book grid: in a 2-col layout, when one card in a row expands
+ * to span the full width, its partner expands horizontally too instead
+ * of being shoved into the next row by another card. Result: every
+ * card keeps its original row, and opening/closing doesn't ripple
+ * positions across the grid.
+ *
+ * Pairs are determined by DOM order: (1, 2), (3, 4), (5, 6)…
+ * In each pair the odd-nth-child is the left card and the even-nth-child
+ * is the right one.
+ */
+@media (min-width: 640px) {
+  /* Left card stretches when its right partner is expanded. */
+  .book-grid article:nth-child(odd):has(+ article[aria-expanded="true"]) {
+    grid-column: span 2 / span 2;
+  }
+  /* Right card stretches when its left partner is expanded. */
+  .book-grid article[aria-expanded="true"]:nth-child(odd) + article {
+    grid-column: span 2 / span 2;
+  }
+}
+
 /* Reveal animation for prose paragraphs */
 @keyframes reveal-up {
   from { opacity: 0; transform: translateY(16px); }

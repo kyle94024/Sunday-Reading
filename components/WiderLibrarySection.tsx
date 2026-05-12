@@ -25,10 +25,7 @@ export function WiderLibrarySection({ books }: { books: Book[] }) {
           </p>
         </div>
       ) : (
-        <div
-          className="grid grid-cols-1 gap-5 sm:grid-cols-2"
-          style={{ gridAutoFlow: "dense" }}
-        >
+        <div className="book-grid grid grid-cols-1 gap-5 sm:grid-cols-2">
           {books.map((b, i) => (
             <BookCard key={b.id} book={b} index={i} />
           ))}
