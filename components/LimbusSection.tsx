@@ -40,10 +40,10 @@ export function LimbusSection({ books }: { books: Book[] }) {
 
       <div className="relative mx-auto max-w-6xl px-6">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.9 }}
+          viewport={{ once: true, margin: "400px 0px" }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
           className="mt-16 mb-10 text-center"
         >
           <h2 className="font-display text-4xl tracking-[0.06em] text-gradient-crimson sm:text-6xl">

@@ -8,10 +8,10 @@ export function WiderLibrarySection({ books }: { books: Book[] }) {
   return (
     <section id="library" className="relative mx-auto mt-32 max-w-6xl px-6 pb-16">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.9 }}
+        viewport={{ once: true, margin: "400px 0px" }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
         className="mb-12 text-center"
       >
         <h2 className="font-display text-4xl tracking-[0.06em] text-gradient-violet sm:text-6xl">

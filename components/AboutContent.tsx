@@ -91,7 +91,17 @@ export function AboutContent({ text }: { text: string; name?: string }) {
           transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
           className="font-serif text-[1.18rem] font-medium leading-[1.85] text-ink [&_p]:mb-6"
         >
-          <ReactMarkdown>{text}</ReactMarkdown>
+          <ReactMarkdown
+            components={{
+              h2: ({ children }) => (
+                <h2 className="mb-6 mt-12 font-display text-3xl tracking-[0.04em] text-ink/95 first:mt-0 sm:text-4xl">
+                  <span className="shimmer">{children}</span>
+                </h2>
+              ),
+            }}
+          >
+            {text}
+          </ReactMarkdown>
         </motion.div>
       </div>
     </div>

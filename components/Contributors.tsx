@@ -9,8 +9,8 @@ export function Contributors({ names }: { names: string[] }) {
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 1, ease: "easeOut" }}
+        viewport={{ once: true, margin: "400px 0px" }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
         className="flex flex-col items-center gap-3 text-center"
       >
         <div className="flex items-center gap-4 text-[10px] uppercase tracking-[0.45em] text-ink-muted/65">

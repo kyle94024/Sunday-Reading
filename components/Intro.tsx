@@ -125,10 +125,10 @@ export function Intro({ text }: { text: string }) {
       className="relative mx-auto max-w-3xl px-6 pb-28 pt-12 sm:pt-24"
     >
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-120px" }}
-        transition={{ duration: 1.1, ease: "easeOut" }}
+        viewport={{ once: true, margin: "400px 0px" }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
         className="mb-10 flex items-center gap-4 text-[11px] uppercase tracking-[0.45em] text-ink-muted/70"
       >
         <span className="h-px flex-1 bg-gradient-to-r from-transparent to-violet-bright/40" />
@@ -137,10 +137,10 @@ export function Intro({ text }: { text: string }) {
       </motion.div>
 
       <motion.div
-        initial={{ opacity: 0, y: 40 }}
+        initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+        viewport={{ once: true, margin: "400px 0px" }}
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         className="dropcap font-serif text-[1.18rem] font-medium leading-[1.85] text-ink [&_p]:mb-6"
       >
         {paragraphs.map((para, idx) => {
