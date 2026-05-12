@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
+import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import { useState } from "react";
 
@@ -30,8 +31,8 @@ export function AboutContent({ text }: { text: string; name?: string }) {
           <button
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
-            className="group relative h-40 w-40 overflow-hidden rounded-full glow-ring transition-transform duration-700 hover:scale-[1.04]"
-            aria-label="Profile portrait"
+            className="group relative h-28 w-28 overflow-hidden rounded-full glow-ring transition-transform duration-700 hover:scale-[1.04]"
+            aria-label="Kyle"
           >
             <div
               className="absolute inset-0"
@@ -43,12 +44,15 @@ export function AboutContent({ text }: { text: string; name?: string }) {
                 filter: "saturate(110%)",
               }}
             />
-            <div
-              className="absolute inset-[3px] rounded-full bg-bg flex items-center justify-center"
-            >
-              <span className="font-display text-6xl text-gradient-violet">
-                K
-              </span>
+            <div className="absolute inset-[3px] overflow-hidden rounded-full bg-bg">
+              <Image
+                src="/kyle.jpg"
+                alt="Kyle"
+                fill
+                sizes="112px"
+                className="object-cover"
+                priority
+              />
             </div>
           </button>
           <h1 className="mt-7 font-display text-4xl tracking-[0.04em] text-gradient-violet">

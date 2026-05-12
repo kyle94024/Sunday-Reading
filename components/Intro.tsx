@@ -125,6 +125,18 @@ export function Intro({ text }: { text: string }) {
       className="relative mx-auto max-w-3xl px-6 pb-28 pt-12 sm:pt-24"
     >
       <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-120px" }}
+        transition={{ duration: 1.1, ease: "easeOut" }}
+        className="mb-10 flex items-center gap-4 text-[11px] uppercase tracking-[0.45em] text-ink-muted/70"
+      >
+        <span className="h-px flex-1 bg-gradient-to-r from-transparent to-violet-bright/40" />
+        Note from Kyle
+        <span className="h-px flex-1 bg-gradient-to-l from-transparent to-violet-bright/40" />
+      </motion.div>
+
+      <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
