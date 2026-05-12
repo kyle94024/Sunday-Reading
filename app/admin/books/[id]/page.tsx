@@ -18,7 +18,8 @@ export default async function EditBookPage({
   const rows = (await sql`
     SELECT id, slug, title, author, year_published, cover_url, review,
            rating, status, collection, limbus_sinner, limbus_color,
-           date_read::text, display_order, reviewer_name, review_published
+           date_read::text, display_order, reviewer_name, review_published,
+           summary
     FROM books WHERE id = ${numId} LIMIT 1
   `) as Book[];
   const book = rows[0];

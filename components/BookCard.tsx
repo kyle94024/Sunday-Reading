@@ -242,6 +242,26 @@ export function BookCard({
             background: `linear-gradient(180deg, ${accent}08, transparent 80%)`,
           }}
         >
+          {book.summary && (
+            <div
+              className="mb-7 rounded-lg border px-4 py-4 sm:px-5 sm:py-5"
+              style={{
+                borderColor: `${accent}33`,
+                background: `linear-gradient(150deg, ${accent}10, transparent 80%)`,
+              }}
+            >
+              <div className="mb-2 flex items-center gap-2 text-[10px] uppercase tracking-[0.32em] text-ink-muted/65">
+                <span
+                  className="inline-block h-px w-5"
+                  style={{ background: accent }}
+                />
+                Summary
+              </div>
+              <p className="font-serif text-[1rem] italic leading-[1.7] text-ink/85 sm:text-[1.05rem]">
+                {book.summary}
+              </p>
+            </div>
+          )}
           {hasReview ? (
             <>
               {book.reviewer_name && (

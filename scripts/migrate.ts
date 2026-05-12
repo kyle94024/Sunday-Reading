@@ -52,6 +52,7 @@ async function main() {
   // Newer columns added after initial release.
   await sql`ALTER TABLE books ADD COLUMN IF NOT EXISTS reviewer_name TEXT`;
   await sql`ALTER TABLE books ADD COLUMN IF NOT EXISTS review_published BOOLEAN NOT NULL DEFAULT TRUE`;
+  await sql`ALTER TABLE books ADD COLUMN IF NOT EXISTS summary TEXT`;
 
   console.log("Done.");
 }

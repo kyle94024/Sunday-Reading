@@ -33,7 +33,37 @@ type Seed = {
   color: string | null;
   order: number;
   cover: string | null;
+  rating?: number | null;
+  summary?: string | null;
+  review?: string | null;
 };
+
+const BRAVE_NEW_WORLD_REVIEW = `I first picked up *Brave New World* because a friend promised she'd read the book — which had been on both of our lists for a while — alongside me. Funnily enough, despite months of persistent effort, she… didn't end up finishing (cough, Nina).
+
+This little anecdote is not to say that the book was bad by any means. On quite the contrary, *Brave New World* effortlessly cements itself as one of my **favorite** dystopian novels of all time. However, this movement reflects the novel's initial reception, in some arbitrary sense. In the 1930s, Huxley's novel had evoked strong emotions on both ends for his readers. On one hand, many now-famous literary authors recognized Huxley's brilliance, such as George Orwell, who used *Brave New World* as direct inspiration for his quintessentially-western novels *1984* and *Animal Farm*. On the other hand, this novel was both criticized and banned for its obscenity and rejection of 1900s social norms.
+
+Should you read *Brave New World*? A resounding yes from my end. It's the perfect mix of world building and surprising plot, perfectly devoid of clichés. If you can handle the sexual content, I think the story will leave you shocked and in deep thought. Although it's not horror, it's an iconic piece of dystopian literature that isn't afraid to explore the darkest parts of human nature.`;
+
+const BRAVE_NEW_WORLD_SUMMARY = `Set in a dystopian, futuristic London, humans are split into social classes and raised in factories, with impulses controlled through the use of conditioning, drugs, and sexual pleasure. Relationships are no longer monogamies — everyone has sex with everyone else, and marriage is forbidden and uncivilized. Although, barring the human "savages" that live in unurbanized areas, everyone is "happy" as they have been conditioned to be. What happens when one of those "savages" — a human with a culture not so different from our society — is brought to this supposed utopia?`;
+
+// Books outside the Limbus collection.
+const wider: Seed[] = [
+  {
+    slug: "brave-new-world",
+    title: "Brave New World",
+    author: "Aldous Huxley",
+    year: 1932,
+    status: "read",
+    collection: null,
+    sinner: null,
+    color: "#14b8a6",
+    order: 1,
+    cover: null,
+    rating: 5,
+    summary: BRAVE_NEW_WORLD_SUMMARY,
+    review: BRAVE_NEW_WORLD_REVIEW,
+  },
+];
 
 // Limbus Company's 14 reference books (Goodreads list order). The first 12
 // are sinner-anchored; the last two are broader Project Moon references.
@@ -76,6 +106,32 @@ async function main() {
         limbus_sinner = EXCLUDED.limbus_sinner,
         limbus_color = EXCLUDED.limbus_color,
         display_order = EXCLUDED.display_order,
+        updated_at = NOW()
+    `;
+  }
+
+  console.log(`Seeding ${wider.length} wider-library book(s)…`);
+  for (const b of wider) {
+    await sql`
+      INSERT INTO books
+        (slug, title, author, year_published, cover_url, status, collection,
+         limbus_sinner, limbus_color, display_order, rating, summary, review)
+      VALUES
+        (${b.slug}, ${b.title}, ${b.author}, ${b.year}, ${b.cover}, ${b.status},
+         ${b.collection}, ${b.sinner}, ${b.color}, ${b.order},
+         ${b.rating ?? null}, ${b.summary ?? null}, ${b.review ?? null})
+      ON CONFLICT (slug) DO UPDATE SET
+        title = EXCLUDED.title,
+        author = EXCLUDED.author,
+        year_published = EXCLUDED.year_published,
+        status = EXCLUDED.status,
+        collection = EXCLUDED.collection,
+        limbus_sinner = EXCLUDED.limbus_sinner,
+        limbus_color = EXCLUDED.limbus_color,
+        display_order = EXCLUDED.display_order,
+        rating = EXCLUDED.rating,
+        summary = EXCLUDED.summary,
+        review = EXCLUDED.review,
         updated_at = NOW()
     `;
   }

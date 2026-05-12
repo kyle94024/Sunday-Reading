@@ -129,6 +129,7 @@ function readBookForm(formData: FormData) {
     display_order: intOrNull(formData.get("display_order")) ?? 0,
     reviewer_name: nullIfEmpty(formData.get("reviewer_name")),
     review_published: formData.get("review_published") === "on",
+    summary: nullIfEmpty(formData.get("summary")),
   };
 }
 
@@ -146,13 +147,13 @@ export async function createBook(
       INSERT INTO books
         (slug, title, author, year_published, cover_url, review, rating,
          status, collection, limbus_sinner, limbus_color, date_read,
-         display_order, reviewer_name, review_published)
+         display_order, reviewer_name, review_published, summary)
       VALUES
         (${b.slug}, ${b.title}, ${b.author}, ${b.year_published},
          ${b.cover_url}, ${b.review}, ${b.rating}, ${b.status},
          ${b.collection}, ${b.limbus_sinner}, ${b.limbus_color},
          ${b.date_read}, ${b.display_order}, ${b.reviewer_name},
-         ${b.review_published})
+         ${b.review_published}, ${b.summary})
     `;
   } catch (err) {
     return { error: (err as Error).message };
@@ -190,6 +191,7 @@ export async function updateBook(
         display_order = ${b.display_order},
         reviewer_name = ${b.reviewer_name},
         review_published = ${b.review_published},
+        summary = ${b.summary},
         updated_at = NOW()
       WHERE id = ${id}
     `;

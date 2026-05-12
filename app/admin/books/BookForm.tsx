@@ -40,6 +40,7 @@ export function BookForm({ book }: { book?: Book }) {
   );
 
   const [review, setReview] = useState(book?.review ?? "");
+  const [summary, setSummary] = useState(book?.summary ?? "");
   const [showPreview, setShowPreview] = useState(false);
   const [color, setColor] = useState(book?.limbus_color ?? "#a855f7");
   const [collection, setCollection] = useState<string>(book?.collection ?? "");
@@ -293,6 +294,17 @@ export function BookForm({ book }: { book?: Book }) {
             </div>
           </label>
         </div>
+
+        <label className="field">
+          <span className="label">summary (what the book is about)</span>
+          <textarea
+            name="summary"
+            value={summary}
+            onChange={(e) => setSummary(e.target.value)}
+            placeholder="A short blurb shown above the review when a card is expanded."
+            className="!min-h-[120px]"
+          />
+        </label>
 
         <label className="field">
           <span className="flex items-center justify-between">
