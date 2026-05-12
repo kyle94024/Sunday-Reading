@@ -191,6 +191,39 @@ export function BookCard({
         </div>
       </div>
 
+      {/* Compact-mode spine ornament: inset outline + top/bottom headbands
+          + a faint vertical page-edge line near the right. All very subtle. */}
+      {!open && (
+        <>
+          <span
+            aria-hidden
+            className="pointer-events-none absolute inset-2 rounded-md border"
+            style={{ borderColor: `${accent}22` }}
+          />
+          <span
+            aria-hidden
+            className="pointer-events-none absolute inset-x-4 top-2.5 h-px"
+            style={{
+              background: `linear-gradient(90deg, transparent, ${accent}55 50%, transparent)`,
+            }}
+          />
+          <span
+            aria-hidden
+            className="pointer-events-none absolute inset-x-4 bottom-2.5 h-px"
+            style={{
+              background: `linear-gradient(90deg, transparent, ${accent}55 50%, transparent)`,
+            }}
+          />
+          <span
+            aria-hidden
+            className="pointer-events-none absolute inset-y-5 right-3 w-px"
+            style={{
+              background: `linear-gradient(180deg, transparent, ${accent}30 30%, ${accent}30 70%, transparent)`,
+            }}
+          />
+        </>
+      )}
+
       <div
         aria-hidden={!open}
         className="overflow-hidden"
