@@ -5,7 +5,13 @@ import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import { useState } from "react";
 
-export function AboutContent({ text }: { text: string; name?: string }) {
+export function AboutContent({
+  text,
+  contributors,
+}: {
+  text: string;
+  contributors?: string[];
+}) {
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -91,6 +97,28 @@ export function AboutContent({ text }: { text: string; name?: string }) {
           transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
           className="font-serif text-[1.18rem] font-medium leading-[1.85] text-ink [&_p]:mb-6"
         >
+          {contributors && contributors.length > 0 && (
+            <div className="mb-12 flex flex-col items-start gap-3">
+              <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.45em] text-ink-muted/65">
+                <span className="h-px w-10 bg-gradient-to-r from-transparent to-violet-bright/40" />
+                Contributors
+                <span className="h-px w-10 bg-gradient-to-l from-transparent to-violet-bright/40" />
+              </div>
+              <ul className="flex flex-wrap items-center gap-x-3 gap-y-1 font-serif italic text-ink-muted/90">
+                {contributors.map((name, i) => (
+                  <li key={name} className="inline-flex items-center gap-3">
+                    <span>{name}</span>
+                    {i < contributors.length - 1 && (
+                      <span aria-hidden className="text-violet-bright/50">
+                        ·
+                      </span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
           <ReactMarkdown
             components={{
               h2: ({ children }) => (
