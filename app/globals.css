@@ -149,27 +149,27 @@ html { scroll-behavior: smooth; }
   animation: marquee 60s linear infinite;
 }
 
-/* Glassy card surface — slightly more opaque than a true glass so prose
-   reads cleanly against the nebula behind. */
+/* Glassy card surface — opaque enough that prose reads cleanly over the
+   nebula, but still lets a hint of the background through. */
 .glass {
   background: linear-gradient(
     135deg,
-    rgba(15, 4, 30, 0.55) 0%,
-    rgba(7, 3, 15, 0.4) 100%
+    rgba(15, 4, 30, 0.82) 0%,
+    rgba(7, 3, 15, 0.68) 100%
   );
-  backdrop-filter: blur(10px) saturate(140%);
-  -webkit-backdrop-filter: blur(10px) saturate(140%);
-  border: 1px solid color-mix(in oklab, white 12%, transparent);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  border: 1px solid color-mix(in oklab, white 14%, transparent);
 }
 .glass-crimson {
   background: linear-gradient(
     135deg,
-    rgba(58, 10, 15, 0.55) 0%,
-    rgba(40, 5, 10, 0.42) 100%
+    rgba(58, 10, 15, 0.82) 0%,
+    rgba(40, 5, 10, 0.7) 100%
   );
-  backdrop-filter: blur(10px) saturate(140%);
-  -webkit-backdrop-filter: blur(10px) saturate(140%);
-  border: 1px solid color-mix(in oklab, var(--color-crimson-bright) 28%, transparent);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  border: 1px solid color-mix(in oklab, var(--color-crimson-bright) 30%, transparent);
 }
 
 /* Shimmer for headings */
