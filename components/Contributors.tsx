@@ -8,8 +8,7 @@ export function Contributors({ names }: { names: string[] }) {
     <section className="relative mx-auto max-w-3xl px-6 pb-24">
       <motion.div
         initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true, margin: "400px 0px" }}
+        animate={{ opacity: 1 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
         className="flex flex-col items-center gap-3 text-center"
       >

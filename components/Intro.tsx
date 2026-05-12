@@ -126,8 +126,7 @@ export function Intro({ text }: { text: string }) {
     >
       <motion.div
         initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "400px 0px" }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: "easeOut" }}
         className="mb-10 flex items-center gap-4 text-[11px] uppercase tracking-[0.45em] text-ink-muted/70"
       >
@@ -138,9 +137,8 @@ export function Intro({ text }: { text: string }) {
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "400px 0px" }}
-        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
         className="dropcap font-serif text-[1.18rem] font-medium leading-[1.85] text-ink [&_p]:mb-6"
       >
         {paragraphs.map((para, idx) => {

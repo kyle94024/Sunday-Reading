@@ -9,8 +9,7 @@ export function WiderLibrarySection({ books }: { books: Book[] }) {
     <section id="library" className="relative mx-auto mt-32 max-w-6xl px-6 pb-16">
       <motion.div
         initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "400px 0px" }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
         className="mb-12 text-center"
       >

@@ -49,13 +49,8 @@ export function BookCard({
   return (
     <motion.article
       layout
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "400px 0px" }}
       transition={{
         layout: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
-        opacity: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
-        y: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
       }}
       role="button"
       tabIndex={0}

@@ -41,8 +41,7 @@ export function LimbusSection({ books }: { books: Book[] }) {
       <div className="relative mx-auto max-w-6xl px-6">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "400px 0px" }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
           className="mt-16 mb-10 text-center"
         >
