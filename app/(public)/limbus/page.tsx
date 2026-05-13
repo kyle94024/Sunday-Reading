@@ -11,7 +11,9 @@ export const metadata = {
 
 export default async function LimbusPage() {
   const books = await getAllBooks();
-  const limbusBooks = books.filter((b) => b.collection === "limbus");
+  const limbusBooks = books.filter(
+    (b) => b.collection === "limbus" && b.review_published !== false
+  );
 
   return (
     <>

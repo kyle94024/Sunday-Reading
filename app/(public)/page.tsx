@@ -12,7 +12,9 @@ export default async function HomePage() {
     getSiteContentMap(),
   ]);
 
-  const otherBooks = books.filter((b) => b.collection !== "limbus");
+  const otherBooks = books.filter(
+    (b) => b.collection !== "limbus" && b.review_published !== false
+  );
 
   return (
     <>

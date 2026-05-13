@@ -10,7 +10,9 @@ export default async function AboutPage() {
     sql`
       SELECT DISTINCT reviewer_name
       FROM books
-      WHERE reviewer_name IS NOT NULL AND reviewer_name <> ''
+      WHERE reviewer_name IS NOT NULL
+        AND reviewer_name <> ''
+        AND review_published = TRUE
       ORDER BY reviewer_name
     `,
   ]);
