@@ -32,7 +32,7 @@ export function LimbusSection({ books }: { books: Book[] }) {
           className="mt-12 mb-4 flex items-center justify-center gap-4 text-[11px] uppercase tracking-[0.5em] text-ember/75"
         >
           <span className="h-px flex-1 max-w-32 bg-gradient-to-r from-transparent to-crimson-bright/55" />
-          Bus 8 · 14 books
+          14 books
           <span className="h-px flex-1 max-w-32 bg-gradient-to-l from-transparent to-crimson-bright/55" />
         </motion.div>
 
@@ -54,7 +54,7 @@ export function LimbusSection({ books }: { books: Book[] }) {
           className="mx-auto mb-14 max-w-xl text-center font-serif italic text-ember/85 sm:text-lg"
         >
           The fourteen literary works behind Project Moon's roster of sinners
-          and managers — the point of departure for this whole shelf.
+          and managers.
         </motion.p>
 
         <LayoutGroup>
