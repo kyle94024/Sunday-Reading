@@ -130,6 +130,25 @@ export function BookCard({
             >
               {STATUS_LABEL[book.status]}
             </span>
+            {book.reviewer_name && (
+              <span
+                className={`inline-flex items-center gap-1 rounded-full border tracking-[0.32em] ${
+                  open ? "px-2 py-0.5" : "px-1.5 py-px"
+                }`}
+                style={{
+                  borderColor: "rgba(251, 191, 36, 0.5)",
+                  color: "#fde68a",
+                  background:
+                    "linear-gradient(135deg, rgba(251, 191, 36, 0.18) 0%, rgba(245, 158, 11, 0.08) 100%)",
+                  boxShadow: "0 0 12px -2px rgba(251, 191, 36, 0.35)",
+                }}
+              >
+                <span aria-hidden style={{ color: "#fbbf24" }}>
+                  ✦
+                </span>{" "}
+                Guest{open ? ` · ${book.reviewer_name}` : ""}
+              </span>
+            )}
             {isLimbus && book.limbus_sinner && (
               <span className="text-ink-muted/50">
                 Sinner ·{" "}
@@ -279,13 +298,47 @@ export function BookCard({
           {hasReview ? (
             <>
               {book.reviewer_name && (
-                <div className="mb-5 flex items-center gap-2 text-[10px] uppercase tracking-[0.32em] text-ink-muted/65">
-                  <span
-                    className="inline-block h-px w-5"
-                    style={{ background: accent }}
-                  />
-                  Guest review by{" "}
-                  <span className="text-ink-muted">{book.reviewer_name}</span>
+                <div
+                  className="mb-7 -mx-1 rounded-lg border px-4 py-3 sm:-mx-2 sm:px-5"
+                  style={{
+                    borderColor: "rgba(251, 191, 36, 0.45)",
+                    background:
+                      "linear-gradient(135deg, rgba(251, 191, 36, 0.16) 0%, rgba(245, 158, 11, 0.06) 60%, rgba(251, 191, 36, 0.12) 100%)",
+                    boxShadow:
+                      "0 0 24px -8px rgba(251, 191, 36, 0.5), inset 0 0 0 1px rgba(251, 191, 36, 0.18)",
+                  }}
+                >
+                  <div className="flex items-center justify-center gap-3 text-[10px] uppercase tracking-[0.42em]">
+                    <span
+                      className="h-px flex-1 max-w-16"
+                      style={{
+                        background:
+                          "linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.7))",
+                      }}
+                    />
+                    <span aria-hidden style={{ color: "#fbbf24", fontSize: "14px" }}>
+                      ✦
+                    </span>
+                    <span style={{ color: "#fde68a" }}>
+                      Guest review by{" "}
+                      <span
+                        className="font-semibold"
+                        style={{ color: "#fef3c7" }}
+                      >
+                        {book.reviewer_name}
+                      </span>
+                    </span>
+                    <span aria-hidden style={{ color: "#fbbf24", fontSize: "14px" }}>
+                      ✦
+                    </span>
+                    <span
+                      className="h-px flex-1 max-w-16"
+                      style={{
+                        background:
+                          "linear-gradient(90deg, rgba(251, 191, 36, 0.7), transparent)",
+                      }}
+                    />
+                  </div>
                 </div>
               )}
               <ReactMarkdown>{book.review!}</ReactMarkdown>
