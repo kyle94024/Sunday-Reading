@@ -86,7 +86,7 @@ export function BookCard({
         // A soft radial of the accent colour rides on top of a uniformly
         // dark fill so the middle of the card doesn't thin out.
         background: open
-          ? `radial-gradient(120% 70% at 50% 50%, ${accent}28, transparent 75%), linear-gradient(180deg, rgba(7,3,15,0.94) 0%, rgba(12,4,28,0.96) 55%, rgba(15,4,30,0.94) 100%)`
+          ? `radial-gradient(120% 70% at 50% 50%, ${accent}24, transparent 75%), linear-gradient(180deg, rgba(7,3,15,0.78) 0%, rgba(12,4,28,0.82) 55%, rgba(15,4,30,0.78) 100%)`
           : undefined,
       }}
     >
