@@ -9,25 +9,11 @@ export function LimbusSection({ books }: { books: Book[] }) {
   return (
     <section
       id="limbus"
-      className="relative mt-20 overflow-hidden border-y border-crimson-bright/20 py-24 isolate"
+      className="relative pt-36 pb-24 sm:pt-44"
     >
-      {/* Crimson veil background */}
-      <div
-        aria-hidden
-        className="absolute inset-0 -z-10 bg-cover bg-center opacity-60"
-        style={{ backgroundImage: "url(/bg/limbus-veil.png)" }}
-      />
-      <div
-        aria-hidden
-        className="absolute inset-0 -z-10"
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(58,10,15,0.6) 0%, rgba(7,3,15,0.85) 60%, rgba(7,3,15,0.95) 100%)",
-        }}
-      />
-
-      {/* Train ribbon — slow marquee */}
-      <div className="pointer-events-none absolute inset-x-0 top-8 flex overflow-hidden text-crimson-bright/40">
+      {/* Twin train marquees: one near the top, one near the bottom, going
+          opposite directions. */}
+      <div className="pointer-events-none absolute inset-x-0 top-24 flex overflow-hidden text-crimson-bright/35">
         <div className="marquee-track flex shrink-0 gap-12">
           {Array.from({ length: 6 }).map((_, i) => (
             <TrainGlyph key={`a-${i}`} className="h-12 shrink-0" />
@@ -43,12 +29,33 @@ export function LimbusSection({ books }: { books: Book[] }) {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
-          className="mt-16 mb-10 text-center"
+          className="mt-12 mb-4 flex items-center justify-center gap-4 text-[11px] uppercase tracking-[0.5em] text-ember/75"
         >
-          <h2 className="font-display text-4xl tracking-[0.06em] text-gradient-crimson sm:text-6xl">
-            Limbus Company Books
-          </h2>
+          <span className="h-px flex-1 max-w-32 bg-gradient-to-r from-transparent to-crimson-bright/55" />
+          Bus 8 · 14 books
+          <span className="h-px flex-1 max-w-32 bg-gradient-to-l from-transparent to-crimson-bright/55" />
         </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
+          className="mb-4 text-center"
+        >
+          <h1 className="font-display text-5xl tracking-[0.06em] text-gradient-crimson sm:text-7xl">
+            Limbus Company Books
+          </h1>
+        </motion.div>
+
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+          className="mx-auto mb-14 max-w-xl text-center font-serif italic text-ember/85 sm:text-lg"
+        >
+          The fourteen literary works behind Project Moon's roster of sinners
+          and managers — the point of departure for this whole shelf.
+        </motion.p>
 
         <LayoutGroup>
           <div className="book-grid grid grid-cols-1 gap-5 sm:grid-cols-2">
@@ -57,6 +64,18 @@ export function LimbusSection({ books }: { books: Book[] }) {
             ))}
           </div>
         </LayoutGroup>
+
+        {/* Bottom train marquee, mirrored */}
+        <div className="pointer-events-none mt-16 flex overflow-hidden text-crimson-bright/25">
+          <div className="marquee-track flex shrink-0 gap-12" style={{ animationDirection: "reverse" }}>
+            {Array.from({ length: 6 }).map((_, i) => (
+              <TrainGlyph key={`c-${i}`} className="h-10 shrink-0" />
+            ))}
+            {Array.from({ length: 6 }).map((_, i) => (
+              <TrainGlyph key={`d-${i}`} className="h-10 shrink-0" />
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

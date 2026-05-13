@@ -14,6 +14,7 @@ type ShelfBook = {
 
 const SHELF: ShelfBook[] = [
   { href: "/", label: "Home", h: 86, accent: "#a855f7" },
+  { href: "/limbus", label: "Limbus", h: 102, accent: "#ef4444" },
   { href: "/about", label: "About", h: 96, accent: "#ec4899" },
 ];
 
