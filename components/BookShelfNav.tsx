@@ -131,6 +131,7 @@ export function BookShelfNav() {
             pathname={pathname}
             falling={falling}
             onPick={travelTo}
+            onLight={isAbout}
           />
         </nav>
       </header>
@@ -174,11 +175,13 @@ function Shelf({
   pathname,
   falling,
   onPick,
+  onLight,
 }: {
   books: ShelfBook[];
   pathname: string;
   falling: string | null;
   onPick: (href: string) => void;
+  onLight?: boolean;
 }) {
   return (
     <div className="relative pt-2">
@@ -191,6 +194,7 @@ function Shelf({
             falling={falling === b.href}
             disabled={!!falling && falling !== b.href}
             onClick={() => onPick(b.href)}
+            onLight={onLight}
           />
         ))}
       </div>
@@ -218,12 +222,14 @@ function BookSpine({
   falling,
   disabled,
   onClick,
+  onLight,
 }: {
   book: ShelfBook;
   active: boolean;
   falling: boolean;
   disabled: boolean;
   onClick: () => void;
+  onLight?: boolean;
 }) {
   // Pivot at bottom-center so books rotate about the shelf line.
   const restState = active
@@ -282,8 +288,14 @@ function BookSpine({
         style={{
           writingMode: "vertical-rl",
           textOrientation: "mixed",
-          color: active ? "#fff" : "rgba(245,243,255,0.9)",
-          textShadow: "0 1px 2px rgba(0,0,0,0.5)",
+          color: onLight
+            ? active
+              ? "#0c0418"
+              : "rgba(26, 10, 58, 0.85)"
+            : active
+            ? "#fff"
+            : "rgba(245, 243, 255, 0.9)",
+          textShadow: onLight ? "none" : "0 1px 2px rgba(0,0,0,0.5)",
         }}
       >
         {book.label}
