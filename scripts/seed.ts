@@ -36,6 +36,7 @@ type Seed = {
   rating?: number | null;
   summary?: string | null;
   review?: string | null;
+  published?: boolean;
 };
 
 const BRAVE_NEW_WORLD_REVIEW = `I first picked up *Brave New World* because a friend promised she'd read the book — which had been on both of our lists for a while — alongside me. Funnily enough, despite months of persistent effort, she… didn't end up finishing (cough, Nina).
@@ -47,6 +48,9 @@ Should you read *Brave New World*? A resounding yes from my end. It's the perfec
 const BRAVE_NEW_WORLD_SUMMARY = `Set in a dystopian, futuristic London, humans are split into social classes and raised in factories, with impulses controlled through the use of conditioning, drugs, and sexual pleasure. Relationships are no longer monogamies — everyone has sex with everyone else, and marriage is forbidden and uncivilized. Although, barring the human "savages" that live in unurbanized areas, everyone is "happy" as they have been conditioned to be. What happens when one of those "savages" — a human with a culture not so different from our society — is brought to this supposed utopia?`;
 
 // Books outside the Limbus collection.
+// Each `published?: false` book starts out as a hidden draft — the
+// public site shows the placeholder until the admin checks "Publish
+// review" on it.
 const wider: Seed[] = [
   {
     slug: "brave-new-world",
@@ -63,6 +67,26 @@ const wider: Seed[] = [
     summary: BRAVE_NEW_WORLD_SUMMARY,
     review: BRAVE_NEW_WORLD_REVIEW,
   },
+  // ── Queued / hidden drafts: every book the admin wants on the shelf
+  // but hasn't published a review for yet. Authors and dates filled in
+  // here so the listing reads complete from day one.
+  { slug: "we", title: "We", author: "Yevgeny Zamyatin", year: 1924, status: "queued", collection: null, sinner: null, color: "#6366f1", order: 2, cover: null, published: false },
+  { slug: "the-myth-of-sisyphus", title: "The Myth of Sisyphus", author: "Albert Camus", year: 1942, status: "queued", collection: null, sinner: null, color: "#f97316", order: 3, cover: null, published: false },
+  { slug: "the-trial", title: "The Trial", author: "Franz Kafka", year: 1925, status: "queued", collection: null, sinner: null, color: "#71717a", order: 4, cover: null, published: false },
+  { slug: "dantes-inferno", title: "Dante's Inferno", author: "Dante Alighieri", year: 1320, status: "queued", collection: null, sinner: null, color: "#b91c1c", order: 5, cover: null, published: false },
+  { slug: "stories-of-your-life-and-others", title: "Stories of Your Life and Others", author: "Ted Chiang", year: 2002, status: "queued", collection: null, sinner: null, color: "#06b6d4", order: 6, cover: null, published: false },
+  { slug: "exhalation", title: "Exhalation", author: "Ted Chiang", year: 2019, status: "queued", collection: null, sinner: null, color: "#0891b2", order: 7, cover: null, published: false },
+  { slug: "recursion", title: "Recursion", author: "Blake Crouch", year: 2019, status: "queued", collection: null, sinner: null, color: "#8b5cf6", order: 8, cover: null, published: false },
+  { slug: "the-great-gatsby", title: "The Great Gatsby", author: "F. Scott Fitzgerald", year: 1925, status: "queued", collection: null, sinner: null, color: "#facc15", order: 9, cover: null, published: false },
+  { slug: "the-girl-on-the-shore", title: "The Girl on the Shore", author: "Haruto Ryo", year: null, status: "queued", collection: null, sinner: null, color: "#3b82f6", order: 10, cover: null, published: false },
+  { slug: "a-short-stay-in-hell", title: "A Short Stay in Hell", author: "Steven L. Peck", year: 2012, status: "queued", collection: null, sinner: null, color: "#ea580c", order: 11, cover: null, published: false },
+  { slug: "the-vegetarian", title: "The Vegetarian", author: "Han Kang", year: 2007, status: "queued", collection: null, sinner: null, color: "#16a34a", order: 12, cover: null, published: false },
+  { slug: "1984", title: "1984", author: "George Orwell", year: 1949, status: "queued", collection: null, sinner: null, color: "#525252", order: 13, cover: null, published: false },
+  { slug: "animal-farm", title: "Animal Farm", author: "George Orwell", year: 1945, status: "queued", collection: null, sinner: null, color: "#84cc16", order: 14, cover: null, published: false },
+  { slug: "play-it-as-it-lays", title: "Play It as It Lays", author: "Joan Didion", year: 1970, status: "queued", collection: null, sinner: null, color: "#fb7185", order: 15, cover: null, published: false },
+  { slug: "slaughterhouse-five", title: "Slaughterhouse-Five", author: "Kurt Vonnegut", year: 1969, status: "queued", collection: null, sinner: null, color: "#94a3b8", order: 16, cover: null, published: false },
+  { slug: "cats-cradle", title: "Cat's Cradle", author: "Kurt Vonnegut", year: 1963, status: "queued", collection: null, sinner: null, color: "#f59e0b", order: 17, cover: null, published: false },
+  { slug: "the-bluest-eye", title: "The Bluest Eye", author: "Toni Morrison", year: 1970, status: "queued", collection: null, sinner: null, color: "#2563eb", order: 18, cover: null, published: false },
 ];
 
 // Limbus Company's 14 reference books (Goodreads list order). The first 12
@@ -112,14 +136,17 @@ async function main() {
 
   console.log(`Seeding ${wider.length} wider-library book(s)…`);
   for (const b of wider) {
+    const published = b.published ?? true;
     await sql`
       INSERT INTO books
         (slug, title, author, year_published, cover_url, status, collection,
-         limbus_sinner, limbus_color, display_order, rating, summary, review)
+         limbus_sinner, limbus_color, display_order, rating, summary, review,
+         review_published)
       VALUES
         (${b.slug}, ${b.title}, ${b.author}, ${b.year}, ${b.cover}, ${b.status},
          ${b.collection}, ${b.sinner}, ${b.color}, ${b.order},
-         ${b.rating ?? null}, ${b.summary ?? null}, ${b.review ?? null})
+         ${b.rating ?? null}, ${b.summary ?? null}, ${b.review ?? null},
+         ${published})
       ON CONFLICT (slug) DO UPDATE SET
         title = EXCLUDED.title,
         author = EXCLUDED.author,
@@ -132,6 +159,7 @@ async function main() {
         rating = EXCLUDED.rating,
         summary = EXCLUDED.summary,
         review = EXCLUDED.review,
+        review_published = EXCLUDED.review_published,
         updated_at = NOW()
     `;
   }

@@ -72,6 +72,16 @@ export default async function AdminBooksList({
               <tr
                 key={b.id}
                 className="border-b border-violet-bright/5 transition hover:bg-violet-deep/15"
+                style={
+                  b.review_published === false
+                    ? { filter: "saturate(0.35)", opacity: 0.7 }
+                    : undefined
+                }
+                title={
+                  b.review_published === false
+                    ? "Review is hidden from the public site"
+                    : undefined
+                }
               >
                 <td className="px-4 py-3">
                   <Link
@@ -85,6 +95,11 @@ export default async function AdminBooksList({
                       title="Review written"
                       className="ml-2 inline-block h-1.5 w-1.5 rounded-full bg-violet-glow"
                     />
+                  )}
+                  {b.review_published === false && (
+                    <span className="ml-2 rounded-full border border-ink-muted/30 px-1.5 py-px text-[9px] uppercase tracking-[0.18em] text-ink-muted/70">
+                      Hidden
+                    </span>
                   )}
                 </td>
                 <td className="px-4 py-3 text-ink-muted/85">{b.author}</td>
