@@ -12,13 +12,9 @@ I adopted a vow to pierce into the world of iconic literary fiction, using Limbu
 
 const ABOUT = `## About Me
 
-Hello! I'm Kyle, a student learning to learn. I read fiction. Not because non-fiction is boring. In fact, quite the opposite: reality is profoundly interesting. And yet, I consider myself a reader of fiction. Writers write with the intent to portray a certain story. What's more often missed are the assumptions that unintentionally seep into the work, revealing fascinating angles of society that the author takes for granted. For instance, Camus' essays on "the meaning of life" occur shortly after the world relapsed into war for a second time, likely contributing to his absurdist outlook. Either way, fiction is just as thought-provoking, if not more so, than non-fiction.
+I'm Kyle, and I just recently rediscovered the importance of reading. I'm currently balancing reading with a busy student schedule. I read fiction. Not because non-fiction is boring. In fact, quite the opposite: reality is profoundly interesting. And yet, I am a reader of fiction. What's often missed are the assumptions that unintentionally seep into the work, revealing fascinating angles of society that the author takes for granted. In my opinion, fiction is just as thought-provoking, if not more so, than non-fiction.
 
-My recommendations are made solely in hopes that someone will, in the near or far future, recognize the name of one of these excellent titles for the second time. I am certainly an imperfect reader. I almost never buy a book I have never heard of before. Only through gradual exposure from others does the breadth of what I am willing to read expand.
-
-## Labor of Love
-
-While some reviews or recommendations will look long and hefty, I promise that length is used efficiently on strong thoughts or the personal impact created by that work. While this may not always hold, a reasonable proxy is review length. Because ultimately, the better the book, the more of an impression it will make! Hence, the longer, the better!
+I almost never buy a book I have never heard of before. Therefore, my recommendations are made solely in hopes that you will, in the near or far future, recognize the name of one of these excellent titles for the second time. I am certainly an imperfect reader. Only through gradual exposure does the breadth of what I am willing to read expand.
 
 I might also invite guests to write reviews for Sunday's Shelf. Who knows! Please respect everyone's privacy and opinions.`;
 
