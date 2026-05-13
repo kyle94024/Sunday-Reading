@@ -122,14 +122,16 @@ async function main() {
       INSERT INTO books (slug, title, author, year_published, cover_url, status, collection, limbus_sinner, limbus_color, display_order)
       VALUES (${b.slug}, ${b.title}, ${b.author}, ${b.year}, ${b.cover}, ${b.status}, ${b.collection}, ${b.sinner}, ${b.color}, ${b.order})
       ON CONFLICT (slug) DO UPDATE SET
+        -- Structural metadata always refreshes from the seed.
         title = EXCLUDED.title,
         author = EXCLUDED.author,
         year_published = EXCLUDED.year_published,
-        status = EXCLUDED.status,
         collection = EXCLUDED.collection,
         limbus_sinner = EXCLUDED.limbus_sinner,
         limbus_color = EXCLUDED.limbus_color,
         display_order = EXCLUDED.display_order,
+        -- Editable: status only re-syncs while still queued.
+        status = CASE WHEN books.status = 'queued' THEN EXCLUDED.status ELSE books.status END,
         updated_at = NOW()
     `;
   }
@@ -148,18 +150,22 @@ async function main() {
          ${b.rating ?? null}, ${b.summary ?? null}, ${b.review ?? null},
          ${published})
       ON CONFLICT (slug) DO UPDATE SET
+        -- Structural metadata always refreshes from the seed file.
         title = EXCLUDED.title,
         author = EXCLUDED.author,
         year_published = EXCLUDED.year_published,
-        status = EXCLUDED.status,
         collection = EXCLUDED.collection,
         limbus_sinner = EXCLUDED.limbus_sinner,
         limbus_color = EXCLUDED.limbus_color,
         display_order = EXCLUDED.display_order,
-        rating = EXCLUDED.rating,
-        summary = EXCLUDED.summary,
-        review = EXCLUDED.review,
-        review_published = EXCLUDED.review_published,
+        -- Editable fields (status, rating, summary, review, publish toggle)
+        -- are preserved if the admin has already touched them. The seed
+        -- only fills them in when they're still null/default.
+        status = CASE WHEN books.status = 'queued' THEN EXCLUDED.status ELSE books.status END,
+        rating = COALESCE(books.rating, EXCLUDED.rating),
+        summary = COALESCE(books.summary, EXCLUDED.summary),
+        review = COALESCE(books.review, EXCLUDED.review),
+        review_published = books.review_published,
         updated_at = NOW()
     `;
   }
