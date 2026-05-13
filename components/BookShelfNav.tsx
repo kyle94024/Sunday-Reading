@@ -231,11 +231,14 @@ function BookSpine({
   onClick: () => void;
   onLight?: boolean;
 }) {
-  // Pivot at bottom-center so books rotate about the shelf line.
+  // Hover state lives on the OUTER (static) button, so the tilt of the
+  // inner motion.div can't move the hitbox out from under the mouse.
+  const [hovered, setHovered] = useState(false);
+
   const restState = active
     ? { rotate: -6, y: -3, opacity: 1 }
     : { rotate: 0, y: 0, opacity: 1 };
-
+  const hoverState = { rotate: -22, y: -6, opacity: 1 };
   const fallenState = {
     rotate: 108,
     y: 320,
@@ -243,72 +246,90 @@ function BookSpine({
     transition: { duration: FALL_MS / 1000, ease: [0.45, 0, 0.85, 1] as const },
   };
 
+  const target = falling
+    ? fallenState
+    : hovered && !disabled
+    ? hoverState
+    : restState;
+
   return (
-    <motion.button
+    <button
       type="button"
       onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onFocus={() => setHovered(true)}
+      onBlur={() => setHovered(false)}
       disabled={disabled}
       aria-label={`Go to ${book.label}`}
-      whileHover={!falling && !disabled ? { rotate: -22, y: -6 } : {}}
-      animate={falling ? fallenState : restState}
-      transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
-      style={{
-        transformOrigin: "50% 100%",
-        height: book.h,
-        width: 32,
-        borderColor: `${book.accent}99`,
-        background: `linear-gradient(180deg, ${book.accent}1a 0%, ${book.accent}08 60%, transparent 100%)`,
-        zIndex: falling ? 10 : 1,
-        boxShadow: active
-          ? `0 6px 18px -6px ${book.accent}aa, inset 0 0 0 1px ${book.accent}22`
-          : undefined,
-      }}
-      className="group/spine relative shrink-0 cursor-pointer rounded-[3px] border backdrop-blur-sm transition-shadow disabled:cursor-default hover:shadow-[0_10px_28px_-4px_rgba(168,85,247,0.45)]"
+      className="group/spine relative shrink-0 cursor-pointer border-0 bg-transparent p-0 disabled:cursor-default"
+      style={{ width: 32, height: book.h, zIndex: falling ? 10 : 1 }}
     >
-      {/* page-edge line (right inside) */}
-      <span
+      {/* The visible book — does not capture pointer events, so its tilt
+          can't pull the hitbox around. The hitbox is the static button
+          wrapping it. */}
+      <motion.div
         aria-hidden
-        className="pointer-events-none absolute inset-y-1.5 right-1 w-px"
-        style={{ background: `${book.accent}55` }}
-      />
-      {/* top/bottom decorative bands */}
-      <span
-        aria-hidden
-        className="pointer-events-none absolute inset-x-1 top-1.5 h-px"
-        style={{ background: `${book.accent}aa` }}
-      />
-      <span
-        aria-hidden
-        className="pointer-events-none absolute inset-x-1 bottom-1.5 h-px"
-        style={{ background: `${book.accent}aa` }}
-      />
-      {/* vertical label */}
-      <span
-        className="pointer-events-none absolute inset-0 flex items-center justify-center font-sans text-[13px] font-semibold uppercase tracking-[0.16em]"
+        animate={target}
+        transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
         style={{
-          writingMode: "vertical-rl",
-          textOrientation: "mixed",
-          color: onLight
-            ? active
-              ? "#0c0418"
-              : "rgba(26, 10, 58, 0.85)"
-            : active
-            ? "#fff"
-            : "rgba(245, 243, 255, 0.9)",
-          textShadow: onLight ? "none" : "0 1px 2px rgba(0,0,0,0.5)",
+          transformOrigin: "50% 100%",
+          width: "100%",
+          height: "100%",
+          borderColor: `${book.accent}99`,
+          background: `linear-gradient(180deg, ${book.accent}1a 0%, ${book.accent}08 60%, transparent 100%)`,
+          boxShadow: active
+            ? `0 6px 18px -6px ${book.accent}aa, inset 0 0 0 1px ${book.accent}22`
+            : undefined,
+          pointerEvents: "none",
         }}
+        className="pointer-events-none relative rounded-[3px] border backdrop-blur-sm transition-shadow group-hover/spine:shadow-[0_10px_28px_-4px_rgba(168,85,247,0.45)]"
       >
-        {book.label}
-      </span>
-      {/* glow on hover */}
-      <span
-        aria-hidden
-        className="pointer-events-none absolute -inset-1 rounded-md opacity-0 transition-opacity duration-500 group-hover/spine:opacity-100"
-        style={{
-          background: `radial-gradient(60% 60% at 50% 50%, ${book.accent}33, transparent 70%)`,
-          filter: "blur(8px)",
-        }}
-      />
-    </motion.button>
+        {/* page-edge line (right inside) */}
+        <span
+          aria-hidden
+          className="absolute inset-y-1.5 right-1 w-px"
+          style={{ background: `${book.accent}55` }}
+        />
+        {/* top/bottom decorative bands */}
+        <span
+          aria-hidden
+          className="absolute inset-x-1 top-1.5 h-px"
+          style={{ background: `${book.accent}aa` }}
+        />
+        <span
+          aria-hidden
+          className="absolute inset-x-1 bottom-1.5 h-px"
+          style={{ background: `${book.accent}aa` }}
+        />
+        {/* vertical label */}
+        <span
+          className="absolute inset-0 flex items-center justify-center font-sans text-[13px] font-semibold uppercase tracking-[0.16em]"
+          style={{
+            writingMode: "vertical-rl",
+            textOrientation: "mixed",
+            color: onLight
+              ? active
+                ? "#0c0418"
+                : "rgba(26, 10, 58, 0.85)"
+              : active
+              ? "#fff"
+              : "rgba(245, 243, 255, 0.9)",
+            textShadow: onLight ? "none" : "0 1px 2px rgba(0,0,0,0.5)",
+          }}
+        >
+          {book.label}
+        </span>
+        {/* glow on hover */}
+        <span
+          aria-hidden
+          className="absolute -inset-1 rounded-md opacity-0 transition-opacity duration-500 group-hover/spine:opacity-100"
+          style={{
+            background: `radial-gradient(60% 60% at 50% 50%, ${book.accent}33, transparent 70%)`,
+            filter: "blur(8px)",
+          }}
+        />
+      </motion.div>
+    </button>
   );
 }
