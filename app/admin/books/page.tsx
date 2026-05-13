@@ -25,12 +25,23 @@ export default async function AdminBooksList({
   if (!(await isLoggedIn())) redirect("/admin/login");
   const { filter } = await searchParams;
   const all = await getAllBooks();
-  const books =
+  const filtered =
     filter === "limbus"
       ? all.filter((b) => b.collection === "limbus")
       : filter === "other"
       ? all.filter((b) => b.collection !== "limbus")
       : all;
+  // Published books first; hidden books drop to the bottom. Within each
+  // group preserve the existing display_order / id ordering coming from
+  // getAllBooks().
+  const books = [...filtered].sort((a, b) => {
+    const aHidden = a.review_published === false ? 1 : 0;
+    const bHidden = b.review_published === false ? 1 : 0;
+    if (aHidden !== bHidden) return aHidden - bHidden;
+    return (
+      (a.display_order ?? 0) - (b.display_order ?? 0) || a.id - b.id
+    );
+  });
 
   return (
     <div className="space-y-6">
