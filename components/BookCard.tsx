@@ -250,7 +250,7 @@ export function BookCard({
         }}
       >
         <div
-          className="min-h-[200px] rounded-lg border-t px-1 pt-7 font-serif text-[1.05rem] font-medium leading-[1.85] text-ink sm:px-2 sm:text-[1.1rem] [&_p]:mb-4 [&_em]:italic [&_strong]:font-semibold"
+          className="min-h-[200px] rounded-lg border-t px-1 pt-7 font-sans text-[1rem] font-medium leading-[1.7] text-ink sm:px-2 sm:text-[1.05rem] [&_p]:mb-5 [&_em]:italic [&_strong]:font-semibold"
           style={{
             borderColor: `${accent}30`,
             background: `linear-gradient(180deg, ${accent}08, transparent 80%)`,
@@ -271,7 +271,7 @@ export function BookCard({
                 />
                 Summary
               </div>
-              <p className="font-serif text-[1rem] font-medium italic leading-[1.7] text-ink sm:text-[1.05rem]">
+              <p className="font-serif text-[1.02rem] font-semibold leading-[1.7] text-ink sm:text-[1.08rem]">
                 {book.summary}
               </p>
             </div>
