@@ -87,6 +87,21 @@ const wider: Seed[] = [
   { slug: "slaughterhouse-five", title: "Slaughterhouse-Five", author: "Kurt Vonnegut", year: 1969, status: "queued", collection: null, sinner: null, color: "#94a3b8", order: 16, cover: null, published: false },
   { slug: "cats-cradle", title: "Cat's Cradle", author: "Kurt Vonnegut", year: 1963, status: "queued", collection: null, sinner: null, color: "#f59e0b", order: 17, cover: null, published: false },
   { slug: "the-bluest-eye", title: "The Bluest Eye", author: "Toni Morrison", year: 1970, status: "queued", collection: null, sinner: null, color: "#2563eb", order: 18, cover: null, published: false },
+  {
+    slug: "the-bell-jar",
+    title: "The Bell Jar",
+    author: "Sylvia Plath",
+    year: 1963,
+    status: "queued",
+    collection: null,
+    sinner: null,
+    color: "#581c87",
+    order: 19,
+    cover: null,
+    published: false,
+    summary:
+      "The Bell Jar was published just one month before author Sylvia Plath, suffering a depressive episode, thrust her head inside a gas oven and committed suicide. With inspiration from her own mental health struggles, *The Bell Jar* chronicles the crack-up of Esther Greenwood: brilliant, beautiful, enormously talented, and successful, but slowly going under—maybe for the last time. Sylvia Plath masterfully draws the reader into Esther's breakdown with such intensity that Esther's insanity becomes disturbingly real. Such deep penetration into the dark and harrowing corners of the psyche is an extraordinary accomplishment and has made *The Bell Jar* a haunting American classic.",
+  },
 ];
 
 // Limbus Company's 14 reference books (Goodreads list order). The first 12
