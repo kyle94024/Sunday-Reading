@@ -6,6 +6,7 @@ import { Fragment, useMemo, useState, type ReactNode } from "react";
 
 type Embed = {
   marker: string; // hash href, e.g. "#tpov"
+  phrase: string; // matched against italicized text
   title: string;
   subtitle: string;
   spotifyEmbedUrl: string;
@@ -16,6 +17,7 @@ type Embed = {
 const EMBEDS: Embed[] = [
   {
     marker: "#lor",
+    phrase: "Library of Ruina",
     title: "Library of Ruina · Original Soundtrack",
     subtitle: "Mili",
     spotifyEmbedUrl:
@@ -26,6 +28,7 @@ const EMBEDS: Embed[] = [
   },
   {
     marker: "#tpov",
+    phrase: "Through Patches of Violet",
     title: "Through Patches of Violet",
     subtitle: "Mili",
     spotifyEmbedUrl:
@@ -34,6 +37,22 @@ const EMBEDS: Embed[] = [
     externalLabel: "YouTube ↗",
   },
 ];
+
+// Ensure any italicized phrase that matches an embed (e.g. *Library of Ruina*)
+// gets the magic hash href so the link renderer picks it up. Plain external
+// links and existing #marker links are left alone.
+function escapeRegex(s: string) {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+function injectEmbedLinks(text: string): string {
+  let out = text;
+  for (const e of EMBEDS) {
+    // Match *phrase* NOT already followed by ](  (i.e. not already a link).
+    const re = new RegExp(`\\*${escapeRegex(e.phrase)}\\*(?!\\])`, "g");
+    out = out.replace(re, `[*${e.phrase}*](${e.marker})`);
+  }
+  return out;
+}
 
 function Player({ embed }: { embed: Embed }) {
   return (
@@ -71,7 +90,10 @@ export function Intro({ text }: { text: string }) {
   // One toggle per embed marker, keyed by marker.
   const [openMap, setOpenMap] = useState<Record<string, boolean>>({});
 
-  const paragraphs = useMemo(() => text.split(/\n\n+/), [text]);
+  const paragraphs = useMemo(
+    () => injectEmbedLinks(text).split(/\n\n+/),
+    [text]
+  );
 
   const toggle = (marker: string) =>
     setOpenMap((m) => ({ ...m, [marker]: !m[marker] }));

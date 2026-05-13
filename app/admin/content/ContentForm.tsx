@@ -74,7 +74,7 @@ export function ContentForm({ initial: data }: { initial: Initial }) {
           setValue={setIntro}
           preview={introPreview}
           togglePreview={() => setIntroPreview((p) => !p)}
-          hint="Supports markdown. External links open in new tab. Use `[Through Patches of Violet](#tpov)` for the Spotify toggle."
+          hint="Supports markdown. External links open in new tab. The phrases *Library of Ruina* and *Through Patches of Violet* automatically become Spotify embeds when italicized (no special link syntax needed)."
         />
 
         <MarkdownPanel
