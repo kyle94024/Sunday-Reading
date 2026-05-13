@@ -72,27 +72,21 @@ export function AboutContent({
             Kyle
           </h1>
           <p className="mt-2 text-[11px] uppercase tracking-[0.4em] text-violet-deep/85">
-            Student · Reader of fiction
+            Fiction Aficionado
           </p>
           <div className="mt-5 h-px w-20 bg-gradient-to-r from-violet-deep/60 to-transparent" />
           <dl className="mt-5 space-y-3 text-sm font-serif text-violet-deep">
             <div>
               <dt className="font-mono text-[10px] uppercase tracking-[0.3em] text-violet-deep/75">
-                Reading
+                Currently Reading
               </dt>
-              <dd>fiction, mostly</dd>
+              <dd>1950s and beyond</dd>
             </div>
             <div>
               <dt className="font-mono text-[10px] uppercase tracking-[0.3em] text-violet-deep/75">
-                Currently
+                Started Reviewing
               </dt>
-              <dd>working through Limbus</dd>
-            </div>
-            <div>
-              <dt className="font-mono text-[10px] uppercase tracking-[0.3em] text-violet-deep/75">
-                Started
-              </dt>
-              <dd>school year, 2025</dd>
+              <dd>May 2026</dd>
             </div>
           </dl>
         </motion.aside>
