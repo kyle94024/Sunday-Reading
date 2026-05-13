@@ -18,6 +18,29 @@ const SHELF: ShelfBook[] = [
   { href: "/about", label: "About", h: 96, accent: "#ec4899" },
 ];
 
+// Wipe palette per destination — roughly matches the page we're heading to.
+type WipeTheme = { gradient: string; edge: string; edgeShadow: string };
+const WIPE_THEMES: Record<string, WipeTheme> = {
+  "/": {
+    gradient: "linear-gradient(180deg, #1d0b3a 0%, #07030f 60%, #1d0b3a 100%)",
+    edge: "rgba(192, 132, 252, 0.7)",
+    edgeShadow: "0 0 18px rgba(192, 132, 252, 0.7)",
+  },
+  "/limbus": {
+    gradient: "linear-gradient(180deg, #3a0a0f 0%, #1a0508 60%, #2a070d 100%)",
+    edge: "rgba(248, 113, 113, 0.75)",
+    edgeShadow: "0 0 18px rgba(248, 113, 113, 0.7)",
+  },
+  "/about": {
+    gradient: "linear-gradient(180deg, #b8a3e3 0%, #9d85c9 60%, #c4b5fd 100%)",
+    edge: "rgba(124, 58, 237, 0.7)",
+    edgeShadow: "0 0 18px rgba(168, 85, 247, 0.6)",
+  },
+};
+function themeFor(href: string | null): WipeTheme {
+  return (href && WIPE_THEMES[href]) || WIPE_THEMES["/"];
+}
+
 const FALL_MS = 320;
 const WIPE_UP_MS = 220;
 const HOLD_AFTER_PUSH_MS = 120;
@@ -126,13 +149,19 @@ export function BookShelfNav() {
               },
             }}
             className="pointer-events-none fixed inset-0 z-[200]"
-            style={{
-              background:
-                "linear-gradient(180deg, #1d0b3a 0%, #07030f 60%, #1d0b3a 100%)",
-            }}
+            style={{ background: themeFor(falling).gradient }}
           >
-            <span className="absolute inset-x-0 top-0 h-px bg-violet-bright/70 shadow-[0_0_18px_rgba(192,132,252,0.7)]" />
-            <span className="absolute inset-x-0 bottom-0 h-px bg-violet-bright/40" />
+            <span
+              className="absolute inset-x-0 top-0 h-px"
+              style={{
+                background: themeFor(falling).edge,
+                boxShadow: themeFor(falling).edgeShadow,
+              }}
+            />
+            <span
+              className="absolute inset-x-0 bottom-0 h-px"
+              style={{ background: themeFor(falling).edge, opacity: 0.55 }}
+            />
           </motion.div>
         )}
       </AnimatePresence>
