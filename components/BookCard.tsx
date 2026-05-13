@@ -271,9 +271,9 @@ export function BookCard({
                 />
                 Summary
               </div>
-              <p className="font-serif text-[1.02rem] font-semibold leading-[1.7] text-ink sm:text-[1.08rem]">
-                {book.summary}
-              </p>
+              <div className="font-serif text-[1.02rem] font-semibold leading-[1.7] text-ink sm:text-[1.08rem] [&>:first-child]:mt-0 [&_p]:mb-3 [&_em]:italic [&_strong]:font-bold">
+                <ReactMarkdown>{book.summary}</ReactMarkdown>
+              </div>
             </div>
           )}
           {hasReview ? (
