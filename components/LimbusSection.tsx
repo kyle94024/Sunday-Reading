@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "motion/react";
+import { LayoutGroup, motion } from "motion/react";
 import type { Book } from "@/lib/db";
 import { BookCard } from "./BookCard";
 import { TrainGlyph } from "./TrainGlyph";
@@ -50,11 +50,13 @@ export function LimbusSection({ books }: { books: Book[] }) {
           </h2>
         </motion.div>
 
-        <div className="book-grid grid grid-cols-1 gap-5 sm:grid-cols-2">
-          {books.map((b, i) => (
-            <BookCard key={b.id} book={b} index={i} variant="limbus" />
-          ))}
-        </div>
+        <LayoutGroup>
+          <div className="book-grid grid grid-cols-1 gap-5 sm:grid-cols-2">
+            {books.map((b, i) => (
+              <BookCard key={b.id} book={b} index={i} variant="limbus" />
+            ))}
+          </div>
+        </LayoutGroup>
       </div>
     </section>
   );

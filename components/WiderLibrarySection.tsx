@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "motion/react";
+import { LayoutGroup, motion } from "motion/react";
 import type { Book } from "@/lib/db";
 import { BookCard } from "./BookCard";
 
@@ -25,11 +25,13 @@ export function WiderLibrarySection({ books }: { books: Book[] }) {
           </p>
         </div>
       ) : (
-        <div className="book-grid grid grid-cols-1 gap-5 sm:grid-cols-2">
-          {books.map((b, i) => (
-            <BookCard key={b.id} book={b} index={i} />
-          ))}
-        </div>
+        <LayoutGroup>
+          <div className="book-grid grid grid-cols-1 gap-5 sm:grid-cols-2">
+            {books.map((b, i) => (
+              <BookCard key={b.id} book={b} index={i} />
+            ))}
+          </div>
+        </LayoutGroup>
       )}
     </section>
   );

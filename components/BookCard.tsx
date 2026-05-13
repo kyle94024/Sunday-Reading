@@ -52,7 +52,7 @@ export function BookCard({
       initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{
-        layout: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+        layout: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
         opacity: {
           duration: 0.45,
           ease: [0.22, 1, 0.36, 1],
@@ -74,7 +74,7 @@ export function BookCard({
           setOpen((o) => !o);
         }
       }}
-      className={`group relative flex cursor-pointer flex-col overflow-hidden rounded-xl transition-all duration-500 ${
+      className={`group relative flex cursor-pointer flex-col overflow-hidden rounded-xl transition-[padding,background,box-shadow,border-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
         isLimbus ? "glass-crimson" : "glass"
       } hover:-translate-y-0.5 ${open ? "p-6 sm:col-span-2 sm:p-7" : "p-3.5 sm:p-4"}`}
       style={{
