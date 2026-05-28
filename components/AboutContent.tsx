@@ -4,6 +4,41 @@ import { motion } from "motion/react";
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import { useState } from "react";
+import { RATING_LEVELS, RatingStar } from "./RatingPips";
+
+function RatingLegend() {
+  return (
+    <div className="mt-7">
+      <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-violet-deep/75">
+        How I rate
+      </div>
+      <ul className="mt-3 space-y-2">
+        {RATING_LEVELS.map((lvl) => (
+          <li key={lvl.label} className="flex items-center gap-3">
+            <span
+              className="h-3 w-3 shrink-0 rounded-full"
+              style={{
+                background: lvl.gradient ?? lvl.color,
+                boxShadow: lvl.glow,
+              }}
+            />
+            <span className="font-serif text-sm text-violet-deep">
+              {lvl.label}
+            </span>
+          </li>
+        ))}
+        <li className="flex items-center gap-3 border-t border-violet-deep/15 pt-2">
+          <span className="flex h-3.5 w-3.5 shrink-0 items-center justify-center">
+            <RatingStar fill={1} size={15} />
+          </span>
+          <span className="font-serif text-sm italic text-violet-deep/85">
+            and, rarely, beyond
+          </span>
+        </li>
+      </ul>
+    </div>
+  );
+}
 
 export function AboutContent({
   text,
@@ -89,6 +124,8 @@ export function AboutContent({
               <dd>May 2026</dd>
             </div>
           </dl>
+
+          <RatingLegend />
         </motion.aside>
 
         {/* Body column */}

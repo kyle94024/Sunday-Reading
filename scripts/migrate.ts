@@ -53,6 +53,7 @@ async function main() {
   await sql`ALTER TABLE books ADD COLUMN IF NOT EXISTS reviewer_name TEXT`;
   await sql`ALTER TABLE books ADD COLUMN IF NOT EXISTS review_published BOOLEAN NOT NULL DEFAULT TRUE`;
   await sql`ALTER TABLE books ADD COLUMN IF NOT EXISTS summary TEXT`;
+  await sql`ALTER TABLE books ADD COLUMN IF NOT EXISTS show_star BOOLEAN NOT NULL DEFAULT FALSE`;
 
   console.log("Done.");
 }

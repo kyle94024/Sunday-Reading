@@ -26,6 +26,7 @@ export type Book = {
   reviewer_name: string | null;
   review_published: boolean;
   summary: string | null;
+  show_star: boolean;
 };
 
 export async function getAllBooks(): Promise<Book[]> {
@@ -33,7 +34,7 @@ export async function getAllBooks(): Promise<Book[]> {
     SELECT id, slug, title, author, year_published, cover_url, review,
            rating, status, collection, limbus_sinner, limbus_color,
            date_read::text, display_order, reviewer_name, review_published,
-           summary
+           summary, show_star
     FROM books
     ORDER BY display_order ASC, id ASC
   `) as Book[];
@@ -45,7 +46,7 @@ export async function getBookBySlug(slug: string): Promise<Book | null> {
     SELECT id, slug, title, author, year_published, cover_url, review,
            rating, status, collection, limbus_sinner, limbus_color,
            date_read::text, display_order, reviewer_name, review_published,
-           summary
+           summary, show_star
     FROM books WHERE slug = ${slug} LIMIT 1
   `) as Book[];
   return rows[0] ?? null;

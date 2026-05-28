@@ -45,6 +45,9 @@ export function BookCard({
     !!book.review &&
     book.review.trim().length > 0 &&
     book.review_published === false;
+  const ratingNum = book.rating != null ? Number(book.rating) : null;
+  // Beyond the five-dot scale — an exceptional pick.
+  const isExceptional = ratingNum != null && ratingNum >= 5.1;
 
   return (
     <motion.article
@@ -79,7 +82,11 @@ export function BookCard({
       } hover:-translate-y-0.5 ${open ? "p-6 sm:col-span-2 sm:p-7" : "p-3.5 sm:p-4"}`}
       style={{
         boxShadow: open
-          ? `0 24px 80px -30px ${accent}80, inset 0 0 0 1px ${accent}50`
+          ? `0 24px 80px -30px ${accent}80, inset 0 0 0 1px ${accent}50${
+              isExceptional ? ", 0 0 40px -8px rgba(251,191,36,0.45)" : ""
+            }`
+          : isExceptional
+          ? "0 0 26px -10px rgba(251,191,36,0.55), inset 0 0 0 1px rgba(251,191,36,0.22)"
           : undefined,
         // When expanded, layer a darker tint over the glass so the
         // review prose reads cleanly against the nebula behind.
@@ -90,6 +97,22 @@ export function BookCard({
           : undefined,
       }}
     >
+      {/* Exceptional (rating beyond the five dots) gets a gold star placard. */}
+      {isExceptional && (
+        <span
+          aria-hidden
+          className="pointer-events-none absolute right-2.5 top-2.5 z-10 inline-flex h-6 w-6 items-center justify-center rounded-full"
+          style={{
+            background:
+              "radial-gradient(circle at 35% 30%, rgba(254,243,199,0.95), rgba(251,191,36,0.85) 55%, rgba(217,119,6,0.7) 100%)",
+            boxShadow: "0 0 12px -1px rgba(251,191,36,0.8)",
+          }}
+        >
+          <span style={{ color: "#5c3a00", fontSize: "13px", lineHeight: 1 }}>
+            ★
+          </span>
+        </span>
+      )}
       <div
         className={`flex flex-row gap-4 transition-all duration-500 ${
           open ? "items-start sm:gap-7" : "items-center sm:gap-5"
@@ -188,7 +211,10 @@ export function BookCard({
               transition={{ delay: 0.15 }}
               className="mt-4"
             >
-              <RatingPips rating={Number(book.rating)} accent={accent} />
+              <RatingPips
+                rating={Number(book.rating)}
+                showStar={book.show_star === true}
+              />
             </motion.div>
           )}
 

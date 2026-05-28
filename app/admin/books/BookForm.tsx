@@ -49,6 +49,7 @@ export function BookForm({ book }: { book?: Book }) {
   const [publishReview, setPublishReview] = useState(
     book?.review_published ?? true
   );
+  const [showStar, setShowStar] = useState(book?.show_star ?? false);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -179,12 +180,12 @@ export function BookForm({ book }: { book?: Book }) {
             </select>
           </label>
           <label className="field">
-            <span className="label">rating (0–5)</span>
+            <span className="label">rating</span>
             <input
               type="number"
               step="0.1"
               min="0"
-              max="5"
+              max="6"
               name="rating"
               defaultValue={book?.rating ?? ""}
               placeholder="e.g. 4.8"
@@ -274,7 +275,7 @@ export function BookForm({ book }: { book?: Book }) {
           </label>
         </div>
 
-        <div className="panel space-y-3 p-4">
+        <div className="panel space-y-4 p-4">
           <label className="flex cursor-pointer items-center gap-3">
             <input
               type="checkbox"
@@ -291,6 +292,26 @@ export function BookForm({ book }: { book?: Book }) {
                 Uncheck to keep this as a draft. Draft text is still saved on
                 every save — the public site just shows a placeholder until you
                 check this box.
+              </div>
+            </div>
+          </label>
+          <label className="flex cursor-pointer items-center gap-3 border-t border-violet-bright/10 pt-4">
+            <input
+              type="checkbox"
+              name="show_star"
+              checked={showStar}
+              onChange={(e) => setShowStar(e.target.checked)}
+              className="!h-4 !w-4 cursor-pointer"
+              style={{ accentColor: "#fbbf24" }}
+            />
+            <div>
+              <div className="flex items-center gap-1.5 text-sm font-medium text-ink">
+                <span style={{ color: "#fbbf24" }}>★</span> Show the sixth star
+              </div>
+              <div className="text-[12px] text-ink-muted/70">
+                Adds the gold star beyond the five dots. The star fills from the
+                rating above 5 — pair it with a higher rating for an
+                exceptional pick.
               </div>
             </div>
           </label>

@@ -19,7 +19,7 @@ export default async function EditBookPage({
     SELECT id, slug, title, author, year_published, cover_url, review,
            rating, status, collection, limbus_sinner, limbus_color,
            date_read::text, display_order, reviewer_name, review_published,
-           summary
+           summary, show_star
     FROM books WHERE id = ${numId} LIMIT 1
   `) as Book[];
   const book = rows[0];
