@@ -2,7 +2,7 @@
 
 import { useId } from "react";
 
-type Props = { rating: number | null; showStar?: boolean };
+type Props = { rating: number | null; accent?: string; showStar?: boolean };
 
 // The five-level scale. Index 0 = 1st dot (Bad) … index 4 = 5th dot (Amazing).
 export const RATING_LEVELS: {
@@ -70,7 +70,11 @@ export function RatingStar({
   );
 }
 
-export function RatingPips({ rating, showStar = false }: Props) {
+// On book cards the dots stay a single accent colour (the book's theme).
+// The meaningful per-level colour scale only appears in the About-page
+// legend (which maps over RATING_LEVELS directly). The gold star is the
+// one exception — it's always gold, on cards too.
+export function RatingPips({ rating, accent = "#c084fc", showStar = false }: Props) {
   if (rating == null) return null;
   const showNumber = rating <= 5;
   return (
@@ -78,19 +82,19 @@ export function RatingPips({ rating, showStar = false }: Props) {
       className="flex items-center gap-1.5"
       aria-label={`Rating: ${rating.toFixed(1)}`}
     >
-      {RATING_LEVELS.map((lvl, i) => {
+      {Array.from({ length: 5 }).map((_, i) => {
         const fill = clamp01(rating - i);
         return (
           <span key={i} className="relative h-3 w-3">
             <span
               className="absolute inset-0 rounded-full border"
-              style={{ borderColor: `${lvl.color}55` }}
+              style={{ borderColor: `${accent}55` }}
             />
             <span
               className="absolute inset-0 rounded-full transition-[clip-path] duration-500"
               style={{
-                background: lvl.gradient ?? lvl.color,
-                boxShadow: fill > 0 ? lvl.glow : "none",
+                background: accent,
+                boxShadow: fill > 0 ? `0 0 8px ${accent}99` : "none",
                 clipPath: `inset(0 ${(1 - fill) * 100}% 0 0)`,
               }}
             />

@@ -213,6 +213,7 @@ export function BookCard({
             >
               <RatingPips
                 rating={Number(book.rating)}
+                accent={accent}
                 showStar={book.show_star === true}
               />
             </motion.div>
