@@ -7,16 +7,18 @@ type Props = { rating: number | null; accent?: string; showStar?: boolean };
 // The five-level scale. Index 0 = 1st dot (Bad) … index 4 = 5th dot (Amazing).
 export const RATING_LEVELS: {
   label: string;
+  range: string;
   color: string; // solid base colour (the "Amazing" level is drawn as a gradient)
   gradient?: string;
   glow: string;
 }[] = [
-  { label: "Bad", color: "#f87171", glow: "0 0 8px #f8717199" },
-  { label: "Decent", color: "#fb923c", glow: "0 0 8px #fb923c99" },
-  { label: "Good", color: "#facc15", glow: "0 0 8px #facc1599" },
-  { label: "Great", color: "#4ade80", glow: "0 0 8px #4ade8099" },
+  { label: "Bad", range: "0.0 – 0.9", color: "#f87171", glow: "0 0 8px #f8717199" },
+  { label: "Decent", range: "1.0 – 1.9", color: "#fb923c", glow: "0 0 8px #fb923c99" },
+  { label: "Good", range: "2.0 – 2.9", color: "#facc15", glow: "0 0 8px #facc1599" },
+  { label: "Great", range: "3.0 – 3.9", color: "#4ade80", glow: "0 0 8px #4ade8099" },
   {
     label: "Amazing",
+    range: "4.0 – 5.0",
     color: "#d946ef",
     gradient:
       "radial-gradient(circle at 32% 28%, #93c5fd 0%, #d946ef 46%, #a21caf 100%)",

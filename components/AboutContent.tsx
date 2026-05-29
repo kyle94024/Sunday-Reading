@@ -25,6 +25,9 @@ function RatingLegend() {
             <span className="font-serif text-sm text-violet-deep">
               {lvl.label}
             </span>
+            <span className="ml-auto font-mono text-[10px] tracking-wider text-violet-deep/65">
+              {lvl.range}
+            </span>
           </li>
         ))}
         <li className="flex items-center gap-3 border-t border-violet-deep/15 pt-2">
@@ -33,6 +36,9 @@ function RatingLegend() {
           </span>
           <span className="font-serif text-sm italic text-violet-deep/85">
             and, rarely, beyond
+          </span>
+          <span className="ml-auto font-mono text-[10px] tracking-wider text-violet-deep/65">
+            5.0+
           </span>
         </li>
       </ul>
