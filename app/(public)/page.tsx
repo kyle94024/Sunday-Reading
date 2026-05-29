@@ -12,9 +12,14 @@ export default async function HomePage() {
     getSiteContentMap(),
   ]);
 
-  const otherBooks = books.filter(
-    (b) => b.collection !== "limbus" && b.review_published !== false
-  );
+  // "All book reviews": every published book outside Limbus, PLUS Limbus
+  // books that have an actual written review. Limbus books without a
+  // review stay scoped to the /limbus shelf.
+  const otherBooks = books.filter((b) => {
+    if (b.review_published === false) return false;
+    if (b.collection !== "limbus") return true;
+    return !!b.review && b.review.trim().length > 0;
+  });
 
   return (
     <>
