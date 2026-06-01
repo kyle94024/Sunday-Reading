@@ -77,9 +77,13 @@ export function BookCard({
           setOpen((o) => !o);
         }
       }}
-      className={`group relative flex cursor-pointer flex-col overflow-hidden rounded-xl transition-[padding,background,box-shadow,border-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+      className={`group relative flex cursor-pointer flex-col overflow-hidden rounded-lg transition-[padding,background,box-shadow,border-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
         isLimbus ? "glass-crimson" : "glass"
-      } hover:-translate-y-0.5 ${open ? "p-6 sm:col-span-2 sm:p-7" : "p-3.5 sm:p-4"}`}
+      } hover:-translate-y-0.5 ${
+        open
+          ? "p-6 sm:col-span-2 sm:order-first sm:p-7"
+          : "p-3.5 sm:p-4"
+      }`}
       style={{
         boxShadow: open
           ? `0 24px 80px -30px ${accent}80, inset 0 0 0 1px ${accent}50${
@@ -137,33 +141,34 @@ export function BookCard({
 
         <div className="flex min-w-0 flex-1 flex-col">
           <div
-            className={`flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.28em] text-ink-muted/70 transition-all duration-500 ${
+            className={`flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.28em] text-ink-muted/85 transition-all duration-500 ${
               open ? "" : "text-[9px]"
             }`}
           >
             <span
-              className={`rounded-full border ${
-                open ? "px-2 py-0.5" : "px-1.5 py-px"
+              className={`inline-flex items-center justify-center rounded-full border leading-none ${
+                open ? "h-[22px] px-2.5 pt-px" : "h-[17px] px-2 pt-px"
               }`}
               style={{
-                borderColor: `${accent}66`,
+                borderColor: `${accent}80`,
                 color: `${accent}`,
-                background: `${accent}10`,
+                background: `${accent}1a`,
+                textIndent: "0.28em",
               }}
             >
               {STATUS_LABEL[book.status]}
             </span>
             {book.reviewer_name && (
               <span
-                className={`inline-flex items-center gap-1 rounded-full border tracking-[0.32em] ${
-                  open ? "px-2 py-0.5" : "px-1.5 py-px"
+                className={`inline-flex items-center gap-1 rounded-full border leading-none tracking-[0.32em] ${
+                  open ? "h-[22px] px-2.5 pt-px" : "h-[17px] px-2 pt-px"
                 }`}
                 style={{
-                  borderColor: "rgba(251, 191, 36, 0.5)",
+                  borderColor: "rgba(251, 191, 36, 0.6)",
                   color: "#fde68a",
                   background:
-                    "linear-gradient(135deg, rgba(251, 191, 36, 0.18) 0%, rgba(245, 158, 11, 0.08) 100%)",
-                  boxShadow: "0 0 12px -2px rgba(251, 191, 36, 0.35)",
+                    "linear-gradient(135deg, rgba(251, 191, 36, 0.2) 0%, rgba(245, 158, 11, 0.1) 100%)",
+                  boxShadow: "0 0 12px -2px rgba(251, 191, 36, 0.4)",
                 }}
               >
                 <span aria-hidden style={{ color: "#fbbf24" }}>
@@ -173,13 +178,15 @@ export function BookCard({
               </span>
             )}
             {isLimbus && book.limbus_sinner && (
-              <span className="text-ink-muted/50">
+              <span className="text-ink-muted/70">
                 Sinner ·{" "}
-                <span className="text-ink-muted">{book.limbus_sinner}</span>
+                <span className="font-medium text-lavender">
+                  {book.limbus_sinner}
+                </span>
               </span>
             )}
             {book.year_published != null && (
-              <span className="text-ink-muted/50">
+              <span className="text-ink-muted/75">
                 {book.year_published < 0
                   ? `${Math.abs(book.year_published)} BCE`
                   : book.year_published}
@@ -310,7 +317,7 @@ export function BookCard({
                 background: `linear-gradient(150deg, ${accent}10, transparent 80%)`,
               }}
             >
-              <div className="mb-2 flex items-center gap-2 text-[10px] uppercase tracking-[0.32em] text-ink-muted/65">
+              <div className="mb-2 flex items-center gap-2 text-[10px] uppercase tracking-[0.32em] text-ink-muted/80">
                 <span
                   className="inline-block h-px w-5"
                   style={{ background: accent }}

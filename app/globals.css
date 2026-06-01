@@ -112,27 +112,9 @@ body {
 /* Smooth scrolling */
 html { scroll-behavior: smooth; }
 
-/*
- * Paired book grid: in a 2-col layout, when one card in a row expands
- * to span the full width, its partner expands horizontally too instead
- * of being shoved into the next row by another card. Result: every
- * card keeps its original row, and opening/closing doesn't ripple
- * positions across the grid.
- *
- * Pairs are determined by DOM order: (1, 2), (3, 4), (5, 6)…
- * In each pair the odd-nth-child is the left card and the even-nth-child
- * is the right one.
- */
-@media (min-width: 640px) {
-  /* Left card stretches when its right partner is expanded. */
-  .book-grid article:nth-child(odd):has(+ article[aria-expanded="true"]) {
-    grid-column: span 2 / span 2;
-  }
-  /* Right card stretches when its left partner is expanded. */
-  .book-grid article[aria-expanded="true"]:nth-child(odd) + article {
-    grid-column: span 2 / span 2;
-  }
-}
+/* Hide scrollbar but keep scrolling (used by the cover carousel) */
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
 
 /* Reveal animation for prose paragraphs */
 @keyframes reveal-up {
@@ -159,7 +141,11 @@ html { scroll-behavior: smooth; }
   );
   backdrop-filter: blur(12px) saturate(140%);
   -webkit-backdrop-filter: blur(12px) saturate(140%);
-  border: 1px solid color-mix(in oklab, white 14%, transparent);
+  border: 1px solid color-mix(in oklab, white 16%, transparent);
+  /* crisp top highlight + soft outer lift = modern panel */
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.08),
+    0 8px 24px -16px rgba(0, 0, 0, 0.8);
 }
 .glass-crimson {
   background: linear-gradient(
@@ -169,7 +155,10 @@ html { scroll-behavior: smooth; }
   );
   backdrop-filter: blur(12px) saturate(140%);
   -webkit-backdrop-filter: blur(12px) saturate(140%);
-  border: 1px solid color-mix(in oklab, var(--color-crimson-bright) 30%, transparent);
+  border: 1px solid color-mix(in oklab, var(--color-crimson-bright) 32%, transparent);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 220, 220, 0.07),
+    0 8px 24px -16px rgba(0, 0, 0, 0.8);
 }
 
 /* Shimmer for headings */

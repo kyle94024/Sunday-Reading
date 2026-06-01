@@ -1,8 +1,8 @@
 "use client";
 
-import { LayoutGroup, motion } from "motion/react";
+import { motion } from "motion/react";
 import type { Book } from "@/lib/db";
-import { BookCard } from "./BookCard";
+import { BookGrid } from "./BookGrid";
 import { TrainGlyph } from "./TrainGlyph";
 
 export function LimbusSection({ books }: { books: Book[] }) {
@@ -57,13 +57,7 @@ export function LimbusSection({ books }: { books: Book[] }) {
           and managers.
         </motion.p>
 
-        <LayoutGroup>
-          <div className="book-grid grid grid-cols-1 gap-5 sm:grid-cols-2">
-            {books.map((b, i) => (
-              <BookCard key={b.id} book={b} index={i} variant="limbus" />
-            ))}
-          </div>
-        </LayoutGroup>
+        <BookGrid books={books} variant="limbus" />
 
         {/* Bottom train marquee, mirrored */}
         <div className="pointer-events-none mt-16 flex overflow-hidden text-crimson-bright/25">

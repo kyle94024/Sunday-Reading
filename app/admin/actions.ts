@@ -109,7 +109,14 @@ function readBookForm(formData: FormData) {
   const author = String(formData.get("author") ?? "").trim();
   const slug =
     nullIfEmpty(formData.get("slug")) ?? slugify(title || `book-${Date.now()}`);
-  const collection = nullIfEmpty(formData.get("collection"));
+  let collection = nullIfEmpty(formData.get("collection"));
+  const limbus_sinner = nullIfEmpty(formData.get("limbus_sinner"));
+  // Safety guard: a book tagged with a Limbus sinner must stay in the Limbus
+  // collection even if the collection select somehow submitted blank. This
+  // prevents a saved review from silently dropping a book off the /limbus shelf.
+  if (!collection && limbus_sinner) {
+    collection = "limbus";
+  }
   const status =
     (nullIfEmpty(formData.get("status")) as "queued" | "reading" | "read" | null) ??
     "queued";
@@ -123,7 +130,7 @@ function readBookForm(formData: FormData) {
     rating: floatOrNull(formData.get("rating")),
     status,
     collection,
-    limbus_sinner: nullIfEmpty(formData.get("limbus_sinner")),
+    limbus_sinner,
     limbus_color: nullIfEmpty(formData.get("limbus_color")),
     date_read: nullIfEmpty(formData.get("date_read")),
     display_order: intOrNull(formData.get("display_order")) ?? 0,
