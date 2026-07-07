@@ -22,13 +22,16 @@
   font-family: var(--font-courier), "Courier New", monospace;
   padding-bottom: 110px;
   overflow-x: hidden;
+  position: relative;
+  isolation: isolate;
 }
 
-/* faint noise so the dark room isn't a flat fill */
+/* faint noise so the dark room isn't a flat fill — behind content */
 .d-catalog::before {
   content: "";
-  position: fixed;
+  position: absolute;
   inset: 0;
+  z-index: -1;
   pointer-events: none;
   opacity: 0.05;
   mix-blend-mode: overlay;

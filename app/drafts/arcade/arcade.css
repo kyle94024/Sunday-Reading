@@ -17,12 +17,15 @@
   font-family: var(--font-grotesk), sans-serif;
   padding: 26px 16px 130px;
   overflow-x: hidden;
+  position: relative;
+  isolation: isolate;
 }
-/* faint CRT scanlines */
+/* faint CRT scanlines — behind content, scroll with the page */
 .d-arcade::before {
   content: "";
-  position: fixed;
+  position: absolute;
   inset: 0;
+  z-index: -1;
   pointer-events: none;
   opacity: 0.05;
   background: repeating-linear-gradient(0deg, transparent 0 3px, rgba(255, 255, 255, 0.5) 3px 4px);

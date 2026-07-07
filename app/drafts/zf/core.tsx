@@ -333,6 +333,38 @@ export function VolumeBars({
 
 type S = { size?: number; color?: string; stroke?: string; className?: string; style?: CSSProperties };
 
+/* ── clipart sprite (OpenMoji, CC BY-SA 4.0 — credit in page footers).
+   Files live in public/drafts/om/<name>.svg, downloaded from
+   cdn.jsdelivr.net/npm/openmoji. Plain <img>: local static SVGs need
+   no next/image pipeline. ── */
+export function Pic({
+  name,
+  size = 40,
+  flip = false,
+  className = "",
+  style,
+}: {
+  name: string;
+  size?: number;
+  flip?: boolean;
+  className?: string;
+  style?: CSSProperties;
+}) {
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={`/drafts/om/${name}.svg`}
+      alt=""
+      width={size}
+      height={size}
+      draggable={false}
+      aria-hidden
+      className={className}
+      style={flip ? { transform: "scaleX(-1)", ...style } : style}
+    />
+  );
+}
+
 export function Star({ size = 26, color = "#ffe86b", className = "", style }: S) {
   return (
     <svg viewBox="0 0 24 24" width={size} height={size} className={className} style={style} aria-hidden>

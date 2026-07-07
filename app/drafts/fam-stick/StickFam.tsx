@@ -7,23 +7,10 @@ import { useState, type ReactNode } from "react";
 import type { Book } from "@/lib/db";
 import { jitter, stampDate, yearLabel } from "../util";
 import {
-  Bear,
-  Bee,
-  Blob,
-  Bow,
-  Bunny,
-  Butterfly,
-  Carrot,
-  Cat,
-  Duck,
-  Envelope,
   Expandable,
-  Frog,
   GlyphRating,
-  HoneyPot,
   IntroMd,
-  Lilypad,
-  PostStamp,
+  Pic,
   SideRails,
   Sparkle,
   Star,
@@ -31,77 +18,37 @@ import {
 
 export type StickTheme = "mix" | "bunny" | "pond" | "honey";
 
-/* per-theme cast: lineup marches under the title, mascots pop up on cards */
+/* per-theme cast: OpenMoji sprite names (files in public/drafts/om).
+   lineup marches under the title, mascots pop up on cards. */
 const CAST: Record<
   StickTheme,
-  { lineup: ReactNode[]; mascots: ((key: number) => ReactNode)[]; doodads: ReactNode[]; mood: { face: ReactNode; word: string }; word: string }
+  { lineup: string[]; mascots: string[]; doodads: string[]; word: string }
 > = {
   mix: {
-    lineup: [
-      <Blob key="a" size={44} color="#c4b5fd" />,
-      <Bunny key="b" size={44} />,
-      <Frog key="c" size={44} />,
-      <Bear key="d" size={44} />,
-      <Duck key="e" size={42} />,
-    ],
-    mascots: [(k) => <Blob key={k} size={40} color="#c4b5fd" />, (k) => <Frog key={k} size={40} />, (k) => <Bunny key={k} size={40} />, (k) => <Bear key={k} size={40} />],
-    doodads: [<Star key="s" size={30} color="#fde68a" />, <Sparkle key="p" size={24} color="#a78bfa" />, <Bow key="b" size={28} color="#f9a8d4" />],
-    mood: { face: <Blob size={52} color="#c4b5fd" />, word: "squishy" },
+    lineup: ["chick", "rabbit", "frog", "teddy", "hamster"],
+    mascots: ["chick", "frog", "rabbit", "teddy"],
+    doodads: ["butterfly", "bow", "blossom"],
     word: "stuck on with love",
   },
   bunny: {
-    lineup: [
-      <Bunny key="a" size={46} />,
-      <Carrot key="b" size={34} />,
-      <Bunny key="c" size={42} color="#fce4ec" cheeks="#f472b6" />,
-      <Envelope key="d" size={40} seal="#f472b6" />,
-      <Bunny key="e" size={44} />,
-    ],
-    mascots: [(k) => <Bunny key={k} size={42} />, (k) => <Bunny key={k} size={40} color="#fce4ec" cheeks="#f472b6" />, (k) => <Cat key={k} size={38} color="#58324a" />],
-    doodads: [<Carrot key="c" size={30} />, <PostStamp key="s" size={40} icon="#f472b6" />, <Bow key="b" size={28} color="#f472b6" />],
-    mood: { face: <Bunny size={52} />, word: "hoppy" },
+    lineup: ["rabbit", "carrot", "hamster", "loveletter", "rabbit"],
+    mascots: ["rabbit", "hamster", "cat"],
+    doodads: ["carrot", "loveletter", "bow"],
     word: "hopped here honestly",
   },
   pond: {
-    lineup: [
-      <Frog key="a" size={46} />,
-      <Lilypad key="b" size={40} />,
-      <Duck key="c" size={44} />,
-      <Butterfly key="d" size={34} color="#8ec9ea" accent="#fde68a" />,
-      <Frog key="e" size={40} cheeks="#8ec9ea" />,
-    ],
-    mascots: [(k) => <Frog key={k} size={42} />, (k) => <Duck key={k} size={40} />, (k) => <Frog key={k} size={38} cheeks="#8ec9ea" />],
-    doodads: [<Lilypad key="l" size={38} />, <Butterfly key="b" size={30} color="#8ec9ea" accent="#f9a8d4" />, <Sparkle key="s" size={22} color="#3f9e7f" />],
-    mood: { face: <Frog size={52} />, word: "ribbity" },
+    lineup: ["frog", "lotus", "duck", "turtle", "frog"],
+    mascots: ["frog", "duck", "turtle"],
+    doodads: ["lotus", "butterfly", "snail"],
     word: "read by the pond",
   },
   honey: {
-    lineup: [
-      <Bear key="a" size={46} />,
-      <HoneyPot key="b" size={36} />,
-      <Bee key="c" size={34} />,
-      <Bear key="d" size={42} cheeks="#e0876d" />,
-      <Bee key="e" size={30} />,
-    ],
-    mascots: [(k) => <Bear key={k} size={42} />, (k) => <Bee key={k} size={34} />, (k) => <Bear key={k} size={40} cheeks="#e0876d" />],
-    doodads: [<HoneyPot key="h" size={34} />, <Bee key="b" size={28} />, <Star key="s" size={28} color="#fde68a" />],
-    mood: { face: <Bear size={52} />, word: "syrupy" },
+    lineup: ["bear", "honeypot", "bee", "teddy", "bee"],
+    mascots: ["bear", "bee", "teddy"],
+    doodads: ["honeypot", "bee", "sunflower"],
     word: "sweet as clover honey",
   },
 };
-
-/* short plain-text quote from a review body */
-function snip(md?: string | null): string | null {
-  if (!md) return null;
-  const plain = md
-    .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
-    .replace(/[#*_>`~]/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
-  const m = plain.match(/^.{30,110}?[.!?]/);
-  const s = m ? m[0] : plain.slice(0, 100);
-  return s.length > 20 ? s : null;
-}
 
 /* ── sidebar widgets ── */
 
@@ -124,44 +71,23 @@ function WFresh({ books }: { books: Book[] }) {
   );
 }
 
-function WAlbum({ limbus }: { limbus: Book[] }) {
-  const got = limbus.filter((b) => b.status === "read").length;
-  const fills = ["var(--a1)", "var(--a2)", "var(--a3)", "var(--a4)"];
+/* table of contents — anchor chips jump to each review sticker */
+function WContents({ reviews }: { reviews: Book[] }) {
   return (
-    <div className="sw">
-      <div className="sw-head">sticker album</div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 6, justifyItems: "center" }}>
-        {limbus.slice(0, 14).map((b, i) => (
-          <span key={b.id} className={`slot ${b.status === "read" ? "on" : ""}`} style={b.status === "read" ? { background: fills[i % 4] } : undefined} title={b.title} />
+    <div className="sw zf-hot">
+      <div className="sw-head">peel to a review</div>
+      <div className="flex flex-col" style={{ gap: 3 }}>
+        {reviews.slice(0, 8).map((b, i) => (
+          <a
+            key={b.id}
+            href={`#stick-${i}`}
+            className="round block font-bold"
+            style={{ fontSize: 12, lineHeight: 1.3, color: "var(--ink)", textDecoration: "none", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}
+          >
+            <span style={{ color: "color-mix(in oklab, var(--a1) 80%, var(--ink))" }}>{String(i + 1).padStart(2, "0")}</span> {b.title}
+          </a>
         ))}
       </div>
-      <div className="round mt-1.5 font-bold" style={{ fontSize: 12 }}>
-        {got}/{limbus.length || 14} collected!
-      </div>
-    </div>
-  );
-}
-
-function WMood({ theme }: { theme: StickTheme }) {
-  const m = CAST[theme].mood;
-  return (
-    <div className="sw" style={{ textAlign: "center" }}>
-      <div className="sw-head">mood of the day</div>
-      <div className="zf-hop" style={{ display: "inline-block" }}>{m.face}</div>
-      <div className="round font-bold" style={{ fontSize: 13 }}>feeling {m.word}</div>
-    </div>
-  );
-}
-
-function WQuote({ reviews }: { reviews: Book[] }) {
-  const src = reviews.find((b) => snip(b.review));
-  const q = src ? snip(src.review) : null;
-  if (!q) return null;
-  return (
-    <div className="sw">
-      <div className="sw-head">overheard on the shelf</div>
-      <div style={{ fontSize: 11, fontStyle: "italic", lineHeight: 1.5 }}>“{q}”</div>
-      <div className="round mt-1 font-bold" style={{ fontSize: 11, color: "color-mix(in oklab, var(--a1) 80%, var(--ink))" }}>— re: {src!.title}</div>
     </div>
   );
 }
@@ -233,9 +159,9 @@ function StickCard({ book, i, theme, defaultOpen = false }: { book: Book; i: num
   if (kind === 2) {
     /* mascot + speech bubble */
     return (
-      <div className="relative flex items-start gap-1 sm:gap-3">
+      <div id={`stick-${i}`} className="relative flex items-start gap-1 sm:gap-3" style={{ scrollMarginTop: 24 }}>
         <div className="mt-10 hidden w-[64px] shrink-0 text-center sm:block" aria-hidden>
-          <span className="zf-hop inline-block">{mascot(i)}</span>
+          <span className="zf-hop inline-block"><Pic name={mascot} size={56} /></span>
         </div>
         <article className="bubble min-w-0 flex-1" style={{ transform: `rotate(${jitter(i, 0.5)}deg)` }}>
           <svg className="tail hidden sm:block" viewBox="0 0 26 26" aria-hidden>
@@ -273,9 +199,9 @@ function StickCard({ book, i, theme, defaultOpen = false }: { book: Book; i: num
   if (kind === 1) {
     /* die-cut sheet */
     return (
-      <article className="sheet relative" style={{ transform: `rotate(${jitter(i + 1, 0.6)}deg)` }}>
+      <article id={`stick-${i}`} className="sheet relative" style={{ transform: `rotate(${jitter(i + 1, 0.6)}deg)`, scrollMarginTop: 24 }}>
         <span className="peel" aria-hidden />
-        <span className="pointer-events-none absolute -top-6 right-12 z-[2]" aria-hidden>{mascot(i)}</span>
+        <span className="pointer-events-none absolute -top-7 right-12 z-[2]" aria-hidden><Pic name={mascot} size={44} /></span>
         <button type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open} className="block w-full cursor-pointer text-left" style={{ padding: "22px 24px 14px" }}>
           <div className="flex flex-wrap items-center gap-3" style={{ paddingRight: 34 }}>
             <StatusChip book={book} />
@@ -306,8 +232,8 @@ function StickCard({ book, i, theme, defaultOpen = false }: { book: Book; i: num
 
   /* puffy sticker */
   return (
-    <article className={`stick relative ${["c1", "c2", "c3", "c4"][Math.floor(i / 3) % 4]}`} style={{ transform: `rotate(${jitter(i + 2, 0.7)}deg)` }}>
-      <span className="pointer-events-none absolute -top-6 left-7 z-[2]" aria-hidden>{mascot(i)}</span>
+    <article id={`stick-${i}`} className={`stick relative ${["c1", "c2", "c3", "c4"][Math.floor(i / 3) % 4]}`} style={{ transform: `rotate(${jitter(i + 2, 0.7)}deg)`, scrollMarginTop: 24 }}>
+      <span className="pointer-events-none absolute -top-7 left-7 z-[2]" aria-hidden><Pic name={mascot} size={44} /></span>
       <button type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open} className="block w-full cursor-pointer text-left" style={{ padding: "26px 28px 16px" }}>
         <div className="flex flex-wrap items-center gap-3">
           <StatusChip book={book} />
@@ -364,18 +290,18 @@ export function StickFam({
       <SideRails
         interactive
         left={[
-          <WFresh key="w1" books={books} />,
-          cast.doodads[0],
-          cast.mascots[0](901),
-          <WQuote key="w2" reviews={reviews} />,
-          cast.doodads[1],
+          <WContents key="w1" reviews={reviews} />,
+          <Pic key="d0" name={cast.doodads[0]} size={34} />,
+          <Pic key="m0" name={cast.mascots[0]} size={48} />,
+          <Pic key="d1" name={cast.doodads[1]} size={32} />,
+          <Pic key="m1" name={cast.mascots[1]} size={44} />,
         ]}
         right={[
-          <WAlbum key="w1" limbus={limbus} />,
-          cast.mascots[1](902),
-          <WMood key="w2" theme={theme} />,
-          cast.doodads[2],
-          cast.mascots[2 % cast.mascots.length](903),
+          <WFresh key="w1" books={books} />,
+          <Pic key="m2" name={cast.mascots[2 % cast.mascots.length]} size={48} />,
+          <Pic key="d2" name={cast.doodads[2]} size={34} />,
+          <Pic key="m3" name={cast.mascots[1 % cast.mascots.length]} size={42} />,
+          <Pic key="d3" name={cast.doodads[0]} size={30} />,
         ]}
       />
 
@@ -400,14 +326,16 @@ export function StickFam({
             <p className="mt-2" style={{ fontSize: 15, opacity: 0.8 }}>{tagline.toLowerCase()} · membership: one (1) kyle</p>
             <div className="mt-5 flex items-end justify-center gap-4" aria-hidden>
               {cast.lineup.map((m, i) => (
-                <span key={i} className={`zf-hop zf-d${i % 4}`} style={{ display: "inline-block" }}>{m}</span>
+                <span key={i} className={`zf-hop zf-d${i % 4}`} style={{ display: "inline-block" }}>
+                  <Pic name={m} size={i === 0 || i === 4 ? 42 : 48} />
+                </span>
               ))}
             </div>
           </div>
         </header>
 
         <section className="stick relative mx-auto mt-14 max-w-2xl" style={{ padding: "26px 30px 16px", transform: "rotate(0.4deg)" }}>
-          <span className="pointer-events-none absolute -top-5 right-8" aria-hidden>{cast.doodads[0]}</span>
+          <span className="pointer-events-none absolute -top-6 right-8" aria-hidden><Pic name={cast.doodads[0]} size={40} /></span>
           <span className="chip c2" style={{ fontSize: 12 }}>a note from the club president</span>
           <div className="prose mt-3"><IntroMd text={intro} /></div>
         </section>
@@ -450,8 +378,17 @@ export function StickFam({
           </div>
         </section>
 
-        <footer className="round mt-20 text-center font-bold" style={{ fontSize: 16, opacity: 0.7 }}>
-          {cast.word} ✦ sunday&rsquo;s shelf
+        <footer className="mt-20 text-center">
+          <p className="round font-bold" style={{ fontSize: 16, opacity: 0.7 }}>
+            {cast.word} ✦ sunday&rsquo;s shelf
+          </p>
+          <p className="mt-1" style={{ fontSize: 11, opacity: 0.55 }}>
+            critters by{" "}
+            <a href="https://openmoji.org" target="_blank" rel="noreferrer" style={{ textDecoration: "underline", color: "inherit" }}>
+              OpenMoji
+            </a>{" "}
+            · CC BY-SA 4.0
+          </p>
         </footer>
       </div>
     </div>

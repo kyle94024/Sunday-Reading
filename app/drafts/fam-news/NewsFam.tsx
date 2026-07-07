@@ -83,40 +83,26 @@ function WStacks({ limbus }: { limbus: Book[] }) {
   );
 }
 
-function WScore({ reviews }: { reviews: Book[] }) {
-  const rated = reviews.filter((b) => b.rating != null);
-  const avg = rated.length ? rated.reduce((s, b) => s + Number(b.rating), 0) / rated.length : 0;
-  const keepers = rated.filter((b) => Number(b.rating) >= 4.5).length;
-  return (
-    <div className="mg">
-      <b className="head">box score</b>
-      <div>reviews filed: {reviews.length}</div>
-      <div>avg. rating: {avg.toFixed(1)} ★</div>
-      <div>certified keepers: {keepers}</div>
-    </div>
-  );
-}
-
-function WLetters() {
+/* what's actually on the editor's desk right now — real data */
+function WDesk({ books }: { books: Book[] }) {
+  const cur = books.find((b) => b.status === "reading") ?? books.find((b) => b.status === "queued");
+  if (!cur) return null;
   return (
     <div className="mg zf-hot">
-      <b className="head">letters to the editor</b>
-      <div>the mailbag stands empty. opinions on the opinions?</div>
-      <Link href="/about" style={{ display: "inline-block", marginTop: 4, color: "var(--accent)", fontWeight: 700 }}>
-        write in →
+      <b className="head">on the editor&rsquo;s desk</b>
+      <Link href="/limbus" className="flex items-start gap-2" style={{ textDecoration: "none" }}>
+        {cur.cover_url && (
+          <span className="pic relative block h-[52px] w-[36px] shrink-0">
+            <Image src={cur.cover_url} alt="" fill sizes="36px" className="object-cover" />
+          </span>
+        )}
+        <span>
+          <i>{cur.title}</i>
+          <br />
+          <span style={{ color: "var(--soft)" }}>{cur.author}</span>
+        </span>
       </Link>
-    </div>
-  );
-}
-
-function WForecast({ books }: { books: Book[] }) {
-  const cur = books.find((b) => b.status === "reading");
-  return (
-    <div className="mg">
-      <b className="head">reading forecast</b>
-      <div>
-        {cur ? <>currently: <i>{cur.title}</i>.</> : "clear shelves ahead."} cozy through sunday, with a chance of tears by chapter three.
-      </div>
+      <div style={{ marginTop: 4, color: "var(--soft)", textTransform: "uppercase", letterSpacing: "0.06em" }}>review forthcoming</div>
     </div>
   );
 }
@@ -305,13 +291,11 @@ export function NewsFam({
 
   const leftRail: ReactNode[] = [
     <WIndex key="ix" reviews={reviews} />,
-    <WPull key="pq" reviews={reviews} />,
     <WStacks key="st" limbus={limbus} />,
   ];
   const rightRail: ReactNode[] = [
-    <WScore key="sc" reviews={reviews} />,
-    <WForecast key="fc" books={books} />,
-    <WLetters key="lt" />,
+    <WPull key="pq" reviews={reviews} />,
+    <WDesk key="dk" books={books} />,
   ];
   if (theme === "evening") rightRail.push(<WClassified key="cl" />);
 

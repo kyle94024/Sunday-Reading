@@ -7,6 +7,7 @@
   font-family: var(--font-grotesk), sans-serif;
   padding: 26px 16px 130px;
   overflow-x: hidden;
+  position: relative;
   background:
     linear-gradient(var(--grid) 1px, transparent 1px) 0 0 / 100% 26px,
     linear-gradient(90deg, var(--grid) 1px, transparent 1px) 0 0 / 26px 100%,

@@ -7,85 +7,42 @@ import { useState, type ReactNode } from "react";
 import type { Book } from "@/lib/db";
 import { jitter, stampDate, yearLabel } from "../util";
 import {
-  Bear,
-  Bow,
-  Bunny,
-  Butterfly,
-  Cat,
-  Doily,
-  Duck,
-  Envelope,
   Expandable,
-  Flower,
   GlyphRating,
-  Heart,
   IntroMd,
+  Pic,
   PostStamp,
   Pushpin,
   SideRails,
-  Sprig,
   Star,
-  Strawberry,
   Washi,
 } from "../zf/core";
 
 export type ScrapTheme = "kraft" | "berry" | "picnic" | "lav";
 
-/* per-theme extras: mascot roster + rail doodads + hero garnish */
+/* per-theme extras: OpenMoji sprite names (files in public/drafts/om) */
 const EXTRAS: Record<
   ScrapTheme,
-  { mascots: ((i: number) => ReactNode)[]; doodads: ReactNode[]; word: string }
+  { mascots: string[]; doodads: string[]; word: string }
 > = {
   kraft: {
-    mascots: [
-      (i) => <Cat key={i} size={38} color="#4a3550" />,
-      (i) => <Bear key={i} size={40} />,
-      (i) => <Bunny key={i} size={38} />,
-    ],
-    doodads: [
-      <Flower key="a" size={34} color="#e8a0a8" />,
-      <Bow key="b" size={30} color="#e8737f" />,
-      <Doily key="c" size={50} />,
-    ],
+    mascots: ["cat", "teddy", "rabbit"],
+    doodads: ["blossom", "bow", "tea"],
     word: "glued with too much glue",
   },
   berry: {
-    mascots: [
-      (i) => <Bunny key={i} size={40} cheeks="#e05c74" />,
-      (i) => <Cat key={i} size={36} color="#58324a" />,
-      (i) => <Bear key={i} size={38} cheeks="#e05c74" />,
-    ],
-    doodads: [
-      <Strawberry key="a" size={30} />,
-      <Bow key="b" size={32} color="#e05c74" />,
-      <Doily key="c" size={52} />,
-    ],
+    mascots: ["rabbit", "cat", "teddy"],
+    doodads: ["strawberry", "bow", "ladybug"],
     word: "strawberry milk & margins",
   },
   picnic: {
-    mascots: [
-      (i) => <Duck key={i} size={38} />,
-      (i) => <Bear key={i} size={38} />,
-      (i) => <Bunny key={i} size={36} />,
-    ],
-    doodads: [
-      <Butterfly key="a" size={34} color="#9cc3e0" accent="#ecc25c" />,
-      <Flower key="b" size={32} color="#ecc25c" center="#e8848f" />,
-      <Bow key="c" size={28} color="#5f93bd" />,
-    ],
+    mascots: ["duck", "teddy", "rabbit"],
+    doodads: ["butterfly", "sunflower", "basket"],
     word: "packed like a picnic",
   },
   lav: {
-    mascots: [
-      (i) => <Bunny key={i} size={38} cheeks="#c9a8e8" />,
-      (i) => <Cat key={i} size={36} color="#46375e" />,
-      (i) => <Duck key={i} size={36} />,
-    ],
-    doodads: [
-      <Sprig key="a" size={44} />,
-      <Butterfly key="b" size={34} />,
-      <Flower key="c" size={32} color="#c9b1e8" center="#f2c14e" />,
-    ],
+    mascots: ["rabbit", "cat", "butterfly"],
+    doodads: ["bouquet", "herb", "tulip"],
     word: "pressed like lavender",
   },
 };
@@ -119,33 +76,24 @@ function WNowReading({ books }: { books: Book[] }) {
   );
 }
 
-function WStats({ books }: { books: Book[] }) {
-  const read = books.filter((b) => b.status === "read").length;
-  const queued = books.filter((b) => b.status === "queued").length;
+/* hand-written table of contents — anchors jump to each review page */
+function WContents({ reviews }: { reviews: Book[] }) {
   return (
-    <div className="sw" style={{ transform: "rotate(1.2deg)" }}>
+    <div className="sw zf-hot" style={{ transform: "rotate(1.2deg)" }}>
       <span className="sw-tape" />
-      <div className="sw-head">shelf stats</div>
-      <div className="hand" style={{ fontSize: 17 }}>
-        {read} finished · {queued} waiting
-        <br />
-        mood: <span style={{ color: "var(--a1)" }}>♥ ♥ ♥ ♥ ♡</span>
-      </div>
-    </div>
-  );
-}
-
-function WCalendar() {
-  return (
-    <div className="sw" style={{ transform: "rotate(-0.8deg)" }}>
-      <span className="sw-tape" />
-      <div className="sw-head">may 2026</div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 3 }}>
-        {Array.from({ length: 28 }, (_, i) => (
-          <span key={i} style={{ height: 8, borderRadius: 2, background: i === 12 ? "var(--a1)" : "color-mix(in oklab, var(--ink) 14%, transparent)" }} />
+      <div className="sw-head">in this album</div>
+      <div className="flex flex-col" style={{ gap: 2 }}>
+        {reviews.slice(0, 8).map((b, i) => (
+          <a
+            key={b.id}
+            href={`#page-${i}`}
+            className="hand block"
+            style={{ fontSize: 15.5, lineHeight: 1.25, color: "var(--ink)", textDecoration: "none", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}
+          >
+            <span style={{ color: "var(--a1)", fontWeight: 700 }}>{i + 1}.</span> {b.title}
+          </a>
         ))}
       </div>
-      <div className="hand" style={{ fontSize: 14, marginTop: 4 }}>♥ = review day</div>
     </div>
   );
 }
@@ -170,9 +118,9 @@ function WPhotoStrip({ books }: { books: Book[] }) {
 
 /* ── three rotating card styles ── */
 
-function CardShell({ children, i, extra }: { children: ReactNode; i: number; extra?: ReactNode }) {
+function CardShell({ children, i, id, extra }: { children: ReactNode; i: number; id?: string; extra?: ReactNode }) {
   return (
-    <article className="page relative" style={{ transform: `rotate(${jitter(i + 1, 0.7)}deg)` }}>
+    <article id={id} className="page relative" style={{ transform: `rotate(${jitter(i + 1, 0.7)}deg)`, scrollMarginTop: 24 }}>
       {extra}
       {children}
     </article>
@@ -223,10 +171,10 @@ function ScrapCard({ book, i, theme, defaultOpen = false }: { book: Book; i: num
   const rating = book.rating != null ? Number(book.rating) : null;
   const exceptional = rating != null && rating >= 5.1;
   const kind = i % 3; // 0 taped page · 1 polaroid feature · 2 letter
-  const mascotFns = EXTRAS[theme].mascots;
+  const names = EXTRAS[theme].mascots;
   const mascot = (
-    <span className="pointer-events-none absolute -top-6 left-5 z-[2]" aria-hidden>
-      {mascotFns[i % mascotFns.length](i)}
+    <span className="pointer-events-none absolute -top-7 left-5 z-[2]" aria-hidden>
+      <Pic name={names[i % names.length]} size={42} />
     </span>
   );
 
@@ -261,7 +209,7 @@ function ScrapCard({ book, i, theme, defaultOpen = false }: { book: Book; i: num
   );
 
   return (
-    <CardShell i={i} extra={deco}>
+    <CardShell i={i} id={`page-${i}`} extra={deco}>
       <button type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open} className={`block w-full cursor-pointer text-left ${kind === 0 ? "stitched" : ""}`} style={{ padding: "26px 26px 16px" }}>
         <MetaRow book={book} open={open} mascot={null} />
         {kind === 1 ? (
@@ -360,19 +308,20 @@ export function ScrapFam({
       <SideRails
         interactive
         left={[
-          <WNowReading key="w1" books={books} />,
-          ex.doodads[0],
+          <WContents key="w1" reviews={reviews} />,
+          <Pic key="d0" name={ex.doodads[0]} size={36} />,
+          <Pic key="m0" name={ex.mascots[0]} size={46} />,
           <HandNote key="n1" size={21} rotate={-7}>so good!!</HandNote>,
-          <WPhotoStrip key="w2" books={limbus} />,
-          ex.mascots[0](901),
+          <Pic key="d1" name={ex.doodads[1]} size={32} />,
+          <Pic key="m1" name={ex.mascots[1]} size={44} />,
         ]}
         right={[
-          <WStats key="w1" books={books} />,
-          ex.doodads[1],
-          <HandNote key="n1" size={21} rotate={6}>cried here →</HandNote>,
-          <WCalendar key="w2" />,
-          ex.doodads[2],
-          ex.mascots[1](902),
+          <WNowReading key="w1" books={books} />,
+          <Pic key="m2" name={ex.mascots[2]} size={46} />,
+          <HandNote key="n2" size={21} rotate={6}>cried here →</HandNote>,
+          <WPhotoStrip key="w2" books={limbus} />,
+          <Pic key="d2" name={ex.doodads[2]} size={36} />,
+          <HandNote key="n3" size={20} rotate={-4}>read this twice ✓</HandNote>,
         ]}
       />
 
@@ -399,18 +348,18 @@ export function ScrapFam({
             </span>
           ))}
           <span className="hung zf-sway" style={{ left: "88%", animationDuration: "7s" }}>
-            <Bow size={36} color="var(--a1)" />
+            <Pic name="bow" size={38} />
           </span>
           <span className="hung zf-sway" style={{ left: "94%", top: 40, animationDuration: "8s" }}>
-            <Envelope size={44} seal="var(--a1)" />
+            <Pic name="loveletter" size={42} />
           </span>
         </div>
 
         <header className="relative mx-auto mt-6 max-w-xl text-center">
           <div className="page stitched relative" style={{ padding: "32px 26px 26px", transform: "rotate(-0.6deg)" }}>
             <span className="absolute -top-2 left-1/2 -translate-x-1/2"><Pushpin size={24} color="var(--a1)" /></span>
-            <span className="pointer-events-none absolute -left-5 -top-7" aria-hidden>{ex.mascots[2](903)}</span>
-            <span className="absolute -right-3 -bottom-3" aria-hidden><Bow size={34} color="var(--a1)" /></span>
+            <span className="pointer-events-none absolute -left-5 -top-8" aria-hidden><Pic name={ex.mascots[1]} size={48} /></span>
+            <span className="pointer-events-none absolute -right-3 -bottom-3" aria-hidden><Pic name="bow" size={36} /></span>
             <h1 className="flex flex-wrap items-center justify-center gap-2" style={{ fontSize: "clamp(1.7rem,5.5vw,2.6rem)" }}>
               {name.split(" ").map((w, i) => (
                 <span key={i} className={`label ${i % 2 ? "a1" : ""}`} style={{ transform: `rotate(${i % 2 ? 1.5 : -1.5}deg)` }}>{w}</span>
@@ -465,8 +414,17 @@ export function ScrapFam({
           </div>
         </section>
 
-        <footer className="hand mt-20 text-center text-[22px]" style={{ color: "color-mix(in oklab, var(--ink) 70%, transparent)" }}>
-          {ex.word} ✿ sunday&rsquo;s shelf
+        <footer className="mt-20 text-center">
+          <p className="hand text-[22px]" style={{ color: "color-mix(in oklab, var(--ink) 70%, transparent)" }}>
+            {ex.word} ✿ sunday&rsquo;s shelf
+          </p>
+          <p className="mt-1 text-[11px]" style={{ color: "color-mix(in oklab, var(--ink) 55%, transparent)" }}>
+            critters &amp; props by{" "}
+            <a href="https://openmoji.org" target="_blank" rel="noreferrer" style={{ textDecoration: "underline" }}>
+              OpenMoji
+            </a>{" "}
+            · CC BY-SA 4.0
+          </p>
         </footer>
       </div>
     </div>

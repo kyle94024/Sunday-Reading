@@ -16,6 +16,7 @@
   font-family: var(--font-grotesk), sans-serif;
   padding: 26px 16px 130px;
   overflow-x: hidden;
+  position: relative;
 }
 
 .d-tape .big { font-family: var(--font-archivo), sans-serif; }

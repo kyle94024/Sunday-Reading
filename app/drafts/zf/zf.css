@@ -46,11 +46,14 @@
 .zf-wag { animation: zf-wag 2.6s ease-in-out infinite; transform-origin: 50% 90%; }
 
 /* side rails — full margin columns: widgets + doodads, desktop only.
-   pointer-events auto on children that opt in (widgets can hold links). */
+   Absolutely positioned inside the draft root (which must be
+   position:relative) so they scroll WITH the page; items distribute
+   down the whole document height. pointer-events auto on children
+   that opt in (widgets can hold links). */
 .zf-rail {
-  position: fixed;
-  top: 78px;
-  bottom: 78px;
+  position: absolute;
+  top: 84px;
+  bottom: 84px;
   width: 152px;
   display: none;
   flex-direction: column;
@@ -68,9 +71,10 @@
   .zf-rail { display: flex; }
 }
 
-/* full-height decorative edge strips at the outer margins */
+/* full-height decorative edge strips at the outer margins —
+   absolute for the same scroll-with-page reason */
 .zf-edge {
-  position: fixed;
+  position: absolute;
   top: 0;
   bottom: 0;
   width: 16px;
