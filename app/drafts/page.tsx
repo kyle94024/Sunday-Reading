@@ -43,6 +43,80 @@ const DRAFTS = [
   },
 ];
 
+// Round two: Kyle picked the Zine — these are riffs around it.
+const FAMILY = [
+  {
+    href: "/drafts/zine",
+    n: "z·0",
+    name: "The Zine (original)",
+    pitch:
+      "The one that won round one — violet block, acid highlighter, hard shadows. Baseline for the riffs below.",
+    keeps: "everything",
+    changes: "nothing — the reference point",
+    palette: ["#6d28d9", "#d9ff3d", "#f7f5ef", "#0b0a0c"],
+  },
+  {
+    href: "/drafts/riso",
+    n: "z·1",
+    name: "Riso Poster",
+    pitch:
+      "The light-mode zine: two-ink risograph on warm paper. Violet + tangerine overprint headlines, halftone suns, duotone covers, hand-stamped margins.",
+    keeps: "the loud type & hard shadows",
+    changes: "dark → warm paper; acid → tangerine",
+    palette: ["#f4efe4", "#6d28d9", "#ff6b35", "#241d16"],
+  },
+  {
+    href: "/drafts/scrapbook",
+    n: "z·2",
+    name: "Scrapbook",
+    pitch:
+      "The homiest one. Kraft paper, washi tape, pushpinned polaroids, a swaying photo string, label-maker titles, handwritten margin notes ('cried here →').",
+    keeps: "the collage spirit",
+    changes: "punk → cozy; print-shop → craft box",
+    palette: ["#d9c7ae", "#e8a0a8", "#9db8a0", "#4a3550"],
+  },
+  {
+    href: "/drafts/arcade",
+    n: "z·3",
+    name: "Night Arcade",
+    pitch:
+      "The zine after dark: neon magenta & cyan, pixel hearts, a ticker that never stops, CRT scanlines, HI-SCORE badges. Most ambient animation of the set.",
+    keeps: "the dark + loud energy",
+    changes: "paper → phosphor; stickers → neon signs",
+    palette: ["#0b0d1f", "#ff2d95", "#2de2ff", "#ffe86b"],
+  },
+  {
+    href: "/drafts/stickers",
+    n: "z·4",
+    name: "Sticker Club",
+    pitch:
+      "Puffy pastel stickers on lavender graph paper. Everything peels; a small blob mascot blinks at you. The cutest possible reading of the zine.",
+    keeps: "sticker culture",
+    changes: "acid contrast → pastel softness",
+    palette: ["#f3eefc", "#f9a8d4", "#a7f3d0", "#3b3350"],
+  },
+  {
+    href: "/drafts/tabloid",
+    n: "z·5",
+    name: "Midnight Tabloid",
+    pitch:
+      "A punk front page: newsprint charcoal, double rules, halftone photos, an EXTRA!! ticker — and the margins are filled with fake classifieds about your reading life.",
+    keeps: "the print-object fantasy",
+    changes: "poster → newspaper; margins become content",
+    palette: ["#17161a", "#efe9dc", "#d92b2b", "#8a8578"],
+  },
+  {
+    href: "/drafts/cassette",
+    n: "z·6",
+    name: "Mixtape",
+    pitch:
+      "Books as a hand-dubbed tape (fitting, since this whole site started with a soundtrack). Spinning reels, handwritten labels, liner-note reviews, equalizer ratings.",
+    keeps: "the handmade warmth",
+    changes: "paper → plastic & chrome; ties into the Mili origin",
+    palette: ["#241a20", "#ff8c42", "#6fb3a8", "#f5e9d6"],
+  },
+];
+
 export const metadata = { title: "Style drafts · Sunday's Shelf" };
 
 export default function DraftsIndex() {
@@ -61,40 +135,25 @@ export default function DraftsIndex() {
           point at the pieces you like and we&rsquo;ll cross-breed.
         </p>
 
-        <div className="mt-12 flex flex-col gap-4">
+        <h2 className="mt-12 font-mono text-[11px] uppercase tracking-[0.35em] text-[#d9ff3d]/70">
+          Round two — the zine family
+        </h2>
+        <p className="mt-2 max-w-xl font-serif text-white/60">
+          The Zine won round one. Seven takes on it: different palettes,
+          populated margins, ambient motion, varying doses of cute.
+        </p>
+        <div className="mt-6 flex flex-col gap-4">
+          {FAMILY.map((d) => (
+            <DraftTile key={d.href} d={d} accent="#d9ff3d" />
+          ))}
+        </div>
+
+        <h2 className="mt-16 font-mono text-[11px] uppercase tracking-[0.35em] text-white/40">
+          Round one — the four originals
+        </h2>
+        <div className="mt-6 flex flex-col gap-4">
           {DRAFTS.map((d) => (
-            <Link
-              key={d.href}
-              href={d.href}
-              className="group rounded-lg border border-white/10 bg-white/[0.03] p-6 transition hover:-translate-y-0.5 hover:border-white/30 hover:bg-white/[0.05]"
-            >
-              <div className="flex items-baseline gap-4">
-                <span className="font-display text-2xl text-white/35">
-                  {d.n}
-                </span>
-                <h2 className="font-display text-2xl tracking-[0.02em] sm:text-3xl">
-                  {d.name}
-                </h2>
-                <span className="ml-auto flex gap-1.5">
-                  {d.palette.map((c) => (
-                    <span
-                      key={c}
-                      className="h-4 w-4 rounded-full border border-white/20"
-                      style={{ background: c }}
-                    />
-                  ))}
-                </span>
-              </div>
-              <p className="mt-3 max-w-2xl font-serif text-[1.05rem] leading-relaxed text-white/75">
-                {d.pitch}
-              </p>
-              <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.18em] text-white/40">
-                keeps {d.keeps} · {d.changes}
-                <span className="ml-3 inline-block text-white/60 transition group-hover:translate-x-1 group-hover:text-white">
-                  visit →
-                </span>
-              </p>
-            </Link>
+            <DraftTile key={d.href} d={d} />
           ))}
         </div>
 
@@ -104,5 +163,55 @@ export default function DraftsIndex() {
         </p>
       </div>
     </div>
+  );
+}
+
+function DraftTile({
+  d,
+  accent = "#ffffff",
+}: {
+  d: {
+    href: string;
+    n: string;
+    name: string;
+    pitch: string;
+    keeps: string;
+    changes: string;
+    palette: string[];
+  };
+  accent?: string;
+}) {
+  return (
+    <Link
+      href={d.href}
+      className="group rounded-lg border border-white/10 bg-white/[0.03] p-6 transition hover:-translate-y-0.5 hover:border-white/30 hover:bg-white/[0.05]"
+    >
+      <div className="flex items-baseline gap-4">
+        <span className="font-mono text-sm" style={{ color: `${accent}59` }}>
+          {d.n}
+        </span>
+        <h3 className="font-display text-2xl tracking-[0.02em] sm:text-3xl">
+          {d.name}
+        </h3>
+        <span className="ml-auto flex gap-1.5">
+          {d.palette.map((c) => (
+            <span
+              key={c}
+              className="h-4 w-4 rounded-full border border-white/20"
+              style={{ background: c }}
+            />
+          ))}
+        </span>
+      </div>
+      <p className="mt-3 max-w-2xl font-serif text-[1.05rem] leading-relaxed text-white/75">
+        {d.pitch}
+      </p>
+      <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.18em] text-white/40">
+        keeps {d.keeps} · {d.changes}
+        <span className="ml-3 inline-block text-white/60 transition group-hover:translate-x-1 group-hover:text-white">
+          visit →
+        </span>
+      </p>
+    </Link>
   );
 }

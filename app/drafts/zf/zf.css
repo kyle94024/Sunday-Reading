@@ -1,0 +1,86 @@
+/* ─── Zine-family shared kit ──────────────────────────────────────────
+   Ambient keyframes, side rails, marquee, expand, scroll rows.
+   Themes set their own palettes; these are the bones. */
+
+/* ambient motion */
+@keyframes zf-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+@keyframes zf-sway { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
+@keyframes zf-bob { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-7px) rotate(2deg); } }
+@keyframes zf-spin { to { transform: rotate(360deg); } }
+@keyframes zf-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+@keyframes zf-blink { 0%, 88%, 100% { transform: scaleY(1); } 92%, 96% { transform: scaleY(0.06); } }
+@keyframes zf-marquee { to { transform: translateX(-50%); } }
+@keyframes zf-eq { 0%, 100% { transform: scaleY(0.3); } 50% { transform: scaleY(1); } }
+@keyframes zf-flicker {
+  0%, 100% { opacity: 1; }
+  41% { opacity: 1; } 42% { opacity: 0.6; } 43% { opacity: 1; }
+  78% { opacity: 1; } 79% { opacity: 0.75; } 81% { opacity: 1; }
+}
+
+.zf-float { animation: zf-float 6s ease-in-out infinite; }
+.zf-sway { animation: zf-sway 7s ease-in-out infinite; transform-origin: 50% 0%; }
+.zf-bob { animation: zf-bob 5.5s ease-in-out infinite; }
+.zf-spin-slow { animation: zf-spin 16s linear infinite; }
+.zf-spin-slower { animation: zf-spin 34s linear infinite; }
+.zf-pulse { animation: zf-pulse 2.4s ease-in-out infinite; }
+.zf-flicker { animation: zf-flicker 6s linear infinite; }
+.zf-blink-eyes .zf-eyes { transform-origin: center; animation: zf-blink 4.6s ease-in-out infinite; }
+.zf-d0 { animation-delay: -0.4s; }
+.zf-d1 { animation-delay: -1.7s; }
+.zf-d2 { animation-delay: -3.2s; }
+.zf-d3 { animation-delay: -4.8s; }
+
+.zf-wiggle:hover { animation: zf-sway 0.45s ease-in-out; }
+
+/* side rails — margin decorations, desktop only, never intercept clicks */
+.zf-rail {
+  position: fixed;
+  top: 90px;
+  bottom: 90px;
+  width: 124px;
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  pointer-events: none;
+  z-index: 40;
+}
+.zf-rail-left { left: calc(50vw - 645px); }
+.zf-rail-right { right: calc(50vw - 645px); }
+@media (min-width: 1290px) {
+  .zf-rail { display: flex; }
+}
+
+/* ticker marquee */
+.zf-marquee-wrap { overflow: hidden; white-space: nowrap; }
+.zf-marquee-track {
+  display: inline-flex;
+  animation: zf-marquee linear infinite;
+  will-change: transform;
+}
+.zf-marquee-track > span { padding-right: 2.5em; flex-shrink: 0; }
+
+/* expandable body */
+.zf-expand {
+  overflow: hidden;
+  transition: max-height 0.55s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease;
+}
+
+/* horizontal snap rows */
+.zf-row {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  padding: 26px 8px 20px;
+  scroll-snap-type: x mandatory;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.zf-row::-webkit-scrollbar { display: none; }
+.zf-row > * { scroll-snap-align: start; flex-shrink: 0; }
+
+/* equalizer bars */
+.zf-eqbar { transform-origin: 50% 100%; }
+.zf-eq-on .zf-eqbar { animation: zf-eq 1.1s ease-in-out infinite; }
+.zf-eq-on .zf-eqbar:nth-child(2n) { animation-duration: 0.9s; animation-delay: -0.3s; }
+.zf-eq-on .zf-eqbar:nth-child(3n) { animation-duration: 1.3s; animation-delay: -0.6s; }

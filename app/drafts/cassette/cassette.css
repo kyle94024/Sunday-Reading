@@ -1,0 +1,85 @@
+/* ─── Mixtape: warm cassette culture, liner-note reviews ─────────────── */
+
+.d-tape {
+  --bg: #241a20;
+  --panel: #2f2229;
+  --cream: #f5e9d6;
+  --orange: #ff8c42;
+  --teal: #6fb3a8;
+  --muted: #b9a48f;
+
+  min-height: 100vh;
+  background:
+    radial-gradient(100% 60% at 50% -8%, rgba(255, 140, 66, 0.1), transparent 60%),
+    var(--bg);
+  color: var(--cream);
+  font-family: var(--font-grotesk), sans-serif;
+  padding: 26px 16px 130px;
+  overflow-x: hidden;
+}
+
+.d-tape .big { font-family: var(--font-archivo), sans-serif; }
+.d-tape .hand { font-family: var(--font-hand), cursive; }
+
+.d-tape .deck {
+  background: var(--panel);
+  border: 2.5px solid var(--orange);
+  border-radius: 10px;
+  box-shadow: 7px 7px 0 rgba(111, 179, 168, 0.55);
+}
+
+.d-tape .led {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  box-shadow: 0 0 7px currentColor;
+}
+
+.d-tape .track-chip {
+  display: inline-block;
+  border: 2px solid var(--teal);
+  color: var(--teal);
+  border-radius: 6px;
+  padding: 2px 10px;
+  font-family: var(--font-archivo), sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.d-tape .track-chip.o { border-color: var(--orange); color: var(--orange); }
+
+.d-tape .prose { font-size: 1.03rem; line-height: 1.7; color: #e6d8c2; }
+.d-tape .prose p { margin: 0 0 1.1em; }
+.d-tape .prose a { color: var(--orange); font-weight: 700; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.d-tape .prose a:hover { color: var(--teal); }
+.d-tape .prose strong { color: var(--cream); background: rgba(255, 140, 66, 0.22); padding: 0 3px; }
+
+.d-tape .nav a {
+  font-family: var(--font-archivo), sans-serif;
+  font-size: 11.5px;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  text-decoration: none;
+}
+.d-tape .nav a:hover { color: var(--orange); }
+
+/* cassette spine (limbus row) */
+.d-tape .spine-tape {
+  width: 190px;
+  border-radius: 6px;
+  border: 2px solid rgba(0, 0, 0, 0.55);
+  padding: 10px 12px;
+  box-shadow: inset 0 2px 0 rgba(255, 245, 225, 0.18), 0 8px 16px -8px rgba(0, 0, 0, 0.7);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.d-tape .spine-tape:hover { transform: translateY(-6px) rotate(-1deg); }
+.d-tape .spine-label {
+  background: var(--cream);
+  border-radius: 3px;
+  color: #3a2c22;
+  padding: 3px 8px 4px;
+}
+
+/* tape window with reels */
+.d-tape .reels { display: flex; align-items: center; justify-content: space-between; }
