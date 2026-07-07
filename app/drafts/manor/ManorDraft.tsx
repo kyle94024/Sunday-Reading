@@ -6,6 +6,7 @@ import ReactMarkdown from "react-markdown";
 import { useState } from "react";
 import type { Book } from "@/lib/db";
 import { jitter, stampDate, yearLabel } from "../util";
+import { IntroMd } from "../zf/core";
 
 function vulgar(r: number): string {
   const half = Math.round(r * 2) / 2;
@@ -56,25 +57,6 @@ function Frame({ children, className = "", style }: { children: React.ReactNode;
       <span className="floret" style={{ bottom: 7, right: 9 }}>❖</span>
       {children}
     </div>
-  );
-}
-
-function IntroMd({ text }: { text: string }) {
-  return (
-    <ReactMarkdown
-      components={{
-        a: ({ href, children }) =>
-          !href || href.startsWith("#") ? (
-            <em>{children}</em>
-          ) : (
-            <a href={href} target="_blank" rel="noopener noreferrer">
-              {children}
-            </a>
-          ),
-      }}
-    >
-      {text}
-    </ReactMarkdown>
   );
 }
 

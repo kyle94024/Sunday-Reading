@@ -6,6 +6,7 @@ import ReactMarkdown from "react-markdown";
 import { useState, type ReactNode } from "react";
 import type { Book } from "@/lib/db";
 import { callNumber, romanize, stampDate, yearLabel } from "../util";
+import { IntroMd } from "../zf/core";
 
 /* ── little pieces ─────────────────────────────────────────────── */
 
@@ -95,25 +96,6 @@ function Cover({
         )}
       </span>
     </span>
-  );
-}
-
-function IntroMd({ text }: { text: string }) {
-  return (
-    <ReactMarkdown
-      components={{
-        a: ({ href, children }) =>
-          !href || href.startsWith("#") ? (
-            <em>{children}</em>
-          ) : (
-            <a href={href} target="_blank" rel="noopener noreferrer">
-              {children}
-            </a>
-          ),
-      }}
-    >
-      {text}
-    </ReactMarkdown>
   );
 }
 

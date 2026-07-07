@@ -6,6 +6,7 @@ import ReactMarkdown from "react-markdown";
 import { useState } from "react";
 import type { Book } from "@/lib/db";
 import { romanize, stampDate, yearLabel } from "../util";
+import { IntroMd } from "../zf/core";
 
 /* Fixed constellation coordinates — hand-plotted wander across the band. */
 const POINTS: [number, number][] = [
@@ -208,25 +209,6 @@ function Plate({
         </div>
       </div>
     </article>
-  );
-}
-
-function IntroMd({ text }: { text: string }) {
-  return (
-    <ReactMarkdown
-      components={{
-        a: ({ href, children }) =>
-          !href || href.startsWith("#") ? (
-            <em>{children}</em>
-          ) : (
-            <a href={href} target="_blank" rel="noopener noreferrer">
-              {children}
-            </a>
-          ),
-      }}
-    >
-      {text}
-    </ReactMarkdown>
   );
 }
 

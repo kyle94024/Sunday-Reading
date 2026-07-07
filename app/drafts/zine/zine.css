@@ -69,6 +69,7 @@
 /* masking tape */
 .d-zine .tape {
   position: absolute;
+  z-index: 5;
   background: rgba(217, 255, 61, 0.82);
   color: var(--ink);
   font-weight: 700;
@@ -108,6 +109,27 @@
   text-align: center;
   line-height: 1.05;
   transform: rotate(-8deg);
+}
+/* Positioned burst variants — .burst's own position:relative outranks
+   Tailwind's `absolute`/`hidden`, so these carry their placement here. */
+.d-zine .burst-hero {
+  position: absolute;
+  right: 22px;
+  top: 18px;
+  display: none;
+}
+@media (min-width: 768px) {
+  .d-zine .burst-hero { display: inline-grid; }
+}
+.d-zine .burst-card {
+  position: absolute;
+  right: -26px;
+  top: -30px;
+  display: none;
+  z-index: 10;
+}
+@media (min-width: 640px) {
+  .d-zine .burst-card { display: inline-grid; }
 }
 
 /* paper card */

@@ -6,31 +6,13 @@ import ReactMarkdown from "react-markdown";
 import { useState } from "react";
 import type { Book } from "@/lib/db";
 import { jitter, yearLabel } from "../util";
+import { IntroMd } from "../zf/core";
 
 function StatusSticker({ status }: { status: Book["status"] }) {
   if (status === "read") return <span className="sticker acid">READ!</span>;
   if (status === "reading")
     return <span className="sticker violet">READING…</span>;
   return <span className="sticker grey">TBR PILE</span>;
-}
-
-function IntroMd({ text }: { text: string }) {
-  return (
-    <ReactMarkdown
-      components={{
-        a: ({ href, children }) =>
-          !href || href.startsWith("#") ? (
-            <em>{children}</em>
-          ) : (
-            <a href={href} target="_blank" rel="noopener noreferrer">
-              {children}
-            </a>
-          ),
-      }}
-    >
-      {text}
-    </ReactMarkdown>
-  );
 }
 
 function ZineCard({
@@ -58,7 +40,7 @@ function ZineCard({
         </span>
       )}
       {exceptional && (
-        <span className="burst gold absolute -right-7 -top-8 z-10 hidden sm:inline-grid" style={{ transform: "scale(0.9)" }}>
+        <span className="burst gold burst-card" style={{ transform: "scale(0.9)" }}>
           <span>
             TOP
             <br />
@@ -184,7 +166,7 @@ export function ZineDraft({
           style={{ background: "#6d28d9", padding: "clamp(28px,6vw,60px)" }}
         >
           <div className="halftone absolute right-0 top-0 h-full w-24 opacity-60 sm:w-40" aria-hidden />
-          <span className="burst absolute right-6 top-6 hidden -rotate-6 md:inline-grid" aria-hidden>
+          <span className="burst burst-hero -rotate-6" aria-hidden>
             <span>
               EST.
               <br />
@@ -192,7 +174,7 @@ export function ZineDraft({
             </span>
           </span>
 
-          <p className="big" style={{ fontSize: 14, letterSpacing: "0.2em", color: "#d9ff3d" }}>
+          <p className="big relative z-[1] md:pr-32" style={{ fontSize: 14, letterSpacing: "0.2em", color: "#d9ff3d" }}>
             A HOMEMADE BOOK-REVIEW PAPER
           </p>
           <h1 className="big mt-3 uppercase leading-[0.92]" style={{ fontSize: "clamp(2.6rem,9vw,5.4rem)", textShadow: "5px 5px 0 #0b0a0c" }}>

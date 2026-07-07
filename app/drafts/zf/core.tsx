@@ -4,25 +4,159 @@
 // client-safe (no server imports). Themes compose these and set colors.
 
 import ReactMarkdown from "react-markdown";
+import { Fragment, useMemo, useState } from "react";
 import type { CSSProperties, ReactNode } from "react";
 
-/* ── markdown with hash-links rendered as plain italics ── */
+/* ── intro markdown with real links AND inline music embeds ──────────
+   Mirrors the live site: #lor / #tpov hash links (or bare italicized
+   phrases) become toggles that expand a Spotify player styled with
+   currentColor so it fits any theme. External links open in new tabs. */
+
+const INTRO_EMBEDS = [
+  {
+    marker: "#lor",
+    phrase: "Library of Ruina",
+    subtitle: "Mili · album",
+    embed:
+      "https://open.spotify.com/embed/album/1OVibN37sJiU2M9cCbL950?utm_source=generator",
+    external:
+      "https://open.spotify.com/album/1OVibN37sJiU2M9cCbL950?si=ed3wbXsdQ4ure5vrp8GRwQ",
+    externalLabel: "Spotify ↗",
+  },
+  {
+    marker: "#tpov",
+    phrase: "Through Patches of Violet",
+    subtitle: "Mili · track",
+    embed:
+      "https://open.spotify.com/embed/track/6C3NjslaxrAHpiU9W5XTiV?utm_source=generator",
+    external: "https://www.youtube.com/watch?v=G_JfKOjwzwo",
+    externalLabel: "YouTube ↗",
+  },
+];
+
+function escapeRegex(s: string) {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+// Bare *phrase* → [*phrase*](#marker), unless it's already a link.
+function injectEmbedLinks(text: string): string {
+  let out = text;
+  for (const e of INTRO_EMBEDS) {
+    const re = new RegExp(`\\*${escapeRegex(e.phrase)}\\*(?!\\])`, "g");
+    out = out.replace(re, `[*${e.phrase}*](${e.marker})`);
+  }
+  return out;
+}
+
 export function IntroMd({ text }: { text: string }) {
+  const [open, setOpen] = useState<Record<string, boolean>>({});
+  const paragraphs = useMemo(
+    () => injectEmbedLinks(text).split(/\n\n+/),
+    [text]
+  );
+
+  const components = {
+    a: ({ href, children }: { href?: string; children?: ReactNode }) => {
+      const emb = INTRO_EMBEDS.find((e) => e.marker === href);
+      if (emb) {
+        const isOpen = !!open[emb.marker];
+        return (
+          <button
+            type="button"
+            onClick={() => setOpen((m) => ({ ...m, [emb.marker]: !m[emb.marker] }))}
+            style={{
+              font: "inherit",
+              color: "inherit",
+              fontStyle: "italic",
+              fontWeight: "inherit",
+              background: "none",
+              border: "none",
+              padding: 0,
+              cursor: "pointer",
+              textDecoration: "underline",
+              textDecorationThickness: 2,
+              textUnderlineOffset: 3,
+            }}
+            aria-expanded={isOpen}
+            title={isOpen ? "Hide the player" : "Play it here"}
+          >
+            {children}
+            <span aria-hidden style={{ fontStyle: "normal", fontSize: "0.82em" }}>
+              {" "}♪{isOpen ? "▾" : "▸"}
+            </span>
+          </button>
+        );
+      }
+      if (!href || href.startsWith("#")) return <em>{children}</em>;
+      return (
+        <a href={href} target="_blank" rel="noopener noreferrer">
+          {children}
+        </a>
+      );
+    },
+  };
+
   return (
-    <ReactMarkdown
-      components={{
-        a: ({ href, children }) =>
-          !href || href.startsWith("#") ? (
-            <em>{children}</em>
-          ) : (
-            <a href={href} target="_blank" rel="noopener noreferrer">
-              {children}
-            </a>
-          ),
-      }}
-    >
-      {text}
-    </ReactMarkdown>
+    <>
+      {paragraphs.map((para, i) => {
+        const embHere = INTRO_EMBEDS.filter((e) => para.includes(`(${e.marker})`));
+        return (
+          <Fragment key={i}>
+            <ReactMarkdown components={components}>{para}</ReactMarkdown>
+            {embHere.map(
+              (e) =>
+                open[e.marker] && (
+                  <div
+                    key={e.marker}
+                    style={{
+                      border: "2px solid currentColor",
+                      borderRadius: 12,
+                      padding: "10px 12px 12px",
+                      margin: "0.1em 0 1.4em",
+                      background: "rgba(127,127,127,0.09)",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "baseline",
+                        gap: 12,
+                        fontSize: 11.5,
+                        letterSpacing: "0.14em",
+                        textTransform: "uppercase",
+                        opacity: 0.8,
+                        marginBottom: 8,
+                        fontStyle: "normal",
+                      }}
+                    >
+                      <span>now playing · {e.subtitle}</span>
+                      <a
+                        href={e.external}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ color: "inherit", textDecoration: "underline", textUnderlineOffset: 2 }}
+                      >
+                        {e.externalLabel}
+                      </a>
+                    </div>
+                    <iframe
+                      src={e.embed}
+                      width="100%"
+                      height="152"
+                      frameBorder="0"
+                      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                      loading="lazy"
+                      style={{ borderRadius: 10, display: "block", colorScheme: "normal" }}
+                      title={e.phrase}
+                    />
+                  </div>
+                )
+            )}
+          </Fragment>
+        );
+      })}
+    </>
   );
 }
 
