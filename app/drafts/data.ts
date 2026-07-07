@@ -7,6 +7,7 @@ export type DraftData = {
   intro: string;
   limbus: Book[];
   reviews: Book[];
+  books: Book[]; // everything, for sidebar widgets (now-reading, stats…)
 };
 
 // One fetch shape shared by every draft page so all four render the same
@@ -31,5 +32,6 @@ export async function getDraftData(): Promise<DraftData> {
     intro: content.intro ?? "",
     limbus,
     reviews,
+    books,
   };
 }

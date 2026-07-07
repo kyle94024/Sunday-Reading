@@ -9,13 +9,13 @@ const baloo = Baloo_2({ subsets: ["latin"], variable: "--font-baloo" });
 const grotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-grotesk" });
 
 export const revalidate = 60;
-export const metadata = { title: "Draft · Sticker Club" };
+export const metadata = { title: "Draft · Frog Pond" };
 
-export default async function StickersPage() {
+export default async function PondPage() {
   const data = await getDraftData();
   return (
     <div className={`${baloo.variable} ${grotesk.variable}`}>
-      <StickFam theme="mix" {...data} />
+      <StickFam theme="pond" {...data} />
       <DraftBar />
     </div>
   );

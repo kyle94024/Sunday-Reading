@@ -205,9 +205,11 @@ export function Marquee({
 export function SideRails({
   left,
   right,
+  interactive = false,
 }: {
   left: ReactNode[];
   right: ReactNode[];
+  interactive?: boolean; // rails holding real links must not be aria-hidden
 }) {
   const wrap = (nodes: ReactNode[]) =>
     nodes.map((n, i) => (
@@ -220,10 +222,10 @@ export function SideRails({
     ));
   return (
     <>
-      <div className="zf-rail zf-rail-left" aria-hidden>
+      <div className="zf-rail zf-rail-left" aria-hidden={interactive ? undefined : true}>
         {wrap(left)}
       </div>
-      <div className="zf-rail zf-rail-right" aria-hidden>
+      <div className="zf-rail zf-rail-right" aria-hidden={interactive ? undefined : true}>
         {wrap(right)}
       </div>
     </>
@@ -543,6 +545,222 @@ export function Joystick({ size = 36, base = "#1c2040", stick = "#2de2ff", ball 
       <rect x="16.5" y="10" width="3" height="15" rx="1.5" fill={stick} />
       <circle cx="18" cy="8" r="5" fill={ball} stroke="rgba(0,0,0,0.4)" strokeWidth="1" />
       <circle cx="26" cy="28" r="2.2" fill="#ffe86b" />
+    </svg>
+  );
+}
+
+/* ── round-three sprite kit: fluffy creatures & scrapbook trimmings ──
+   All share the pattern: pastel fill, soft dark outline, optional
+   blinking eyes via the zf-blink-eyes/.zf-eyes hook. */
+
+type Critter = S & { blink?: boolean; cheeks?: string };
+
+export function Bunny({ size = 44, color = "#fff5f8", cheeks = "#f9a8d4", blink = true, className = "", style }: Critter) {
+  return (
+    <svg viewBox="0 0 44 48" width={size} height={size * 1.09} className={`${blink ? "zf-blink-eyes" : ""} ${className}`} style={style} aria-hidden>
+      <ellipse cx="15" cy="12" rx="5" ry="11" fill={color} stroke="rgba(74,53,80,0.55)" strokeWidth="1.4" />
+      <ellipse cx="29" cy="12" rx="5" ry="11" fill={color} stroke="rgba(74,53,80,0.55)" strokeWidth="1.4" />
+      <ellipse cx="15" cy="12" rx="2.2" ry="7" fill={cheeks} opacity="0.55" />
+      <ellipse cx="29" cy="12" rx="2.2" ry="7" fill={cheeks} opacity="0.55" />
+      <circle cx="22" cy="31" r="15" fill={color} stroke="rgba(74,53,80,0.55)" strokeWidth="1.5" />
+      <g className="zf-eyes">
+        <circle cx="16.5" cy="29" r="2" fill="#3b3350" />
+        <circle cx="27.5" cy="29" r="2" fill="#3b3350" />
+      </g>
+      <circle cx="12.5" cy="34" r="2.6" fill={cheeks} opacity="0.7" />
+      <circle cx="31.5" cy="34" r="2.6" fill={cheeks} opacity="0.7" />
+      <path d="M20.5 34.5c1 1 2 1 3 0M22 32.5v2" stroke="#3b3350" strokeWidth="1.3" fill="none" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function Bear({ size = 44, color = "#e7c9a1", cheeks = "#f2a48c", blink = true, className = "", style }: Critter) {
+  return (
+    <svg viewBox="0 0 46 42" width={size} height={size * 0.91} className={`${blink ? "zf-blink-eyes" : ""} ${className}`} style={style} aria-hidden>
+      <circle cx="10" cy="10" r="6.5" fill={color} stroke="rgba(74,53,80,0.5)" strokeWidth="1.4" />
+      <circle cx="36" cy="10" r="6.5" fill={color} stroke="rgba(74,53,80,0.5)" strokeWidth="1.4" />
+      <circle cx="10" cy="10" r="3" fill={cheeks} opacity="0.5" />
+      <circle cx="36" cy="10" r="3" fill={cheeks} opacity="0.5" />
+      <circle cx="23" cy="24" r="16" fill={color} stroke="rgba(74,53,80,0.5)" strokeWidth="1.5" />
+      <ellipse cx="23" cy="29" rx="7" ry="5.5" fill="#f7e9d4" />
+      <g className="zf-eyes">
+        <circle cx="17" cy="21" r="2" fill="#3b3350" />
+        <circle cx="29" cy="21" r="2" fill="#3b3350" />
+      </g>
+      <path d="M23 26.5v2.5m-2.5 1.5c1.5 1.4 3.5 1.4 5 0" stroke="#3b3350" strokeWidth="1.3" fill="none" strokeLinecap="round" />
+      <ellipse cx="23" cy="26" rx="2.4" ry="1.7" fill="#3b3350" />
+      <circle cx="12" cy="27" r="2.6" fill={cheeks} opacity="0.65" />
+      <circle cx="34" cy="27" r="2.6" fill={cheeks} opacity="0.65" />
+    </svg>
+  );
+}
+
+export function Frog({ size = 44, color = "#b6e3c1", cheeks = "#f9a8d4", blink = true, className = "", style }: Critter) {
+  return (
+    <svg viewBox="0 0 46 38" width={size} height={size * 0.83} className={`${blink ? "zf-blink-eyes" : ""} ${className}`} style={style} aria-hidden>
+      <circle cx="13" cy="9" r="7" fill={color} stroke="rgba(42,74,54,0.55)" strokeWidth="1.4" />
+      <circle cx="33" cy="9" r="7" fill={color} stroke="rgba(42,74,54,0.55)" strokeWidth="1.4" />
+      <ellipse cx="23" cy="24" rx="18" ry="13" fill={color} stroke="rgba(42,74,54,0.55)" strokeWidth="1.5" />
+      <g className="zf-eyes">
+        <circle cx="13" cy="9" r="2.6" fill="#2b3a30" />
+        <circle cx="33" cy="9" r="2.6" fill="#2b3a30" />
+      </g>
+      <path d="M15 27c2.5 2.6 13.5 2.6 16 0" stroke="#2b3a30" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+      <circle cx="9" cy="26" r="2.8" fill={cheeks} opacity="0.7" />
+      <circle cx="37" cy="26" r="2.8" fill={cheeks} opacity="0.7" />
+    </svg>
+  );
+}
+
+export function Duck({ size = 42, color = "#fbe7a2", beak = "#f2a44c", blink = true, className = "", style }: Critter & { beak?: string }) {
+  return (
+    <svg viewBox="0 0 44 40" width={size} height={size * 0.91} className={`${blink ? "zf-blink-eyes" : ""} ${className}`} style={style} aria-hidden>
+      <circle cx="17" cy="14" r="11" fill={color} stroke="rgba(90,70,30,0.5)" strokeWidth="1.4" />
+      <ellipse cx="25" cy="30" rx="16" ry="9" fill={color} stroke="rgba(90,70,30,0.5)" strokeWidth="1.4" />
+      <path d="M27 13.5c4-1.5 8-1 9 1-1 2-5 2.8-9 1.6z" fill={beak} stroke="rgba(90,70,30,0.5)" strokeWidth="1" />
+      <g className="zf-eyes">
+        <circle cx="15" cy="12" r="1.9" fill="#3a3220" />
+      </g>
+      <circle cx="10.5" cy="17" r="2.3" fill="#f7b7ae" opacity="0.7" />
+      <path d="M22 30c3 1.8 8 1.8 11-1" stroke="rgba(90,70,30,0.5)" strokeWidth="1.2" fill="none" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function Butterfly({ size = 34, color = "#c4b5fd", accent = "#f9a8d4", className = "", style }: S & { accent?: string }) {
+  return (
+    <svg viewBox="0 0 40 34" width={size} height={size * 0.85} className={className} style={style} aria-hidden>
+      <path d="M20 17C14 6 4 4 3 11c-1 6 8 10 17 8" fill={color} stroke="rgba(74,53,80,0.5)" strokeWidth="1.2" />
+      <path d="M20 17c6-11 16-13 17-6 1 6-8 10-17 8" fill={color} stroke="rgba(74,53,80,0.5)" strokeWidth="1.2" />
+      <path d="M20 19c-5 8-11 10-12 5-1-4 6-7 12-6" fill={accent} stroke="rgba(74,53,80,0.5)" strokeWidth="1.1" />
+      <path d="M20 19c5 8 11 10 12 5 1-4-6-7-12-6" fill={accent} stroke="rgba(74,53,80,0.5)" strokeWidth="1.1" />
+      <line x1="20" y1="8" x2="20" y2="26" stroke="#4a3550" strokeWidth="2.2" strokeLinecap="round" />
+      <path d="M19 8c-2-3-4-4-6-4M21 8c2-3 4-4 6-4" stroke="#4a3550" strokeWidth="1.1" fill="none" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function Bow({ size = 30, color = "#f9a8d4", className = "", style }: S) {
+  return (
+    <svg viewBox="0 0 36 22" width={size} height={size * 0.61} className={className} style={style} aria-hidden>
+      <path d="M16 11 3 3c-2 5-2 11 0 16z" fill={color} stroke="rgba(74,53,80,0.5)" strokeWidth="1.2" strokeLinejoin="round" />
+      <path d="M20 11l13-8c2 5 2 11 0 16z" fill={color} stroke="rgba(74,53,80,0.5)" strokeWidth="1.2" strokeLinejoin="round" />
+      <rect x="14.5" y="7.5" width="7" height="7" rx="2" fill={color} stroke="rgba(74,53,80,0.55)" strokeWidth="1.2" />
+    </svg>
+  );
+}
+
+export function Doily({ size = 54, color = "rgba(255,255,255,0.85)", className = "", style }: S) {
+  return (
+    <svg viewBox="0 0 60 60" width={size} height={size} className={className} style={style} aria-hidden>
+      <circle cx="30" cy="30" r="27" fill={color} stroke="rgba(74,53,80,0.3)" strokeWidth="1" strokeDasharray="3 3.5" />
+      <circle cx="30" cy="30" r="19" fill="none" stroke="rgba(74,53,80,0.28)" strokeWidth="1" strokeDasharray="1.5 3" />
+      <circle cx="30" cy="30" r="10" fill="none" stroke="rgba(74,53,80,0.24)" strokeWidth="1" />
+    </svg>
+  );
+}
+
+export function Strawberry({ size = 28, color = "#f26d7d", className = "", style }: S) {
+  return (
+    <svg viewBox="0 0 28 30" width={size} height={size * 1.07} className={className} style={style} aria-hidden>
+      <path d="M14 28C6 24 2 18 3 12c1-4 5-5 11-5s10 1 11 5c1 6-3 12-11 16z" fill={color} stroke="rgba(90,20,30,0.5)" strokeWidth="1.2" />
+      <path d="M9 4c2 2 8 2 10 0M14 7V2" stroke="#5c8a63" strokeWidth="2" fill="none" strokeLinecap="round" />
+      <g fill="#ffe1e6" opacity="0.9">
+        <circle cx="9" cy="13" r="1" /><circle cx="14" cy="16" r="1" /><circle cx="19" cy="13" r="1" />
+        <circle cx="11" cy="20" r="1" /><circle cx="17" cy="20" r="1" />
+      </g>
+    </svg>
+  );
+}
+
+export function Carrot({ size = 30, color = "#f2a44c", className = "", style }: S) {
+  return (
+    <svg viewBox="0 0 22 34" width={size * 0.65} height={size} className={className} style={style} aria-hidden>
+      <path d="M11 32C6 24 4 16 6 10h10c2 6 0 14-5 22z" fill={color} stroke="rgba(120,60,10,0.5)" strokeWidth="1.2" strokeLinejoin="round" />
+      <path d="M7 9C4 6 3 3 3 1m8 8V2m3 7c3-3 4-6 4-8" stroke="#5c8a63" strokeWidth="2" fill="none" strokeLinecap="round" />
+      <path d="M8 15h6M9 20h5" stroke="rgba(120,60,10,0.4)" strokeWidth="1" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function Lilypad({ size = 40, color = "#8fd0a8", flower = "#f9a8d4", className = "", style }: S & { flower?: string }) {
+  return (
+    <svg viewBox="0 0 44 30" width={size} height={size * 0.68} className={className} style={style} aria-hidden>
+      <path d="M22 27C10 27 2 21 2 14 2 7 11 3 22 3s20 4 20 11c0 7-8 13-20 13z M22 14 34 5" fill={color} stroke="rgba(42,74,54,0.5)" strokeWidth="1.3" />
+      <circle cx="33" cy="8" r="4.5" fill={flower} stroke="rgba(90,20,50,0.4)" strokeWidth="1" />
+      <circle cx="33" cy="8" r="1.6" fill="#fde68a" />
+    </svg>
+  );
+}
+
+export function HoneyPot({ size = 34, color = "#d9a05b", className = "", style }: S) {
+  return (
+    <svg viewBox="0 0 34 32" width={size} height={size * 0.94} className={className} style={style} aria-hidden>
+      <path d="M6 12c-3 4-3 10 0 13 2 3 8 5 11 5s9-2 11-5c3-3 3-9 0-13z" fill={color} stroke="rgba(90,50,10,0.5)" strokeWidth="1.3" />
+      <rect x="8" y="6" width="18" height="6" rx="3" fill="#f7d97a" stroke="rgba(90,50,10,0.5)" strokeWidth="1.2" />
+      <path d="M13 12c0 4 2 6 4 6s4-2 4-6" fill="#f7d97a" opacity="0.85" />
+      <path d="M17 18v3" stroke="#f7d97a" strokeWidth="3" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function PostStamp({ size = 40, color = "#fdf3f5", icon = "#e8737f", className = "", style }: S & { icon?: string }) {
+  return (
+    <svg viewBox="0 0 36 42" width={size * 0.85} height={size} className={className} style={style} aria-hidden>
+      <rect x="2" y="2" width="32" height="38" fill={color} stroke="rgba(74,53,80,0.5)" strokeWidth="1.2" strokeDasharray="3 2.5" />
+      <rect x="7" y="7" width="22" height="28" fill="none" stroke="rgba(74,53,80,0.35)" strokeWidth="1" />
+      <path d="M18 28c-4.5-3.7-7-6.3-7-9.1 0-2 1.5-3.4 3.4-3.4 1.4 0 2.7.8 3.6 2.2.9-1.4 2.2-2.2 3.6-2.2 1.9 0 3.4 1.4 3.4 3.4 0 2.8-2.5 5.4-7 9.1z" fill={icon} />
+    </svg>
+  );
+}
+
+export function Envelope({ size = 44, color = "#fffdf7", seal = "#e8737f", className = "", style }: S & { seal?: string }) {
+  return (
+    <svg viewBox="0 0 48 32" width={size} height={size * 0.67} className={className} style={style} aria-hidden>
+      <rect x="1.5" y="1.5" width="45" height="29" rx="3" fill={color} stroke="rgba(74,53,80,0.5)" strokeWidth="1.3" />
+      <path d="M2 3l22 15L46 3" fill="none" stroke="rgba(74,53,80,0.45)" strokeWidth="1.2" />
+      <circle cx="24" cy="19" r="4" fill={seal} stroke="rgba(90,20,30,0.4)" strokeWidth="1" />
+    </svg>
+  );
+}
+
+export function Sprig({ size = 40, color = "#b7a4e3", className = "", style }: S) {
+  return (
+    <svg viewBox="0 0 20 44" width={size * 0.45} height={size} className={className} style={style} aria-hidden>
+      <path d="M10 43C10 30 10 18 10 8" stroke="#7a9a6d" strokeWidth="1.6" strokeLinecap="round" fill="none" />
+      {[
+        [10, 6], [6.5, 11], [13.5, 11], [7, 17], [13, 17], [7.5, 23], [12.5, 23], [8, 29], [12, 29],
+      ].map(([x, y], i) => (
+        <ellipse key={i} cx={x} cy={y} rx="3" ry="4" fill={color} stroke="rgba(74,53,80,0.35)" strokeWidth="0.8" />
+      ))}
+    </svg>
+  );
+}
+
+export function Paw({ size = 22, color = "#c9b1d9", className = "", style }: S) {
+  return (
+    <svg viewBox="0 0 24 22" width={size} height={size * 0.92} className={className} style={style} aria-hidden>
+      <ellipse cx="12" cy="15" rx="6" ry="5" fill={color} />
+      <circle cx="4.5" cy="9" r="2.4" fill={color} />
+      <circle cx="10" cy="5.5" r="2.4" fill={color} />
+      <circle cx="15.5" cy="5.5" r="2.4" fill={color} />
+      <circle cx="20" cy="9" r="2.4" fill={color} />
+    </svg>
+  );
+}
+
+export function Bee({ size = 32, color = "#fde68a", className = "", style }: S) {
+  return (
+    <svg viewBox="0 0 40 34" width={size} height={size * 0.85} className={`zf-blink-eyes ${className}`} style={style} aria-hidden>
+      <ellipse cx="14" cy="9" rx="7" ry="5" fill="rgba(255,255,255,0.8)" stroke="rgba(0,0,0,0.25)" strokeWidth="1" transform="rotate(-24 14 9)" />
+      <ellipse cx="27" cy="9" rx="7" ry="5" fill="rgba(255,255,255,0.8)" stroke="rgba(0,0,0,0.25)" strokeWidth="1" transform="rotate(24 27 9)" />
+      <ellipse cx="20" cy="21" rx="12" ry="9" fill={color} stroke="rgba(0,0,0,0.35)" strokeWidth="1.4" />
+      <path d="M16 12.7v16.6 M23 12.5v17" stroke="#4a3a20" strokeWidth="3.4" strokeLinecap="round" />
+      <path d="M31.5 21h3.5" stroke="#4a3a20" strokeWidth="1.6" strokeLinecap="round" />
+      <g className="zf-eyes">
+        <circle cx="12" cy="19" r="1.8" fill="#2b2333" />
+      </g>
+      <path d="M9.5 23c1.4 1.2 3 1.2 4.2 0" stroke="#2b2333" strokeWidth="1.4" fill="none" strokeLinecap="round" />
     </svg>
   );
 }

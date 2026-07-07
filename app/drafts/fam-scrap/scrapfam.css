@@ -1,0 +1,188 @@
+/* ─── Scrapbook family: four palettes, one craft box ─────────────────
+   Themes set the vars; everything else is shared. */
+
+.d-scrap2 {
+  min-height: 100vh;
+  color: var(--ink);
+  font-family: var(--font-grotesk), sans-serif;
+  padding: 26px 16px 130px;
+  overflow-x: hidden;
+  background: linear-gradient(var(--bg1), var(--bg2));
+}
+
+/* palettes */
+.d-scrap2.t-kraft {
+  --bg1: #dcc9ae; --bg2: #cdb693;
+  --page: #fdf9ef; --ink: #4a3550;
+  --a1: #e8737f; --a2: #7fa886; --a3: #eec96a;
+  --edge: rgba(122, 90, 60, 0.5);
+}
+.d-scrap2.t-berry {
+  --bg1: #fbe4ea; --bg2: #f5d0dc;
+  --page: #fffbfc; --ink: #58324a;
+  --a1: #e05c74; --a2: #8fbf98; --a3: #f2c14e;
+  --edge: rgba(224, 92, 116, 0.45);
+}
+.d-scrap2.t-picnic {
+  --bg1: #d9edf6; --bg2: #c9e6d8;
+  --page: #fdfcf3; --ink: #33465a;
+  --a1: #5f93bd; --a2: #e8848f; --a3: #ecc25c;
+  --edge: rgba(95, 147, 189, 0.5);
+}
+.d-scrap2.t-lav {
+  --bg1: #ece3f8; --bg2: #dccdf0;
+  --page: #fefcff; --ink: #46375e;
+  --a1: #8d6fd1; --a2: #e8849b; --a3: #8fbf98;
+  --edge: rgba(141, 111, 209, 0.45);
+}
+
+/* paper fiber + confetti sprinkles */
+.d-scrap2::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.7'/></svg>");
+}
+.d-scrap2::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image:
+    radial-gradient(circle 3px at 24px 40px, var(--a1) 98%, transparent),
+    radial-gradient(circle 2.5px at 130px 90px, var(--a3) 98%, transparent),
+    radial-gradient(circle 3px at 210px 30px, var(--a2) 98%, transparent),
+    radial-gradient(circle 2px at 70px 160px, var(--a1) 98%, transparent),
+    radial-gradient(circle 2.5px at 180px 200px, var(--a2) 98%, transparent),
+    radial-gradient(circle 2px at 250px 130px, var(--a3) 98%, transparent);
+  background-size: 290px 240px;
+  mix-blend-mode: multiply;
+}
+
+.d-scrap2 .big { font-family: var(--font-archivo), sans-serif; }
+.d-scrap2 .hand { font-family: var(--font-hand), cursive; }
+
+/* label-maker strip */
+.d-scrap2 .label {
+  display: inline-block;
+  background: #2f2638;
+  color: #fdf9ef;
+  font-family: var(--font-archivo), sans-serif;
+  font-size: 0.62em;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 0.34em 0.6em 0.28em;
+  border-radius: 3px;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.22);
+}
+.d-scrap2 .label.a1 { background: var(--a1); color: #fff; }
+.d-scrap2 .label.a2 { background: var(--a2); color: #21351f; }
+.d-scrap2 .label.a3 { background: var(--a3); color: #4a3550; }
+
+/* album pages */
+.d-scrap2 .page {
+  background: var(--page);
+  border: 1px solid color-mix(in oklab, var(--ink) 26%, transparent);
+  box-shadow: 0 3px 0 color-mix(in oklab, var(--ink) 16%, transparent), 0 16px 30px -18px rgba(60, 40, 30, 0.5);
+}
+.d-scrap2 .page.lined {
+  background:
+    repeating-linear-gradient(0deg, transparent 0 26px, color-mix(in oklab, var(--a2) 55%, transparent) 26px 27px),
+    var(--page);
+}
+.d-scrap2 .stitched {
+  outline: 2px dashed color-mix(in oklab, var(--a1) 70%, transparent);
+  outline-offset: -9px;
+}
+
+/* polaroid photo */
+.d-scrap2 .photo {
+  background: #fff;
+  border: 1px solid color-mix(in oklab, var(--ink) 30%, transparent);
+  padding: 7px 7px 22px;
+  box-shadow: 0 10px 18px -10px rgba(60, 40, 30, 0.55);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.d-scrap2 .photo:hover { transform: translateY(-6px) rotate(0deg) !important; }
+
+.d-scrap2 .prose { font-size: 1.03rem; line-height: 1.75; }
+.d-scrap2 .prose p { margin: 0 0 1.1em; }
+.d-scrap2 .prose a { color: var(--a1); font-weight: 700; text-decoration: underline wavy color-mix(in oklab, var(--a1) 65%, transparent) 2px; text-underline-offset: 4px; }
+.d-scrap2 .prose a:hover { color: var(--ink); }
+.d-scrap2 .prose strong { background: color-mix(in oklab, var(--a3) 55%, transparent); padding: 0 3px; border-radius: 2px; }
+
+.d-scrap2 .nav a {
+  font-family: var(--font-hand), cursive;
+  font-size: 20px;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 2px dashed color-mix(in oklab, var(--ink) 45%, transparent);
+}
+.d-scrap2 .nav a:hover { color: var(--a1); border-color: var(--a1); }
+
+/* hanging string */
+.d-scrap2 .string { position: relative; height: 128px; }
+.d-scrap2 .string svg.line { position: absolute; inset: 0; width: 100%; height: 100%; }
+.d-scrap2 .string .hung { position: absolute; top: 34px; transform-origin: 50% -12px; }
+
+/* sidebar widgets */
+.d-scrap2 .sw {
+  width: 138px;
+  background: var(--page);
+  border: 1px solid color-mix(in oklab, var(--ink) 26%, transparent);
+  box-shadow: 0 8px 16px -10px rgba(60, 40, 30, 0.5);
+  padding: 10px 10px 9px;
+  position: relative;
+  font-size: 11.5px;
+  line-height: 1.45;
+}
+.d-scrap2 .sw .sw-tape {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-3deg);
+  width: 56px;
+  height: 15px;
+  background: color-mix(in oklab, var(--a3) 80%, white);
+  border-left: 2px dashed rgba(0, 0, 0, 0.18);
+  border-right: 2px dashed rgba(0, 0, 0, 0.18);
+  opacity: 0.95;
+}
+.d-scrap2 .sw-head {
+  font-family: var(--font-archivo), sans-serif;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--a1);
+  margin-bottom: 5px;
+}
+
+/* gingham edge ribbons */
+.d-scrap2 .edge-gingham {
+  background:
+    repeating-linear-gradient(0deg, var(--edge) 0 8px, transparent 8px 16px),
+    repeating-linear-gradient(90deg, var(--edge) 0 8px, transparent 8px 16px);
+  opacity: 0.5;
+}
+
+.d-scrap2 .doodle-note { color: var(--a1); }
+
+/* postmark for letter cards */
+.d-scrap2 .postmark {
+  position: absolute;
+  width: 54px;
+  height: 54px;
+  border: 2px solid color-mix(in oklab, var(--ink) 45%, transparent);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-archivo), sans-serif;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  color: color-mix(in oklab, var(--ink) 60%, transparent);
+  transform: rotate(-12deg);
+  pointer-events: none;
+}

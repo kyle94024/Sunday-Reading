@@ -16,6 +16,17 @@
   41% { opacity: 1; } 42% { opacity: 0.6; } 43% { opacity: 1; }
   78% { opacity: 1; } 79% { opacity: 0.75; } 81% { opacity: 1; }
 }
+@keyframes zf-hop {
+  0%, 62%, 100% { transform: translateY(0); }
+  70% { transform: translateY(-11px) rotate(-2deg); }
+  78% { transform: translateY(0); }
+  84% { transform: translateY(-5px); }
+  90% { transform: translateY(0); }
+}
+@keyframes zf-wag {
+  0%, 100% { transform: rotate(-6deg); }
+  50% { transform: rotate(8deg); }
+}
 
 .zf-float { animation: zf-float 6s ease-in-out infinite; }
 .zf-sway { animation: zf-sway 7s ease-in-out infinite; transform-origin: 50% 0%; }
@@ -31,24 +42,46 @@
 .zf-d3 { animation-delay: -4.8s; }
 
 .zf-wiggle:hover { animation: zf-sway 0.45s ease-in-out; }
+.zf-hop { animation: zf-hop 5s ease-in-out infinite; }
+.zf-wag { animation: zf-wag 2.6s ease-in-out infinite; transform-origin: 50% 90%; }
 
-/* side rails — margin decorations, desktop only, never intercept clicks */
+/* side rails — full margin columns: widgets + doodads, desktop only.
+   pointer-events auto on children that opt in (widgets can hold links). */
 .zf-rail {
   position: fixed;
-  top: 90px;
-  bottom: 90px;
-  width: 124px;
+  top: 78px;
+  bottom: 78px;
+  width: 152px;
   display: none;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
+  gap: 10px;
   pointer-events: none;
   z-index: 40;
 }
-.zf-rail-left { left: calc(50vw - 645px); }
-.zf-rail-right { right: calc(50vw - 645px); }
-@media (min-width: 1290px) {
+.zf-rail > * { pointer-events: none; }
+.zf-rail .zf-hot, .zf-rail .zf-hot * { pointer-events: auto; }
+.zf-rail-left { left: calc(50vw - 655px); }
+.zf-rail-right { right: calc(50vw - 655px); }
+@media (min-width: 1310px) {
   .zf-rail { display: flex; }
+}
+
+/* full-height decorative edge strips at the outer margins */
+.zf-edge {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 16px;
+  display: none;
+  pointer-events: none;
+  z-index: 39;
+}
+.zf-edge-left { left: max(2px, calc(50vw - 694px)); }
+.zf-edge-right { right: max(2px, calc(50vw - 694px)); }
+@media (min-width: 1390px) {
+  .zf-edge { display: block; }
 }
 
 /* ticker marquee */

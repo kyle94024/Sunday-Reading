@@ -1,56 +1,145 @@
 import Link from "next/link";
 
-const DRAFTS = [
+type Tile = {
+  href: string;
+  n: string;
+  name: string;
+  pitch: string;
+  keeps: string;
+  changes: string;
+  palette: string[];
+};
+
+// Round three: Kyle's favorites (scrapbook, sticker club, tabloid), each
+// grown into a small family. Sidebars are now real widget columns; cards
+// rotate through different silhouettes; cuteness turned up.
+const SCRAP_FAM: Tile[] = [
   {
-    href: "/drafts/catalog",
-    n: "I",
-    name: "The Card Catalog",
+    href: "/drafts/scrapbook",
+    n: "s·1",
+    name: "Scrapbook · Kraft",
     pitch:
-      "A midnight library's card drawer: cream index cards, typewriter slips, red rubber stamps, hole punches, a date-due grid.",
-    keeps: "the dark purple room",
-    changes: "gradients & glass → paper, ink, and stamps",
-    palette: ["#f5eedb", "#c1301c", "#191022", "#b98b4e"],
+      "The original craft box, rebuilt. Side rails are now pinned widgets — the nightstand book, shelf stats, a photobooth strip, a review-day calendar — plus mascots peeking over cards. Reviews rotate through three shapes: taped page, pinned polaroid, and a mailed letter with a postmark.",
+    keeps: "the warm kraft paper",
+    changes: "side doodles → a real pinboard; one card → three",
+    palette: ["#dcc9ae", "#e8737f", "#7fa886", "#4a3550"],
   },
   {
-    href: "/drafts/atlas",
-    n: "II",
-    name: "The Celestial Atlas",
+    href: "/drafts/strawberry",
+    n: "s·2",
+    name: "Strawberry Milk",
     pitch:
-      "A vintage star chart of your reading sky: gold hairlines, a plotted Limbus constellation, observation-log review plates.",
-    keeps: "the cosmos identity",
-    changes: "glow & blur → engraved instrument precision",
-    palette: ["#05060f", "#d8c08a", "#f4efe2", "#30365c"],
+      "The same album dipped in strawberry milk: blush pages, berry-jam accents, bunnies with pink cheeks. The pastel take for maximum soft.",
+    keeps: "every scrapbook trick",
+    changes: "kraft brown → strawberry pink",
+    palette: ["#fbe4ea", "#e05c74", "#8fbf98", "#58324a"],
   },
   {
-    href: "/drafts/zine",
-    n: "III",
-    name: "The Zine",
+    href: "/drafts/picnic",
+    n: "s·3",
+    name: "Picnic Day",
     pitch:
-      "Photocopier punk: hard offset shadows, stickers and tape, acid highlights, huge grotesque type. Loud and unmistakably human.",
-    keeps: "the violet heart",
-    changes: "elegance → energy; soft glow → hard edges",
-    palette: ["#6d28d9", "#d9ff3d", "#f7f5ef", "#0b0a0c"],
+      "A checkered-blanket afternoon: sky blue into meadow green, gingham ribbons down the edges, ducks and butterflies in the margins.",
+    keeps: "the cozy clutter",
+    changes: "indoors → outdoors; brown → blue-green pastels",
+    palette: ["#d9edf6", "#5f93bd", "#e8848f", "#33465a"],
   },
   {
-    href: "/drafts/manor",
-    n: "IV",
-    name: "Ex Libris",
+    href: "/drafts/lavender",
+    n: "s·4",
+    name: "Pressed Lavender",
     pitch:
-      "A private library bookplate: candlelight, gold tooling, a shelf of leather spines, wax seals, antique Fell type.",
-    keeps: "the bookish romance",
-    changes: "neon violet → aubergine, brass & candle-warmth",
-    palette: ["#171019", "#c9a45c", "#8c2f26", "#2a1a2e"],
+      "The quietest of the four: lilac paper, pressed sprigs, violet ink. Same cute bones, gentler volume.",
+    keeps: "the handwritten soul",
+    changes: "sugar → floral; loudest cute → calmest cute",
+    palette: ["#ece3f8", "#8d6fd1", "#e8849b", "#46375e"],
   },
 ];
 
-// Round two: Kyle picked the Zine — these are riffs around it.
-const FAMILY = [
+const STICK_FAM: Tile[] = [
+  {
+    href: "/drafts/stickers",
+    n: "c·1",
+    name: "Sticker Club · Mix",
+    pitch:
+      "The club, upgraded: a whole cast of blinking, hopping critters (blob, bunny, frog, bear, duck), a sticker-album widget that fills as you read, and cards that are puffy stickers, die-cut sheets with peel corners, or speech bubbles from a mascot.",
+    keeps: "puffy white-ring stickers",
+    changes: "one blob → a cast; empty rails → the club noticeboard",
+    palette: ["#f3eefc", "#a78bfa", "#f9a8d4", "#3b3350"],
+  },
+  {
+    href: "/drafts/bunny",
+    n: "c·2",
+    name: "Bunny Mail",
+    pitch:
+      "Pen-pal edition: pink graph paper, bunnies, carrots, stamps and envelopes. Every review reads like a letter from a very soft correspondent.",
+    keeps: "the sticker-sheet cards",
+    changes: "mixed cast → all bunny post office",
+    palette: ["#fdf1f4", "#f472b6", "#a7f3d0", "#58324a"],
+  },
+  {
+    href: "/drafts/pond",
+    n: "c·3",
+    name: "Frog Pond",
+    pitch:
+      "Reading by the water: mint paper, lilypads, a frog who reviews books and a duck who mostly supervises.",
+    keeps: "the hop animation, obviously",
+    changes: "pastel purple → pond green & sky blue",
+    palette: ["#e9f6ef", "#3f9e7f", "#8ec9ea", "#2f4858"],
+  },
+  {
+    href: "/drafts/honey",
+    n: "c·4",
+    name: "Honey Jar",
+    pitch:
+      "Warm amber club: bears, bees, honey pots, golden graph paper. The snuggest palette of the family.",
+    keeps: "the collection album",
+    changes: "cool pastels → toast & honey",
+    palette: ["#fdf5e0", "#dd9a2f", "#e0876d", "#5a4632"],
+  },
+];
+
+const PRESS_FAM: Tile[] = [
+  {
+    href: "/drafts/tabloid",
+    n: "p·1",
+    name: "The Evening Edition",
+    pitch:
+      "The midnight tabloid, re-anchored on the books: a real front page with a lead review, a ticker of actual headlines, margins that are an issue index (clickable), pull quotes from real reviews, a box score — and exactly one classified gag left in.",
+    keeps: "newsprint & double rules",
+    changes: "charcoal → brighter; gags → mostly real content",
+    palette: ["#201f26", "#f2ecdd", "#e04545", "#e8b93d"],
+  },
+  {
+    href: "/drafts/gazette",
+    n: "p·2",
+    name: "The Sunday Gazette",
+    pitch:
+      "The daylight broadsheet: ivory paper, a serif masthead, sepia photographs, navy and cardinal ink. The most grown-up of the three — still a newspaper, clearly about books.",
+    keeps: "the editorial furniture",
+    changes: "night → morning; halftone → sepia",
+    palette: ["#f5f0e4", "#c1272d", "#274168", "#26221c"],
+  },
+  {
+    href: "/drafts/digest",
+    n: "p·3",
+    name: "The Reader's Digestif",
+    pitch:
+      "A warm mid-century review digest: oat paper, plum ink, coral and mustard accents. Softer than the gazette, cozier than the tabloid.",
+    keeps: "the verdict boxes",
+    changes: "hard news → after-dinner reading",
+    palette: ["#ece2ce", "#d95f4b", "#c99a2e", "#46313e"],
+  },
+];
+
+// Round two: riffs on the winning Zine that didn't graduate to a family.
+const ROUND2: Tile[] = [
   {
     href: "/drafts/zine",
     n: "z·0",
     name: "The Zine (original)",
     pitch:
-      "The one that won round one — violet block, acid highlighter, hard shadows. Baseline for the riffs below.",
+      "The round-one winner — violet block, acid highlighter, hard shadows. Baseline everything else riffs on.",
     keeps: "everything",
     changes: "nothing — the reference point",
     palette: ["#6d28d9", "#d9ff3d", "#f7f5ef", "#0b0a0c"],
@@ -60,60 +149,73 @@ const FAMILY = [
     n: "z·1",
     name: "Riso Poster",
     pitch:
-      "The light-mode zine: two-ink risograph on warm paper. Violet + tangerine overprint headlines, halftone suns, duotone covers, hand-stamped margins.",
+      "Two-ink risograph on warm paper: violet + tangerine overprint headlines, halftone suns, duotone covers.",
     keeps: "the loud type & hard shadows",
     changes: "dark → warm paper; acid → tangerine",
     palette: ["#f4efe4", "#6d28d9", "#ff6b35", "#241d16"],
   },
   {
-    href: "/drafts/scrapbook",
-    n: "z·2",
-    name: "Scrapbook",
-    pitch:
-      "The homiest one. Kraft paper, washi tape, pushpinned polaroids, a swaying photo string, label-maker titles, handwritten margin notes ('cried here →').",
-    keeps: "the collage spirit",
-    changes: "punk → cozy; print-shop → craft box",
-    palette: ["#d9c7ae", "#e8a0a8", "#9db8a0", "#4a3550"],
-  },
-  {
     href: "/drafts/arcade",
-    n: "z·3",
+    n: "z·2",
     name: "Night Arcade",
     pitch:
-      "The zine after dark: neon magenta & cyan, pixel hearts, a ticker that never stops, CRT scanlines, HI-SCORE badges. Most ambient animation of the set.",
+      "Neon magenta & cyan, pixel hearts, CRT scanlines, HI-SCORE badges. Most ambient animation of the set.",
     keeps: "the dark + loud energy",
-    changes: "paper → phosphor; stickers → neon signs",
+    changes: "paper → phosphor",
     palette: ["#0b0d1f", "#ff2d95", "#2de2ff", "#ffe86b"],
   },
   {
-    href: "/drafts/stickers",
-    n: "z·4",
-    name: "Sticker Club",
-    pitch:
-      "Puffy pastel stickers on lavender graph paper. Everything peels; a small blob mascot blinks at you. The cutest possible reading of the zine.",
-    keeps: "sticker culture",
-    changes: "acid contrast → pastel softness",
-    palette: ["#f3eefc", "#f9a8d4", "#a7f3d0", "#3b3350"],
-  },
-  {
-    href: "/drafts/tabloid",
-    n: "z·5",
-    name: "Midnight Tabloid",
-    pitch:
-      "A punk front page: newsprint charcoal, double rules, halftone photos, an EXTRA!! ticker — and the margins are filled with fake classifieds about your reading life.",
-    keeps: "the print-object fantasy",
-    changes: "poster → newspaper; margins become content",
-    palette: ["#17161a", "#efe9dc", "#d92b2b", "#8a8578"],
-  },
-  {
     href: "/drafts/cassette",
-    n: "z·6",
+    n: "z·3",
     name: "Mixtape",
     pitch:
-      "Books as a hand-dubbed tape (fitting, since this whole site started with a soundtrack). Spinning reels, handwritten labels, liner-note reviews, equalizer ratings.",
+      "Books as a hand-dubbed tape: spinning reels, liner-note reviews, equalizer ratings. Ties into the Mili origin story.",
     keeps: "the handmade warmth",
-    changes: "paper → plastic & chrome; ties into the Mili origin",
+    changes: "paper → plastic & chrome",
     palette: ["#241a20", "#ff8c42", "#6fb3a8", "#f5e9d6"],
+  },
+];
+
+const ROUND1: Tile[] = [
+  {
+    href: "/drafts/catalog",
+    n: "I",
+    name: "The Card Catalog",
+    pitch:
+      "A midnight library's card drawer: cream index cards, typewriter slips, red rubber stamps, a date-due grid.",
+    keeps: "the dark purple room",
+    changes: "gradients & glass → paper, ink, and stamps",
+    palette: ["#f5eedb", "#c1301c", "#191022", "#b98b4e"],
+  },
+  {
+    href: "/drafts/atlas",
+    n: "II",
+    name: "The Celestial Atlas",
+    pitch:
+      "A vintage star chart of your reading sky: gold hairlines, a plotted Limbus constellation, observation-log plates.",
+    keeps: "the cosmos identity",
+    changes: "glow & blur → engraved precision",
+    palette: ["#05060f", "#d8c08a", "#f4efe2", "#30365c"],
+  },
+  {
+    href: "/drafts/zine",
+    n: "III",
+    name: "The Zine",
+    pitch:
+      "Photocopier punk: hard offset shadows, stickers and tape, acid highlights, huge grotesque type.",
+    keeps: "the violet heart",
+    changes: "elegance → energy",
+    palette: ["#6d28d9", "#d9ff3d", "#f7f5ef", "#0b0a0c"],
+  },
+  {
+    href: "/drafts/manor",
+    n: "IV",
+    name: "Ex Libris",
+    pitch:
+      "A private library bookplate: candlelight, gold tooling, leather spines, wax seals, antique Fell type.",
+    keeps: "the bookish romance",
+    changes: "neon violet → aubergine & brass",
+    palette: ["#171019", "#c9a45c", "#8c2f26", "#2a1a2e"],
   },
 ];
 
@@ -127,23 +229,61 @@ export default function DraftsIndex() {
           Style drafts · unlisted
         </p>
         <h1 className="mt-3 font-display text-4xl tracking-[0.02em] sm:text-5xl">
-          Four ways Sunday&rsquo;s Shelf could feel
+          Round three: three families
         </h1>
         <p className="mt-4 max-w-xl font-serif text-lg text-white/70">
-          Same live content, four personalities. Click through — books,
-          reviews, and ratings are pulled from the real database. Pick one, or
-          point at the pieces you like and we&rsquo;ll cross-breed.
+          Scrapbook, Sticker Club and the Tabloid each grew into a family.
+          What changed everywhere: the side margins are now real widget
+          columns (live data, not just doodles), review cards rotate through
+          different shapes, layering is fixed, and the cute dial went up.
+          Same live content throughout.
         </p>
 
-        <h2 className="mt-12 font-mono text-[11px] uppercase tracking-[0.35em] text-[#d9ff3d]/70">
-          Round two — the zine family
-        </h2>
+        <FamilyHeading accent="#e8a0a8">
+          The scrapbook four — cutest, craftiest
+        </FamilyHeading>
         <p className="mt-2 max-w-xl font-serif text-white/60">
-          The Zine won round one. Seven takes on it: different palettes,
-          populated margins, ambient motion, varying doses of cute.
+          One craft box, four palettes: kraft brown (the original mood), then
+          three pastels — strawberry, picnic, lavender.
         </p>
         <div className="mt-6 flex flex-col gap-4">
-          {FAMILY.map((d) => (
+          {SCRAP_FAM.map((d) => (
+            <DraftTile key={d.href} d={d} accent="#e8a0a8" />
+          ))}
+        </div>
+
+        <FamilyHeading accent="#a78bfa">
+          The sticker club four — properly cute sprites
+        </FamilyHeading>
+        <p className="mt-2 max-w-xl font-serif text-white/60">
+          A full cast of soft creatures that blink and hop, plus a sticker
+          album that fills up as books get read.
+        </p>
+        <div className="mt-6 flex flex-col gap-4">
+          {STICK_FAM.map((d) => (
+            <DraftTile key={d.href} d={d} accent="#a78bfa" />
+          ))}
+        </div>
+
+        <FamilyHeading accent="#e04545">
+          The press three — cool, but about the books
+        </FamilyHeading>
+        <p className="mt-2 max-w-xl font-serif text-white/60">
+          The tabloid's swagger, re-aimed at the reviews. Brighter, and the
+          margins are real editorial furniture now — issue index, pull
+          quotes, box score.
+        </p>
+        <div className="mt-6 flex flex-col gap-4">
+          {PRESS_FAM.map((d) => (
+            <DraftTile key={d.href} d={d} accent="#e04545" />
+          ))}
+        </div>
+
+        <h2 className="mt-16 font-mono text-[11px] uppercase tracking-[0.35em] text-[#d9ff3d]/70">
+          Round two — the zine riffs
+        </h2>
+        <div className="mt-6 flex flex-col gap-4">
+          {ROUND2.map((d) => (
             <DraftTile key={d.href} d={d} accent="#d9ff3d" />
           ))}
         </div>
@@ -152,7 +292,7 @@ export default function DraftsIndex() {
           Round one — the four originals
         </h2>
         <div className="mt-6 flex flex-col gap-4">
-          {DRAFTS.map((d) => (
+          {ROUND1.map((d) => (
             <DraftTile key={d.href} d={d} />
           ))}
         </div>
@@ -166,19 +306,19 @@ export default function DraftsIndex() {
   );
 }
 
+function FamilyHeading({ accent, children }: { accent: string; children: React.ReactNode }) {
+  return (
+    <h2 className="mt-14 font-mono text-[11px] uppercase tracking-[0.35em]" style={{ color: `${accent}b3` }}>
+      {children}
+    </h2>
+  );
+}
+
 function DraftTile({
   d,
   accent = "#ffffff",
 }: {
-  d: {
-    href: string;
-    n: string;
-    name: string;
-    pitch: string;
-    keeps: string;
-    changes: string;
-    palette: string[];
-  };
+  d: Tile;
   accent?: string;
 }) {
   return (
