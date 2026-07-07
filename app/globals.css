@@ -116,6 +116,21 @@ html { scroll-behavior: smooth; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
 
+/* Kinder typography defaults */
+h1, h2, h3 { text-wrap: balance; }
+p { text-wrap: pretty; }
+
+/* Respect reduced-motion: freeze the ambience, keep the content */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .twinkle, .aurora, .marquee-track, .shimmer { animation: none !important; }
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
 /* Reveal animation for prose paragraphs */
 @keyframes reveal-up {
   from { opacity: 0; transform: translateY(16px); }

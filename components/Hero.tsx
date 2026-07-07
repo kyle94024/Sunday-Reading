@@ -6,7 +6,7 @@ type HeroProps = { name: string; tagline: string };
 
 export function Hero({ name, tagline }: HeroProps) {
   return (
-    <section className="relative flex min-h-[100svh] flex-col items-center justify-center px-6 pt-24 text-center">
+    <section className="relative flex min-h-[86svh] flex-col items-center justify-center px-6 pt-24 text-center">
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}

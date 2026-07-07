@@ -1,0 +1,195 @@
+/* ─── Draft IV · Ex Libris ────────────────────────────────────────────
+   A private library at candle-hour: aubergine dark, gold tooling,
+   leather spines, wax seals. Scoped under .d-manor. */
+
+.d-manor {
+  --night: #171019;
+  --panel: #201522;
+  --gold: #c9a45c;
+  --gold-dim: rgba(201, 164, 92, 0.5);
+  --gold-faint: rgba(201, 164, 92, 0.18);
+  --cream: #ecdfc8;
+  --cream-dim: #b9ab92;
+  --wax: #8c2f26;
+
+  min-height: 100vh;
+  background:
+    radial-gradient(70% 46% at 50% -4%, rgba(214, 150, 70, 0.2), transparent 65%),
+    radial-gradient(120% 90% at 50% 115%, rgba(0, 0, 0, 0.6), transparent 60%),
+    var(--night);
+  color: var(--cream);
+  font-family: var(--font-cormorant), serif;
+  padding: 30px 16px 130px;
+}
+
+.d-manor .fell { font-family: var(--font-fell), serif; }
+
+.d-manor .sc {
+  font-family: var(--font-fell), serif;
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* gold-tooled frame */
+.d-manor .frame {
+  position: relative;
+  border: 1px solid var(--gold-dim);
+  background: linear-gradient(170deg, rgba(52, 34, 52, 0.5), rgba(23, 16, 25, 0.2) 60%), var(--panel);
+  box-shadow: 0 24px 50px -30px rgba(0, 0, 0, 0.9);
+}
+.d-manor .frame::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid var(--gold-faint);
+  pointer-events: none;
+}
+.d-manor .floret {
+  position: absolute;
+  color: var(--gold);
+  font-size: 12px;
+  line-height: 1;
+  opacity: 0.9;
+}
+
+/* ornamental center rule */
+.d-manor .orn {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: var(--gold);
+}
+.d-manor .orn::before,
+.d-manor .orn::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(90deg, transparent, var(--gold-dim));
+}
+.d-manor .orn::after {
+  background: linear-gradient(90deg, var(--gold-dim), transparent);
+}
+
+.d-manor .mn-nav a {
+  font-family: var(--font-fell), serif;
+  font-size: 13px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--cream-dim);
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+.d-manor .mn-nav a:hover { color: var(--gold); }
+
+/* prose */
+.d-manor .prose-m {
+  font-size: 1.17rem;
+  line-height: 1.85;
+  color: var(--cream);
+}
+.d-manor .prose-m p { margin: 0 0 1.35em; }
+.d-manor .prose-m > p:first-child::first-letter {
+  font-family: var(--font-fell), serif;
+  font-size: 3.6em;
+  line-height: 0.8;
+  float: left;
+  padding: 0.06em 0.14em 0 0;
+  color: var(--gold);
+}
+.d-manor .prose-m a {
+  color: var(--gold);
+  text-decoration: underline;
+  text-decoration-color: var(--gold-faint);
+  text-underline-offset: 4px;
+}
+.d-manor .prose-m a:hover { text-decoration-color: var(--gold); }
+
+/* the spine shelf */
+.d-manor .shelfrow {
+  display: flex;
+  align-items: flex-end;
+  gap: 7px;
+  overflow-x: auto;
+  padding: 30px 18px 0;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.d-manor .shelfrow::-webkit-scrollbar { display: none; }
+.d-manor .shelfboard {
+  height: 10px;
+  margin-top: -1px;
+  background: linear-gradient(180deg, #8a6a33, #4d3818 80%);
+  border-top: 1px solid rgba(240, 210, 150, 0.7);
+  box-shadow: 0 10px 20px -8px rgba(0, 0, 0, 0.8);
+}
+.d-manor .spine {
+  position: relative;
+  flex-shrink: 0;
+  border-radius: 3px 3px 0 0;
+  border: 1px solid rgba(0, 0, 0, 0.55);
+  box-shadow: inset 2px 0 3px rgba(255, 235, 190, 0.22), inset -3px 0 5px rgba(0, 0, 0, 0.5);
+  transform-origin: 50% 100%;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.d-manor .spine:hover { transform: rotate(-7deg) translateY(-4px); }
+.d-manor .spine .bands::before,
+.d-manor .spine .bands::after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  right: 3px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0.85;
+}
+.d-manor .spine .bands::before { top: 9px; }
+.d-manor .spine .bands::after { bottom: 9px; }
+.d-manor .spine .stitle {
+  writing-mode: vertical-rl;
+  font-family: var(--font-fell), serif;
+  font-size: 11.5px;
+  letter-spacing: 0.12em;
+  color: var(--cream);
+  max-height: 82%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* wax seal */
+.d-manor .seal {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 36% 30%, #d9584a, #a02616 58%, #6f130c);
+  box-shadow:
+    inset 0 2px 5px rgba(255, 255, 255, 0.3),
+    inset 0 -5px 9px rgba(0, 0, 0, 0.5),
+    0 4px 10px rgba(0, 0, 0, 0.55);
+  display: grid;
+  place-items: center;
+  color: #f3d9ae;
+  font-family: var(--font-fell), serif;
+}
+
+/* gilded cover frame */
+.d-manor .gilt {
+  border: 1px solid var(--gold-dim);
+  outline: 1px solid var(--gold-faint);
+  outline-offset: 3px;
+  padding: 4px;
+  background: rgba(201, 164, 92, 0.07);
+}
+
+.d-manor .manor-expand {
+  overflow: hidden;
+  transition: max-height 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
+}
+
+/* gilded floret rating */
+.d-manor .fleuron { color: var(--gold); font-size: 17px; }

@@ -1,0 +1,248 @@
+/* ─── Draft I · The Card Catalog ──────────────────────────────────────
+   A dark reading room; every piece of content is a cream catalog card.
+   Scoped under .d-catalog. */
+
+.d-catalog {
+  --paper: #f5eedb;
+  --paper-2: #efe4c9;
+  --ink: #241d16;
+  --ink-soft: #4c4234;
+  --stamp-red: #c1301c;
+  --stamp-blue: #2c4f8f;
+  --rule-blue: rgba(84, 110, 160, 0.32);
+  --brass: #b98b4e;
+  --room: #16101f;
+
+  min-height: 100vh;
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(94, 60, 130, 0.16), transparent 60%),
+    radial-gradient(150% 110% at 50% 115%, rgba(0, 0, 0, 0.55), transparent 55%),
+    var(--room);
+  color: var(--paper);
+  font-family: var(--font-courier), "Courier New", monospace;
+  padding-bottom: 110px;
+  overflow-x: hidden;
+}
+
+/* faint noise so the dark room isn't a flat fill */
+.d-catalog::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.6'/></svg>");
+}
+
+.d-catalog .type { font-family: var(--font-typewriter), monospace; }
+.d-catalog .hand { font-family: var(--font-hand), cursive; }
+
+/* ── top nav (typed) ── */
+.d-catalog .cat-nav a {
+  font-family: var(--font-typewriter), monospace;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  color: rgba(245, 238, 219, 0.72);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  padding-bottom: 2px;
+}
+.d-catalog .cat-nav a:hover {
+  color: var(--paper);
+  border-bottom-color: var(--brass);
+}
+
+/* ── brass drawer plate ── */
+.d-catalog .plate {
+  background: linear-gradient(160deg, #d3ab63, #8a6a33 70%, #a5814a);
+  border-radius: 8px;
+  padding: 9px;
+  box-shadow:
+    0 18px 40px -18px rgba(0, 0, 0, 0.8),
+    inset 0 1px 0 rgba(255, 240, 200, 0.5),
+    inset 0 -2px 4px rgba(60, 40, 10, 0.55);
+  position: relative;
+}
+.d-catalog .plate-card {
+  background: linear-gradient(#f7f0e0, #eee3c8);
+  border-radius: 3px;
+  border: 1px solid rgba(90, 70, 40, 0.35);
+  color: var(--ink);
+  padding: 26px 34px 22px;
+  text-align: center;
+}
+.d-catalog .screw {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #f2d9a4, #8a6a33 70%);
+  box-shadow: inset 0 -1px 2px rgba(0, 0, 0, 0.5);
+}
+.d-catalog .pull {
+  width: 96px;
+  height: 26px;
+  margin: 14px auto 0;
+  border: 7px solid #a5814a;
+  border-top: none;
+  border-radius: 0 0 48px 48px;
+  box-shadow: 0 6px 14px -6px rgba(0, 0, 0, 0.7), inset 0 -2px 3px rgba(60, 40, 10, 0.5);
+}
+
+/* ── cream catalog card base ── */
+.d-catalog .card {
+  position: relative;
+  color: var(--ink);
+  border-radius: 5px;
+  border: 1px solid rgba(70, 55, 30, 0.4);
+  box-shadow:
+    0 2px 0 rgba(0, 0, 0, 0.25),
+    0 18px 34px -22px rgba(0, 0, 0, 0.85);
+  background:
+    linear-gradient(90deg, transparent 58px, rgba(193, 48, 28, 0.42) 58px, rgba(193, 48, 28, 0.42) 59.5px, transparent 59.5px),
+    repeating-linear-gradient(0deg, transparent 0, transparent 27px, var(--rule-blue) 27px, var(--rule-blue) 28px),
+    linear-gradient(var(--paper) 0%, var(--paper-2) 100%);
+}
+@media (max-width: 640px) {
+  .d-catalog .card {
+    background:
+      repeating-linear-gradient(0deg, transparent 0, transparent 27px, var(--rule-blue) 27px, var(--rule-blue) 28px),
+      linear-gradient(var(--paper) 0%, var(--paper-2) 100%);
+  }
+}
+
+/* drawer-rod hole punched through the bottom of each card */
+.d-catalog .hole {
+  position: absolute;
+  left: 50%;
+  bottom: 9px;
+  transform: translateX(-50%);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--room);
+  box-shadow:
+    inset 0 3px 5px rgba(0, 0, 0, 0.55),
+    0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+/* ── rubber stamps ── */
+.d-catalog .cat-stamp {
+  display: inline-block;
+  font-family: var(--font-typewriter), monospace;
+  font-size: 12.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  border: 2.5px solid currentColor;
+  border-radius: 4px;
+  padding: 2px 10px 0;
+  mix-blend-mode: multiply;
+  opacity: 0.92;
+}
+
+/* typed body copy sits ON the ruled lines */
+.d-catalog .ruled-text {
+  font-size: 14.5px;
+  line-height: 28px;
+}
+.d-catalog .ruled-text p { margin: 0 0 28px; }
+.d-catalog .ruled-text em {
+  font-style: normal;
+  text-decoration: underline wavy rgba(193, 48, 28, 0.55) 1.5px;
+  text-underline-offset: 3px;
+}
+.d-catalog .ruled-text strong {
+  font-weight: 700;
+  text-decoration: underline double rgba(36, 29, 22, 0.6);
+  text-underline-offset: 3px;
+}
+.d-catalog .ruled-text a {
+  color: var(--stamp-blue);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.d-catalog .ruled-text a:hover { color: var(--stamp-red); }
+
+/* ── photo-corner mounts for cover thumbnails ── */
+.d-catalog .mount { position: relative; display: inline-block; }
+.d-catalog .mount .corner {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 11px solid transparent;
+}
+.d-catalog .mount .tl { top: -3px; left: -3px; border-top-color: var(--brass); border-left-color: var(--brass); }
+.d-catalog .mount .tr { top: -3px; right: -3px; border-top-color: var(--brass); border-right-color: var(--brass); }
+.d-catalog .mount .bl { bottom: -3px; left: -3px; border-bottom-color: var(--brass); border-left-color: var(--brass); }
+.d-catalog .mount .br { bottom: -3px; right: -3px; border-bottom-color: var(--brass); border-right-color: var(--brass); }
+
+/* ── drawer of tab-cards (Limbus strip) ── */
+.d-catalog .tabcard {
+  position: relative;
+  width: 168px;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.d-catalog .tabcard:hover { transform: translateY(-6px); }
+.d-catalog .tabcard .tab {
+  position: absolute;
+  top: -17px;
+  left: 12px;
+  z-index: 0;
+  font-family: var(--font-typewriter), monospace;
+  font-size: 11px;
+  color: var(--ink-soft);
+  background: var(--paper);
+  border: 1px solid rgba(70, 55, 30, 0.4);
+  border-bottom: none;
+  border-radius: 5px 5px 0 0;
+  padding: 2px 12px 6px;
+}
+.d-catalog .tabcard:nth-child(3n) .tab { left: auto; right: 12px; }
+.d-catalog .tabcard:nth-child(3n + 2) .tab { left: 56px; }
+
+/* date-due grid */
+.d-catalog .duegrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: 1px solid rgba(70, 55, 30, 0.45);
+  font-family: var(--font-typewriter), monospace;
+  font-size: 10.5px;
+  color: var(--ink-soft);
+}
+.d-catalog .duegrid > div {
+  border-right: 1px solid rgba(70, 55, 30, 0.3);
+  padding: 6px 8px;
+  min-height: 34px;
+}
+.d-catalog .duegrid > div:last-child { border-right: none; }
+.d-catalog .duegrid .head {
+  background: rgba(70, 55, 30, 0.08);
+  border-bottom: 1px solid rgba(70, 55, 30, 0.3);
+  grid-column: 1 / -1;
+  min-height: 0;
+  letter-spacing: 0.2em;
+}
+
+/* review card gentle lean, alternating */
+.d-catalog .lean:nth-child(odd) { transform: rotate(-0.35deg); }
+.d-catalog .lean:nth-child(even) { transform: rotate(0.3deg); }
+
+/* expandable body */
+.d-catalog .cat-expand {
+  overflow: hidden;
+  transition: max-height 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
+}
+
+.d-catalog .scroll-row {
+  display: flex;
+  gap: 22px;
+  overflow-x: auto;
+  padding: 24px 4px 18px;
+  scroll-snap-type: x mandatory;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.d-catalog .scroll-row::-webkit-scrollbar { display: none; }

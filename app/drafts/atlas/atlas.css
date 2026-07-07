@@ -1,0 +1,144 @@
+/* ─── Draft II · The Celestial Atlas ──────────────────────────────────
+   A vintage star chart: engraved gold hairlines on deep indigo ink.
+   Scoped under .d-atlas. */
+
+.d-atlas {
+  --ink-bg: #05060f;
+  --gold: #d8c08a;
+  --gold-dim: rgba(216, 192, 138, 0.42);
+  --gold-faint: rgba(216, 192, 138, 0.16);
+  --starlight: #ece6d6;
+  --muted: #a89f88;
+  --indigo: #30365c;
+
+  min-height: 100vh;
+  background:
+    linear-gradient(var(--gold-faint) 1px, transparent 1px) 0 0 / 100% 96px,
+    linear-gradient(90deg, var(--gold-faint) 1px, transparent 1px) 0 0 / 96px 100%,
+    radial-gradient(90% 60% at 50% 0%, rgba(48, 54, 92, 0.35), transparent 70%),
+    var(--ink-bg);
+  background-blend-mode: normal;
+  color: var(--starlight);
+  font-family: var(--font-cormorant), serif;
+  padding: 28px 14px 120px;
+}
+
+.d-atlas .display { font-family: var(--font-cinzel), serif; }
+
+/* ── the map sheet frame ── */
+.d-atlas .sheet {
+  position: relative;
+  max-width: 1060px;
+  margin: 0 auto;
+  border: 1px solid var(--gold-dim);
+  outline: 1px solid var(--gold-faint);
+  outline-offset: 6px;
+  padding: clamp(22px, 5vw, 64px);
+  background: rgba(5, 6, 15, 0.55);
+}
+.d-atlas .sheet::before {
+  content: "TAB. XXIV";
+  position: absolute;
+  top: -1.6em;
+  right: 2px;
+  font-family: var(--font-cinzel), serif;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  color: var(--muted);
+}
+.d-atlas .corner {
+  position: absolute;
+  color: var(--gold);
+  font-size: 13px;
+  line-height: 1;
+}
+
+/* ── rules & cartouche ── */
+.d-atlas .rule {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--gold);
+}
+.d-atlas .rule::before,
+.d-atlas .rule::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(90deg, transparent, var(--gold-dim));
+}
+.d-atlas .rule::after {
+  background: linear-gradient(90deg, var(--gold-dim), transparent);
+}
+
+.d-atlas .nav a {
+  font-family: var(--font-cinzel), serif;
+  font-size: 11.5px;
+  letter-spacing: 0.28em;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+.d-atlas .nav a:hover { color: var(--gold); }
+
+/* ── prose ── */
+.d-atlas .prose {
+  font-size: 1.16rem;
+  line-height: 1.85;
+  color: var(--starlight);
+}
+.d-atlas .prose p { margin: 0 0 1.35em; }
+.d-atlas .prose > p:first-child::first-letter {
+  font-family: var(--font-cinzel), serif;
+  font-size: 3.4em;
+  line-height: 0.82;
+  float: left;
+  padding: 0.08em 0.14em 0 0;
+  color: var(--gold);
+}
+.d-atlas .prose em { color: var(--starlight); }
+.d-atlas .prose a {
+  color: var(--gold);
+  text-decoration: underline;
+  text-decoration-color: var(--gold-dim);
+  text-underline-offset: 4px;
+}
+.d-atlas .prose a:hover { text-decoration-color: var(--gold); }
+
+/* ── observation plates ── */
+.d-atlas .plate {
+  position: relative;
+  border: 1px solid var(--gold-dim);
+  background: rgba(9, 11, 24, 0.72);
+  transition: border-color 0.3s ease;
+}
+.d-atlas .plate::after {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border: 1px solid var(--gold-faint);
+  pointer-events: none;
+}
+.d-atlas .plate:hover { border-color: var(--gold); }
+
+.d-atlas .smallcaps {
+  font-family: var(--font-cinzel), serif;
+  font-size: 11px;
+  letter-spacing: 0.26em;
+  color: var(--muted);
+}
+
+.d-atlas .atlas-expand {
+  overflow: hidden;
+  transition: max-height 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
+}
+
+.d-atlas .coverframe {
+  position: relative;
+  border: 1px solid var(--gold-dim);
+  padding: 5px;
+  background: rgba(216, 192, 138, 0.06);
+}
+
+.d-atlas .figlink:hover .constellation-line { stroke-opacity: 0.5; }
+.d-atlas .figlink:hover .constellation-star { filter: drop-shadow(0 0 4px rgba(216,192,138,0.8)); }

@@ -59,12 +59,12 @@ export function BookCard({
         opacity: {
           duration: 0.45,
           ease: [0.22, 1, 0.36, 1],
-          delay: (index ?? 0) * 0.04,
+          delay: Math.min(index ?? 0, 8) * 0.04,
         },
         y: {
           duration: 0.45,
           ease: [0.22, 1, 0.36, 1],
-          delay: (index ?? 0) * 0.04,
+          delay: Math.min(index ?? 0, 8) * 0.04,
         },
       }}
       role="button"

@@ -1,0 +1,195 @@
+/* ─── Draft III · The Zine ────────────────────────────────────────────
+   Photocopier punk: paper blocks, 3px borders, hard offset shadows,
+   acid highlighter, stickers & tape. Scoped under .d-zine. */
+
+.d-zine {
+  --paper: #f7f5ef;
+  --ink: #0b0a0c;
+  --violet: #6d28d9;
+  --violet-deep: #4c1d95;
+  --acid: #d9ff3d;
+  --night: #0e0916;
+
+  min-height: 100vh;
+  background:
+    radial-gradient(140% 90% at 85% -10%, rgba(109, 40, 217, 0.22), transparent 55%),
+    var(--night);
+  color: var(--paper);
+  font-family: var(--font-grotesk), sans-serif;
+  padding: 26px 16px 130px;
+  overflow-x: hidden;
+}
+
+.d-zine .big { font-family: var(--font-archivo), sans-serif; }
+
+.d-zine .bdr { border: 3px solid var(--ink); }
+.d-zine .hs-b { box-shadow: 9px 9px 0 var(--ink); }
+.d-zine .hs-v { box-shadow: 10px 10px 0 var(--violet); }
+.d-zine .hs-a { box-shadow: 12px 12px 0 var(--acid); }
+
+/* marker highlight */
+.d-zine .mark {
+  display: inline-block;
+  background: var(--acid);
+  color: var(--ink);
+  padding: 0 0.16em;
+  transform: rotate(-1.6deg) skew(-6deg);
+}
+
+/* outlined word */
+.d-zine .outline-w {
+  color: transparent;
+  -webkit-text-stroke: 2.5px var(--paper);
+}
+
+/* halftone corner strip */
+.d-zine .halftone {
+  background-image: radial-gradient(circle, rgba(217, 255, 61, 0.55) 1.4px, transparent 1.5px);
+  background-size: 10px 10px;
+}
+
+/* stickers */
+.d-zine .sticker {
+  display: inline-block;
+  font-family: var(--font-grotesk), sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  border: 3px solid var(--ink);
+  border-radius: 999px;
+  padding: 4px 14px;
+  background: #fff;
+  color: var(--ink);
+  box-shadow: 4px 4px 0 var(--ink);
+  transform: rotate(-4deg);
+}
+.d-zine .sticker.acid { background: var(--acid); }
+.d-zine .sticker.violet { background: var(--violet); color: #fff; }
+.d-zine .sticker.grey { background: #d8d5cc; }
+
+/* masking tape */
+.d-zine .tape {
+  position: absolute;
+  background: rgba(217, 255, 61, 0.82);
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 5px 20px;
+  border-left: 2px dashed rgba(0, 0, 0, 0.3);
+  border-right: 2px dashed rgba(0, 0, 0, 0.3);
+}
+
+/* 8-point starburst (two stacked rotated squares) */
+.d-zine .burst {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 92px;
+  height: 92px;
+}
+.d-zine .burst::before,
+.d-zine .burst::after {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  background: var(--acid);
+  border: 3px solid var(--ink);
+}
+.d-zine .burst::after { transform: rotate(45deg); }
+.d-zine .burst.gold::before,
+.d-zine .burst.gold::after { background: #ffd23e; }
+.d-zine .burst > span {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-archivo), sans-serif;
+  font-size: 15px;
+  color: var(--ink);
+  text-align: center;
+  line-height: 1.05;
+  transform: rotate(-8deg);
+}
+
+/* paper card */
+.d-zine .paper {
+  background: var(--paper);
+  color: var(--ink);
+  border: 3px solid var(--ink);
+}
+
+/* rating flag */
+.d-zine .flag {
+  display: inline-block;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-archivo), sans-serif;
+  font-size: 15px;
+  padding: 6px 18px 6px 12px;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 50%, 100% 100%, 0 100%);
+}
+
+/* prose on paper */
+.d-zine .prose-z {
+  font-size: 1.02rem;
+  line-height: 1.65;
+}
+.d-zine .prose-z p { margin: 0 0 1.1em; }
+.d-zine .prose-z strong {
+  background: var(--acid);
+  padding: 0 4px;
+  font-weight: 700;
+}
+.d-zine .prose-z em { font-style: italic; }
+.d-zine .prose-z a {
+  color: var(--violet-deep);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-decoration-color: var(--acid);
+  text-underline-offset: 3px;
+}
+.d-zine .prose-z a:hover { background: var(--acid); }
+
+/* polaroid cover mount */
+.d-zine .pola {
+  background: #fff;
+  border: 3px solid var(--ink);
+  padding: 8px 8px 26px;
+  box-shadow: 8px 8px 0 var(--violet);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.d-zine .pola:hover { transform: translateY(-6px) rotate(0deg) !important; }
+
+.d-zine .zine-expand {
+  overflow: hidden;
+  transition: max-height 0.55s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease;
+}
+
+.d-zine .scroll-row {
+  display: flex;
+  gap: 26px;
+  overflow-x: auto;
+  padding: 26px 6px 20px;
+  scroll-snap-type: x mandatory;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.d-zine .scroll-row::-webkit-scrollbar { display: none; }
+
+.d-zine .zn-nav a {
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: var(--paper);
+  border: 2.5px solid var(--paper);
+  padding: 5px 14px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+.d-zine .zn-nav a:hover {
+  background: var(--acid);
+  border-color: var(--acid);
+  color: var(--ink);
+  box-shadow: 4px 4px 0 rgba(217, 255, 61, 0.35);
+}
