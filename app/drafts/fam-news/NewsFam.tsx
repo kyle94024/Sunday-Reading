@@ -35,83 +35,46 @@ function byline(book: Book): string {
     : "by our sunday correspondent";
 }
 
-/* ── margin boxes ── */
+/* ── margin pieces: photographs and ornaments only, no words ── */
 
-function WIndex({ reviews }: { reviews: Book[] }) {
+/* a bare morgue-file box of real covers, links to the shelf */
+function WShots({ limbus, from }: { limbus: Book[]; from: number }) {
+  const three = limbus.filter((b) => b.cover_url).slice(from, from + 3);
+  if (!three.length) return null;
   return (
-    <div className="mg zf-hot">
-      <b className="head">in this issue</b>
-      {reviews.slice(0, 7).map((b, i) => (
-        <a key={b.id} className="ix" href={`#story-${i}`}>
-          <span className="no">{String(i + 1).padStart(2, "0")}</span>
-          <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{b.title}</span>
-        </a>
-      ))}
-      <div style={{ color: "var(--soft)", marginTop: 4 }}>continued on the shelf…</div>
-    </div>
-  );
-}
-
-function WPull({ reviews }: { reviews: Book[] }) {
-  const src = reviews.slice(1).find((b) => snip(b.review, 120)) ?? reviews.find((b) => snip(b.review, 120));
-  const q = src ? snip(src.review, 120) : null;
-  if (!q || !src) return null;
-  return (
-    <div className="mg">
-      <b className="head">pull quote</b>
-      <div className="serif" style={{ fontSize: 14, lineHeight: 1.4, fontStyle: "italic" }}>“{q}”</div>
-      <div style={{ marginTop: 5, color: "var(--soft)", textTransform: "uppercase", letterSpacing: "0.06em" }}>— re: {src.title}</div>
-    </div>
-  );
-}
-
-function WStacks({ limbus }: { limbus: Book[] }) {
-  const three = limbus.filter((b) => b.cover_url).slice(0, 3);
-  if (three.length < 3) return null;
-  return (
-    <div className="mg zf-hot">
-      <b className="head">from the stacks</b>
-      <Link href="/limbus" className="flex gap-1.5">
+    <div className="mg zf-hot" style={{ padding: 7 }}>
+      <Link href="/limbus" className="flex justify-center gap-1.5" aria-label="The Limbus shelf">
         {three.map((b) => (
-          <span key={b.id} className="pic relative block h-[54px] w-[36px]">
-            <Image src={b.cover_url!} alt="" fill sizes="36px" className="object-cover" />
+          <span key={b.id} className="pic relative block h-[56px] w-[38px]">
+            <Image src={b.cover_url!} alt="" fill sizes="38px" className="object-cover" />
           </span>
         ))}
       </Link>
-      <div style={{ marginTop: 4, color: "var(--soft)" }}>the limbus shelf, p. 14</div>
     </div>
   );
 }
 
-/* what's actually on the editor's desk right now — real data */
-function WDesk({ books }: { books: Book[] }) {
-  const cur = books.find((b) => b.status === "reading") ?? books.find((b) => b.status === "queued");
-  if (!cur) return null;
+/* single tall portrait cut, like a filed press photo */
+function WPortrait({ limbus, at }: { limbus: Book[]; at: number }) {
+  const b = limbus.filter((x) => x.cover_url)[at];
+  if (!b) return null;
   return (
-    <div className="mg zf-hot">
-      <b className="head">on the editor&rsquo;s desk</b>
-      <Link href="/limbus" className="flex items-start gap-2" style={{ textDecoration: "none" }}>
-        {cur.cover_url && (
-          <span className="pic relative block h-[52px] w-[36px] shrink-0">
-            <Image src={cur.cover_url} alt="" fill sizes="36px" className="object-cover" />
-          </span>
-        )}
-        <span>
-          <i>{cur.title}</i>
-          <br />
-          <span style={{ color: "var(--soft)" }}>{cur.author}</span>
-        </span>
-      </Link>
-      <div style={{ marginTop: 4, color: "var(--soft)", textTransform: "uppercase", letterSpacing: "0.06em" }}>review forthcoming</div>
-    </div>
+    <Link href="/limbus" className="mg zf-hot block" style={{ padding: 7, width: 104 }} aria-label={b.title}>
+      <span className="pic relative block h-[122px] w-full">
+        <Image src={b.cover_url!} alt="" fill sizes="90px" className="object-cover" />
+      </span>
+    </Link>
   );
 }
 
-function WClassified() {
+/* column-rule ornament: two hairlines and a diamond */
+function RuleOrn({ h = 96 }: { h?: number }) {
   return (
-    <div className="mg" style={{ textTransform: "uppercase", letterSpacing: "0.04em" }}>
-      <b className="head">classifieds</b>
-      <div>LOST: one bookmark, sentimental. last seen ch. 11. reward: a good recommendation.</div>
+    <div
+      aria-hidden
+      style={{ width: 30, height: h, display: "grid", placeItems: "center", borderLeft: "1px solid var(--line)", borderRight: "1px solid var(--line)" }}
+    >
+      <span style={{ width: 7, height: 7, background: "var(--accent)", transform: "rotate(45deg)" }} />
     </div>
   );
 }
@@ -290,14 +253,19 @@ export function NewsFam({
   const rest = reviews.slice(1);
 
   const leftRail: ReactNode[] = [
-    <WIndex key="ix" reviews={reviews} />,
-    <WStacks key="st" limbus={limbus} />,
+    <WShots key="s0" limbus={limbus} from={0} />,
+    <RuleOrn key="r0" />,
+    <WPortrait key="pt0" limbus={limbus} at={12} />,
+    <RuleOrn key="r1" h={70} />,
+    <WShots key="s1" limbus={limbus} from={3} />,
   ];
   const rightRail: ReactNode[] = [
-    <WPull key="pq" reviews={reviews} />,
-    <WDesk key="dk" books={books} />,
+    <WPortrait key="pt1" limbus={limbus} at={13} />,
+    <RuleOrn key="r2" h={70} />,
+    <WShots key="s2" limbus={limbus} from={6} />,
+    <RuleOrn key="r3" />,
+    <WShots key="s3" limbus={limbus} from={9} />,
   ];
-  if (theme === "evening") rightRail.push(<WClassified key="cl" />);
 
   return (
     <div className={`d-news t-${theme}`}>

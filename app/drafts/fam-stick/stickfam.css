@@ -14,6 +14,12 @@
     linear-gradient(var(--paper), var(--paper2));
 }
 
+/* paint the browser canvas to match, so overscroll never flashes dark */
+html:has(.d-stick2.t-mix), body:has(.d-stick2.t-mix) { background: #f3eefc; }
+html:has(.d-stick2.t-bunny), body:has(.d-stick2.t-bunny) { background: #fdf1f4; }
+html:has(.d-stick2.t-pond), body:has(.d-stick2.t-pond) { background: #e9f6ef; }
+html:has(.d-stick2.t-honey), body:has(.d-stick2.t-honey) { background: #fdf5e0; }
+
 /* palettes */
 .d-stick2.t-mix {
   --paper: #f3eefc; --paper2: #ebe2fb; --ink: #3b3350;

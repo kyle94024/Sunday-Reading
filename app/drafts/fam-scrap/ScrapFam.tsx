@@ -9,6 +9,7 @@ import { jitter, stampDate, yearLabel } from "../util";
 import {
   Expandable,
   GlyphRating,
+  Heart,
   IntroMd,
   Pic,
   PostStamp,
@@ -55,63 +56,40 @@ function HandNote({ children, rotate = -3, size = 21 }: { children: ReactNode; r
   );
 }
 
-/* ── sidebar widgets (real data, not just confetti) ── */
+/* ── sidebar pieces: images only, no words ── */
 
-function WNowReading({ books }: { books: Book[] }) {
-  const cur = books.find((b) => b.status === "reading") ?? books.find((b) => b.status === "queued");
-  if (!cur) return null;
+/* tiny pinned polaroid of a real cover, links to the shelf */
+function MiniShot({ book, r = -3, pin = "var(--a1)" }: { book?: Book; r?: number; pin?: string }) {
+  if (!book?.cover_url) return null;
   return (
-    <div className="sw zf-hot" style={{ transform: "rotate(-1.4deg)" }}>
-      <span className="sw-tape" />
-      <div className="sw-head">on the nightstand</div>
-      <Link href="/limbus" className="flex items-center gap-2" style={{ textDecoration: "none", color: "inherit" }}>
-        {cur.cover_url && (
-          <span className="relative block h-[44px] w-[30px] shrink-0 overflow-hidden border" style={{ borderColor: "color-mix(in oklab, var(--ink) 30%, transparent)" }}>
-            <Image src={cur.cover_url} alt="" fill sizes="30px" className="object-cover" />
-          </span>
-        )}
-        <span className="hand" style={{ fontSize: 16, lineHeight: 1.15 }}>{cur.title}</span>
-      </Link>
-    </div>
+    <Link
+      href="/limbus"
+      className="photo zf-hot relative block"
+      style={{ width: 64, padding: "5px 5px 13px", transform: `rotate(${r}deg)` }}
+      aria-label={book.title}
+    >
+      <span className="absolute -top-2 left-1/2 z-10 -translate-x-1/2"><Pushpin size={16} color={pin} /></span>
+      <span className="relative block h-[68px] w-full overflow-hidden">
+        <Image src={book.cover_url} alt="" fill sizes="64px" className="object-cover" />
+      </span>
+    </Link>
   );
 }
 
-/* hand-written table of contents — anchors jump to each review page */
-function WContents({ reviews }: { reviews: Book[] }) {
-  return (
-    <div className="sw zf-hot" style={{ transform: "rotate(1.2deg)" }}>
-      <span className="sw-tape" />
-      <div className="sw-head">in this album</div>
-      <div className="flex flex-col" style={{ gap: 2 }}>
-        {reviews.slice(0, 8).map((b, i) => (
-          <a
-            key={b.id}
-            href={`#page-${i}`}
-            className="hand block"
-            style={{ fontSize: 15.5, lineHeight: 1.25, color: "var(--ink)", textDecoration: "none", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}
-          >
-            <span style={{ color: "var(--a1)", fontWeight: 700 }}>{i + 1}.</span> {b.title}
-          </a>
-        ))}
-      </div>
-    </div>
-  );
-}
-
+/* mini photo-booth strip, no caption */
 function WPhotoStrip({ books }: { books: Book[] }) {
-  const three = books.filter((b) => b.cover_url).slice(0, 3);
+  const three = books.filter((b) => b.cover_url).slice(4, 7);
   if (three.length < 3) return null;
   return (
-    <div className="sw zf-hot" style={{ width: 84, padding: 7, transform: "rotate(1.8deg)" }}>
+    <div className="sw zf-hot" style={{ width: 80, padding: 7, transform: "rotate(1.8deg)" }}>
       <span className="sw-tape" />
-      <Link href="/limbus" className="flex flex-col gap-1.5">
+      <Link href="/limbus" className="flex flex-col gap-1.5" aria-label="The Limbus shelf">
         {three.map((b) => (
-          <span key={b.id} className="relative block h-[52px] w-full overflow-hidden">
-            <Image src={b.cover_url!} alt="" fill sizes="70px" className="object-cover" />
+          <span key={b.id} className="relative block h-[50px] w-full overflow-hidden">
+            <Image src={b.cover_url!} alt="" fill sizes="66px" className="object-cover" />
           </span>
         ))}
       </Link>
-      <div className="hand" style={{ fontSize: 13, textAlign: "center", marginTop: 3 }}>photobooth!</div>
     </div>
   );
 }
@@ -298,6 +276,7 @@ export function ScrapFam({
 }) {
   const ex = EXTRAS[theme];
   const hung = limbus.filter((b) => b.cover_url).slice(0, 5);
+  const shots = limbus.filter((b) => b.cover_url).slice(7, 11); // rail polaroids
 
   return (
     <div className={`d-scrap2 t-${theme}`}>
@@ -308,20 +287,28 @@ export function ScrapFam({
       <SideRails
         interactive
         left={[
-          <WContents key="w1" reviews={reviews} />,
-          <Pic key="d0" name={ex.doodads[0]} size={36} />,
-          <Pic key="m0" name={ex.mascots[0]} size={46} />,
-          <HandNote key="n1" size={21} rotate={-7}>so good!!</HandNote>,
-          <Pic key="d1" name={ex.doodads[1]} size={32} />,
-          <Pic key="m1" name={ex.mascots[1]} size={44} />,
+          <Pic key="m0" name={ex.mascots[0]} size={48} />,
+          <Washi key="t0" w={64} h={16} color="color-mix(in oklab, var(--a3) 80%, white)" rotate={-7} />,
+          <MiniShot key="p0" book={shots[0]} r={-4} />,
+          <Pic key="d0" name={ex.doodads[0]} size={34} />,
+          <Heart key="h0" size={20} color="var(--a1)" />,
+          <Pic key="m1" name={ex.mascots[1]} size={42} flip />,
+          <MiniShot key="p1" book={shots[1]} r={3} pin="var(--a2)" />,
+          <Pic key="d1" name={ex.doodads[1]} size={30} />,
+          <Pic key="m2" name={ex.mascots[2]} size={44} />,
+          <Star key="s0" size={24} color="var(--a3)" />,
         ]}
         right={[
-          <WNowReading key="w1" books={books} />,
-          <Pic key="m2" name={ex.mascots[2]} size={46} />,
-          <HandNote key="n2" size={21} rotate={6}>cried here →</HandNote>,
+          <MiniShot key="p2" book={shots[2]} r={4} pin="var(--a3)" />,
+          <Pic key="m2" name={ex.mascots[2]} size={46} flip />,
+          <Pic key="d2" name={ex.doodads[2]} size={34} />,
+          <Heart key="h1" size={18} color="var(--a2)" />,
+          <Pic key="m0" name={ex.mascots[0]} size={40} flip />,
           <WPhotoStrip key="w2" books={limbus} />,
-          <Pic key="d2" name={ex.doodads[2]} size={36} />,
-          <HandNote key="n3" size={20} rotate={-4}>read this twice ✓</HandNote>,
+          <Pic key="d0" name={ex.doodads[0]} size={28} flip />,
+          <MiniShot key="p3" book={shots[3]} r={-3} />,
+          <Pic key="m1" name={ex.mascots[1]} size={44} />,
+          <Washi key="t1" w={58} h={15} color="color-mix(in oklab, var(--a1) 60%, white)" rotate={6} />,
         ]}
       />
 

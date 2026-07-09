@@ -1,5 +1,8 @@
 /* ─── Riso Poster: two-ink risograph on warm paper (the light zine) ─── */
 
+/* paint the browser canvas to match, so overscroll never flashes dark */
+html:has(.d-riso), body:has(.d-riso) { background: #f4efe4; }
+
 .d-riso {
   --paper: #f4efe4;
   --ink: #241d16;

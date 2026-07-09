@@ -50,45 +50,22 @@ const CAST: Record<
   },
 };
 
-/* ── sidebar widgets ── */
+/* ── sidebar pieces: images only, no words ── */
 
-function WFresh({ books }: { books: Book[] }) {
-  const cur = books.find((b) => b.status === "reading") ?? books.find((b) => b.status === "queued");
-  if (!cur) return null;
+/* a die-cut mini sticker of a real cover, links to the shelf */
+function MiniPeel({ book, r = 0 }: { book?: Book; r?: number }) {
+  if (!book?.cover_url) return null;
   return (
-    <div className="sw zf-hot">
-      <div className="sw-head">freshly peeled ✦</div>
-      <Link href="/limbus" className="flex items-center gap-2" style={{ textDecoration: "none", color: "inherit" }}>
-        {cur.cover_url && (
-          <span className="relative block h-[46px] w-[32px] shrink-0 overflow-hidden rounded-[5px]" style={{ boxShadow: "0 0 0 2px #fff, 0 0 0 3px color-mix(in oklab, var(--ink) 26%, transparent)" }}>
-            <Image src={cur.cover_url} alt="" fill sizes="32px" className="object-cover" />
-          </span>
-        )}
-        <span className="round font-bold" style={{ fontSize: 12.5, lineHeight: 1.2 }}>{cur.title}</span>
-      </Link>
-      <div style={{ fontSize: 10.5, marginTop: 5, opacity: 0.75 }}>reading it right now</div>
-    </div>
-  );
-}
-
-/* table of contents — anchor chips jump to each review sticker */
-function WContents({ reviews }: { reviews: Book[] }) {
-  return (
-    <div className="sw zf-hot">
-      <div className="sw-head">peel to a review</div>
-      <div className="flex flex-col" style={{ gap: 3 }}>
-        {reviews.slice(0, 8).map((b, i) => (
-          <a
-            key={b.id}
-            href={`#stick-${i}`}
-            className="round block font-bold"
-            style={{ fontSize: 12, lineHeight: 1.3, color: "var(--ink)", textDecoration: "none", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}
-          >
-            <span style={{ color: "color-mix(in oklab, var(--a1) 80%, var(--ink))" }}>{String(i + 1).padStart(2, "0")}</span> {b.title}
-          </a>
-        ))}
-      </div>
-    </div>
+    <Link
+      href="/limbus"
+      className="diecut zf-hot block"
+      style={{ padding: 5, background: "#fff", transform: `rotate(${r}deg)` }}
+      aria-label={book.title}
+    >
+      <span className="relative block h-[62px] w-[44px] overflow-hidden rounded-[7px]">
+        <Image src={book.cover_url} alt="" fill sizes="44px" className="object-cover" />
+      </span>
+    </Link>
   );
 }
 
@@ -281,6 +258,7 @@ export function StickFam({
 }) {
   const cast = CAST[theme];
   const got = limbus.filter((b) => b.status === "read").length;
+  const shots = limbus.filter((b) => b.cover_url).slice(7, 11); // rail mini-stickers
 
   return (
     <div className={`d-stick2 t-${theme}`}>
@@ -290,18 +268,26 @@ export function StickFam({
       <SideRails
         interactive
         left={[
-          <WContents key="w1" reviews={reviews} />,
+          <Pic key="m0" name={cast.mascots[0]} size={50} />,
+          <Star key="s0" size={24} color="var(--a4)" />,
+          <MiniPeel key="p0" book={shots[0]} r={-4} />,
           <Pic key="d0" name={cast.doodads[0]} size={34} />,
-          <Pic key="m0" name={cast.mascots[0]} size={48} />,
-          <Pic key="d1" name={cast.doodads[1]} size={32} />,
-          <Pic key="m1" name={cast.mascots[1]} size={44} />,
+          <Pic key="m1" name={cast.mascots[1]} size={44} flip />,
+          <Sparkle key="k0" size={20} color="var(--a1)" />,
+          <MiniPeel key="p1" book={shots[1]} r={3} />,
+          <Pic key="d1" name={cast.doodads[1]} size={30} />,
+          <Pic key="m2" name={cast.mascots[2 % cast.mascots.length]} size={46} />,
         ]}
         right={[
-          <WFresh key="w1" books={books} />,
-          <Pic key="m2" name={cast.mascots[2 % cast.mascots.length]} size={48} />,
+          <MiniPeel key="p2" book={shots[2]} r={4} />,
+          <Pic key="m2" name={cast.mascots[2 % cast.mascots.length]} size={48} flip />,
           <Pic key="d2" name={cast.doodads[2]} size={34} />,
-          <Pic key="m3" name={cast.mascots[1 % cast.mascots.length]} size={42} />,
-          <Pic key="d3" name={cast.doodads[0]} size={30} />,
+          <Star key="s1" size={20} color="var(--a2)" />,
+          <Pic key="l0" name={cast.lineup[0]} size={42} />,
+          <MiniPeel key="p3" book={shots[3]} r={-3} />,
+          <Pic key="d3" name={cast.doodads[0]} size={28} flip />,
+          <Sparkle key="k1" size={22} color="var(--a3)" />,
+          <Pic key="m1" name={cast.mascots[1]} size={44} />,
         ]}
       />
 

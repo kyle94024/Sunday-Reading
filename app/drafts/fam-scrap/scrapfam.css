@@ -13,6 +13,13 @@
   isolation: isolate;
 }
 
+/* paint the browser canvas to match, so overscroll/rubber-banding
+   never flashes the dark site background past the page bounds */
+html:has(.d-scrap2.t-kraft), body:has(.d-scrap2.t-kraft) { background: #dcc9ae; }
+html:has(.d-scrap2.t-berry), body:has(.d-scrap2.t-berry) { background: #fbe4ea; }
+html:has(.d-scrap2.t-picnic), body:has(.d-scrap2.t-picnic) { background: #d9edf6; }
+html:has(.d-scrap2.t-lav), body:has(.d-scrap2.t-lav) { background: #ece3f8; }
+
 /* palettes */
 .d-scrap2.t-kraft {
   --bg1: #dcc9ae; --bg2: #cdb693;
