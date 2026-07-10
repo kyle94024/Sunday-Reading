@@ -391,7 +391,7 @@ export function ScrapFam({
         <nav className="nav flex items-center justify-between">
           <HandNote size={22} rotate={-2}>est. 2026 ✿</HandNote>
           <div className="flex gap-6">
-            <Link href="/">home</Link>
+            <Link href="/" aria-current="page" style={{ color: "var(--a1)", borderColor: "var(--a1)" }}>home</Link>
             <Link href="/limbus">limbus</Link>
             <Link href="/about">about</Link>
           </div>

@@ -167,6 +167,7 @@ export function LimbusScrap({
           <span className="hand doodle-note" style={{ fontSize: 22, display: "inline-block", transform: "rotate(-2deg)" }}>est. 2026 ✿</span>
           <div className="flex gap-6">
             <Link href={routes.home}>home</Link>
+            <Link href={routes.limbus} aria-current="page" style={{ color: "var(--a1)", borderColor: "var(--a1)" }}>limbus</Link>
             <Link href={routes.about}>about</Link>
             {showDrafts && <Link href="/drafts">drafts</Link>}
           </div>

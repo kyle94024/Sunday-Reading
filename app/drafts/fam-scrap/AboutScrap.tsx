@@ -47,7 +47,7 @@ export function AboutScrap({
   const ex = EXTRAS[theme];
   const routes = routesProp ?? SCRAP_ROUTES[theme];
   // shorter rail set: the about page is short, full rails ran past it
-  const lr = theme === "lilac" ? lilacRails(10) : null;
+  const lr = theme === "lilac" ? lilacRails(6) : null;
   return (
     <div className={`d-scrap2 t-${theme}`}>
       <div className="zf-edge zf-edge-left edge-gingham" aria-hidden />
@@ -83,6 +83,7 @@ export function AboutScrap({
           <div className="flex gap-6">
             <Link href={routes.home}>home</Link>
             <Link href={routes.limbus}>limbus</Link>
+            <Link href={routes.about} aria-current="page" style={{ color: "var(--a1)", borderColor: "var(--a1)" }}>about</Link>
             {showDrafts && <Link href="/drafts">drafts</Link>}
           </div>
         </nav>
