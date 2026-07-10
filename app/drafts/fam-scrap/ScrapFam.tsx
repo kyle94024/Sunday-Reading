@@ -57,25 +57,30 @@ export const EXTRAS: Record<
    many sizes, each wearing a puffy sticker ring — the sides fully
    covered, no critters, no covers, no words */
 const LILAC_LEFT: [string, number][] = [
-  ["sparkles", 68], ["butterfly", 54], ["star2", 46], ["blossom", 60],
-  ["tulip", 48], ["glowstar", 38], ["sparkles", 40], ["blossom", 34],
-  ["butterfly", 68], ["star2", 56], ["tulip", 62], ["sparkles", 78],
-  ["blossom", 50], ["star2", 30], ["butterfly", 44], ["glowstar", 54],
-  ["sparkles", 34],
+  ["sparkles", 68], ["butterfly", 54], ["rose", 52], ["blossom", 60],
+  ["tulip", 48], ["glowstar", 38], ["heartsparkle", 44], ["blossom", 34],
+  ["butterfly", 68], ["star2", 56], ["hibiscus", 58], ["sparkles", 78],
+  ["hyacinth", 52], ["star2", 30], ["butterfly", 44], ["glowstar", 54],
+  ["heartred", 36], ["blossomwhite", 46], ["sparkles", 34], ["rose", 40],
 ];
 const LILAC_RIGHT: [string, number][] = [
-  ["star2", 62], ["blossom", 46], ["sparkles", 74], ["butterfly", 58],
-  ["glowstar", 42], ["tulip", 54], ["star2", 36], ["sparkles", 48],
-  ["blossom", 66], ["butterfly", 38], ["star2", 50], ["tulip", 42],
-  ["sparkles", 60], ["glowstar", 32], ["blossom", 40], ["butterfly", 64],
-  ["star2", 28],
+  ["star2", 62], ["hibiscus", 50], ["sparkles", 74], ["butterfly", 58],
+  ["heartred", 40], ["tulip", 54], ["rose", 46], ["sparkles", 48],
+  ["blossom", 66], ["hyacinth", 44], ["star2", 50], ["heartsparkle", 48],
+  ["sparkles", 60], ["glowstar", 32], ["blossomwhite", 42], ["butterfly", 64],
+  ["blossom", 40], ["rose", 56], ["star2", 28], ["tulip", 38],
 ];
 
-export function lilacRails(): { left: ReactNode[]; right: ReactNode[] } {
-  // scattered, not tidy: each sprite gets a deterministic 1x–3x scale,
-  // slight rotation, x-drift (big ones may hang off-screen) and uneven
-  // vertical offsets. Static transforms live on an inner span so the
-  // rail's float/sway animation on the wrapper still plays.
+/* scattered, not tidy: each sprite gets a deterministic 1x–3x scale,
+   slight rotation, x-drift (big ones may hang off-screen) and uneven
+   vertical offsets. Static transforms live on an inner span so the
+   rail's float/sway animation on the wrapper still plays. */
+export function scatterRails(
+  leftList: [string, number][],
+  rightList: [string, number][],
+  seedL = 11,
+  seedR = 37
+): { left: ReactNode[]; right: ReactNode[] } {
   const mk = (list: [string, number][], seed: number, flipOn: number) =>
     list.map(([name, base], i) => {
       const k = seed + i * 7;
@@ -93,7 +98,15 @@ export function lilacRails(): { left: ReactNode[]; right: ReactNode[] } {
         </span>
       );
     });
-  return { left: mk(LILAC_LEFT, 11, 1), right: mk(LILAC_RIGHT, 37, 2) };
+  return { left: mk(leftList, seedL, 1), right: mk(rightList, seedR, 2) };
+}
+
+/* limit trims the rails for short pages (the about page was running long) */
+export function lilacRails(limit?: number): { left: ReactNode[]; right: ReactNode[] } {
+  return scatterRails(
+    limit ? LILAC_LEFT.slice(0, limit) : LILAC_LEFT,
+    limit ? LILAC_RIGHT.slice(0, limit) : LILAC_RIGHT
+  );
 }
 
 function HandNote({ children, rotate = -3, size = 21 }: { children: ReactNode; rotate?: number; size?: number }) {
@@ -182,7 +195,7 @@ function CardBody({ book, open }: { book: Book; open: boolean }) {
         )}
         {book.review && (
           <div>
-            <HandNote size={22} rotate={1}>dear diary —</HandNote>
+            <HandNote size={22} rotate={1}>review —</HandNote>
             <div className="prose mt-1"><ReactMarkdown>{book.review}</ReactMarkdown></div>
           </div>
         )}
@@ -219,14 +232,14 @@ function ScrapCard({ book, i, theme, defaultOpen = false }: { book: Book; i: num
           <Washi w={66} h={20} color="color-mix(in oklab, var(--a3) 85%, white)" rotate={5} className="absolute -top-2 right-10" />
         </>
       )}
-      {kind === 2 && (
+      {kind === 2 && theme !== "lilac" && (
         <>
           <span className="absolute right-5 top-4" aria-hidden><PostStamp size={44} icon="var(--a1)" /></span>
           <span className="postmark" style={{ right: 44, top: 8 }}>SUNDAY<br />POST</span>
         </>
       )}
       {exceptional && (
-        <span className="absolute -right-3 -top-4 z-[2] zf-bob" aria-hidden>
+        <span className="absolute -right-3 -bottom-4 z-[2] zf-bob" aria-hidden>
           <Star size={42} color="var(--a3)" />
         </span>
       )}
@@ -261,18 +274,27 @@ function ScrapCard({ book, i, theme, defaultOpen = false }: { book: Book; i: num
             </div>
           </div>
         ) : kind === 2 ? (
-          /* letter */
-          <div className="mt-4" style={{ paddingRight: 56 }}>
-            <p className="hand" style={{ fontSize: 21, color: "color-mix(in oklab, var(--ink) 78%, transparent)" }}>dear reader,</p>
-            <h3 className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1.5" style={{ fontSize: "clamp(1.2rem,3vw,1.7rem)" }}>
-              {book.title.split(" ").map((w, wi) => (
-                <span key={wi} className={`label ${wi % 2 ? "a1" : ""}`} style={{ transform: `rotate(${jitter(wi + i, 1.5)}deg)` }}>{w}</span>
-              ))}
-            </h3>
-            <p className="hand mt-2 text-[20px]" style={{ color: "color-mix(in oklab, var(--ink) 78%, transparent)" }}>
-              from {book.author}, {yearLabel(book.year_published)}
-            </p>
-            {ratingRow}
+          /* letter — cover included like the other card shapes */
+          <div className="mt-4 flex items-start gap-6" style={{ paddingRight: theme === "lilac" ? 0 : 56 }}>
+            {book.cover_url && (
+              <span className="photo relative hidden w-[100px] shrink-0 sm:block" style={{ transform: `rotate(${jitter(i + 4, 3)}deg)`, padding: "6px 6px 18px" }}>
+                <span className="relative block h-[112px] w-full overflow-hidden">
+                  <Image src={book.cover_url} alt="" fill sizes="100px" className="object-cover" />
+                </span>
+              </span>
+            )}
+            <div className="min-w-0">
+              <p className="hand" style={{ fontSize: 21, color: "color-mix(in oklab, var(--ink) 78%, transparent)" }}>dear reader,</p>
+              <h3 className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1.5" style={{ fontSize: "clamp(1.2rem,3vw,1.7rem)" }}>
+                {book.title.split(" ").map((w, wi) => (
+                  <span key={wi} className={`label ${wi % 2 ? "a1" : ""}`} style={{ transform: `rotate(${jitter(wi + i, 1.5)}deg)` }}>{w}</span>
+                ))}
+              </h3>
+              <p className="hand mt-2 text-[20px]" style={{ color: "color-mix(in oklab, var(--ink) 78%, transparent)" }}>
+                from {book.author}, {yearLabel(book.year_published)}
+              </p>
+              {ratingRow}
+            </div>
           </div>
         ) : (
           /* taped page */
@@ -466,7 +488,7 @@ export function ScrapFam({
 
         <footer className="mt-20 text-center">
           <p className="hand text-[22px]" style={{ color: "color-mix(in oklab, var(--ink) 70%, transparent)" }}>
-            {ex.word} ✿ sunday&rsquo;s shelf
+            {theme === "lilac" ? <>sunday&rsquo;s shelf ✿</> : <>{ex.word} ✿ sunday&rsquo;s shelf</>}
           </p>
           <p className="mt-1 text-[11px]" style={{ color: "color-mix(in oklab, var(--ink) 55%, transparent)" }}>
             critters &amp; props by{" "}

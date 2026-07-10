@@ -58,6 +58,23 @@ html:has(.d-scrap2.t-lilac), body:has(.d-scrap2.t-lilac) { background: #f3eefc; 
     linear-gradient(90deg, rgba(167, 139, 250, 0.22) 1px, transparent 1px) 0 0 / 26px 100%,
     linear-gradient(var(--bg1), var(--bg2));
 }
+/* the limbus page leans pink/red "in suit": rose graph paper, red
+   accents, and red-tinted boxes around the fourteen */
+html:has(.d-scrap2.t-lilac.lb-rose), body:has(.d-scrap2.t-lilac.lb-rose) { background: #fdf0f2; }
+.d-scrap2.t-lilac.lb-rose {
+  --bg1: #fdf0f2; --bg2: #fbe6ea;
+  --a1: #d94f63; --a2: #f9a8d4; --a3: #f2c14e;
+  --edge: rgba(217, 79, 99, 0.42);
+  --page: #fff6f6;
+  background:
+    linear-gradient(rgba(240, 128, 152, 0.22) 1px, transparent 1px) 0 0 / 100% 26px,
+    linear-gradient(90deg, rgba(240, 128, 152, 0.22) 1px, transparent 1px) 0 0 / 26px 100%,
+    linear-gradient(var(--bg1), var(--bg2));
+}
+.d-scrap2.t-lilac.lb-rose .page {
+  border-color: rgba(217, 79, 99, 0.5);
+  box-shadow: 0 3px 0 rgba(217, 79, 99, 0.28), 0 16px 30px -18px rgba(150, 50, 60, 0.4);
+}
 
 /* paper fiber + confetti sprinkles — absolute (scroll with the page)
    and z-index -1 so they stay strictly BEHIND every card and letter */

@@ -6,8 +6,24 @@ import type { Book } from "@/lib/db";
 import { Hex, nameSlug, SINNER_NUM, TinyClock } from "../hexbits";
 import { jitter, yearLabel } from "../util";
 import { GlyphRating, Heart, Pic, Pushpin, SideRails, Star, Washi } from "../zf/core";
-import { EXTRAS, lilacRails, MiniShot } from "./ScrapFam";
+import { EXTRAS, MiniShot, scatterRails } from "./ScrapFam";
 import type { ScrapTheme } from "./ScrapFam";
+
+/* the limbus sides get their own set: reddish flowers and hearts plus
+   the bus, locomotive, coins, chains and clocks — transit to hell,
+   sticker edition (all OpenMoji, nothing hand-drawn) */
+const ROSE_LEFT: [string, number][] = [
+  ["heartred", 46], ["locomotive", 64], ["rose", 54], ["coin", 44],
+  ["sparkles", 66], ["chains", 52], ["hibiscus", 56], ["star2", 38],
+  ["hourglass", 46], ["heartsparkle", 50], ["bus", 60], ["rose", 36],
+  ["sparkles", 40], ["alarmclock", 48], ["heartred", 32], ["blossom", 44],
+];
+const ROSE_RIGHT: [string, number][] = [
+  ["bus", 66], ["rose", 48], ["heartsparkle", 42], ["chains", 56],
+  ["star2", 50], ["hibiscus", 62], ["coin", 40], ["heartred", 52],
+  ["locomotive", 54], ["sparkles", 72], ["alarmclock", 40], ["rose", 58],
+  ["hourglass", 38], ["blossom", 48], ["sparkles", 44], ["heartred", 38],
+];
 
 /* where each themed trio lives, so nav + review links stay in-style */
 export const SCRAP_ROUTES: Record<ScrapTheme, { home: string; limbus: string; about: string }> = {
@@ -44,7 +60,7 @@ function statusNote(b: Book): string {
   return b.status === "read" ? "finished! ✓" : b.status === "reading" ? "reading now…" : "someday pile";
 }
 
-function BookPage({ b, i, theme }: { b: Book; i: number; theme: ScrapTheme }) {
+function BookPage({ b, i, theme, homeHref }: { b: Book; i: number; theme: ScrapTheme; homeHref: string }) {
   const rating = b.rating != null ? Number(b.rating) : null;
   const mascots = EXTRAS[theme].mascots;
   return (
@@ -81,7 +97,7 @@ function BookPage({ b, i, theme }: { b: Book; i: number; theme: ScrapTheme }) {
             </span>
             {rating != null && <GlyphRating rating={rating} glyph="♥" color={theme === "lilac" ? "#e0463f" : "var(--a1)"} size={15} showStar={b.show_star === true} starColor="#e0a92e" />}
             {b.review && b.review_published !== false && (
-              <Link href={SCRAP_ROUTES[theme].home} className="hand zf-wiggle" style={{ fontSize: 18, color: "var(--a1)" }}>
+              <Link href={homeHref} className="hand zf-wiggle" style={{ fontSize: 18, color: "var(--a1)" }}>
                 reviewed on the shelf →
               </Link>
             )}
@@ -92,16 +108,28 @@ function BookPage({ b, i, theme }: { b: Book; i: number; theme: ScrapTheme }) {
   );
 }
 
-export function LimbusScrap({ theme, books, tagline }: { theme: ScrapTheme; books: Book[]; tagline: string }) {
+export function LimbusScrap({
+  theme,
+  books,
+  tagline,
+  routes: routesProp,
+  showDrafts = true,
+}: {
+  theme: ScrapTheme;
+  books: Book[];
+  tagline: string;
+  routes?: { home: string; limbus: string; about: string };
+  showDrafts?: boolean;
+}) {
   const ex = EXTRAS[theme];
-  const routes = SCRAP_ROUTES[theme];
+  const routes = routesProp ?? SCRAP_ROUTES[theme];
   const hung = books.filter((b) => b.cover_url).slice(2, 7);
   const shots = books.filter((b) => b.cover_url).slice(9, 13);
   const read = books.filter((b) => b.status === "read").length;
-  const lr = theme === "lilac" ? lilacRails() : null;
+  const lr = theme === "lilac" ? scatterRails(ROSE_LEFT, ROSE_RIGHT, 19, 53) : null;
 
   return (
-    <div className={`d-scrap2 t-${theme}`}>
+    <div className={`d-scrap2 t-${theme}${theme === "lilac" ? " lb-rose" : ""}`}>
       <div className="zf-edge zf-edge-left edge-gingham" aria-hidden />
       <div className="zf-edge zf-edge-right edge-gingham" aria-hidden />
 
@@ -140,7 +168,7 @@ export function LimbusScrap({ theme, books, tagline }: { theme: ScrapTheme; book
           <div className="flex gap-6">
             <Link href={routes.home}>home</Link>
             <Link href={routes.about}>about</Link>
-            <Link href="/drafts">drafts</Link>
+            {showDrafts && <Link href="/drafts">drafts</Link>}
           </div>
         </nav>
 
@@ -191,13 +219,13 @@ export function LimbusScrap({ theme, books, tagline }: { theme: ScrapTheme; book
             </span>
           </div>
           <div className="grid gap-8 sm:grid-cols-2">
-            {books.map((b, i) => <BookPage key={b.id} b={b} i={i} theme={theme} />)}
+            {books.map((b, i) => <BookPage key={b.id} b={b} i={i} theme={theme} homeHref={routes.home} />)}
           </div>
         </section>
 
         <footer className="mt-20 text-center">
           <p className="hand text-[22px]" style={{ color: "color-mix(in oklab, var(--ink) 70%, transparent)" }}>
-            fourteen stories, {ex.word} ✿ sunday&rsquo;s shelf
+            {theme === "lilac" ? <>sunday&rsquo;s shelf ✿</> : <>fourteen stories, {ex.word} ✿ sunday&rsquo;s shelf</>}
           </p>
           <p className="mt-1 text-[11px]" style={{ color: "color-mix(in oklab, var(--ink) 55%, transparent)" }}>
             critters &amp; props by{" "}

@@ -1,6 +1,12 @@
-import { getAllBooks } from "@/lib/db";
-import { LimbusBackground } from "@/components/LimbusBackground";
-import { LimbusSection } from "@/components/LimbusSection";
+import { Archivo_Black, Space_Grotesk, Caveat } from "next/font/google";
+import { getDraftData } from "@/app/drafts/data";
+import { LimbusScrap } from "@/app/drafts/fam-scrap/LimbusScrap";
+import "@/app/drafts/zf/zf.css";
+import "@/app/drafts/fam-scrap/scrapfam.css";
+
+const archivo = Archivo_Black({ weight: "400", subsets: ["latin"], variable: "--font-archivo" });
+const grotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-grotesk" });
+const hand = Caveat({ subsets: ["latin"], variable: "--font-hand" });
 
 export const revalidate = 60;
 export const metadata = {
@@ -10,15 +16,16 @@ export const metadata = {
 };
 
 export default async function LimbusPage() {
-  const books = await getAllBooks();
-  const limbusBooks = books.filter(
-    (b) => b.collection === "limbus" && b.review_published !== false
-  );
-
+  const data = await getDraftData();
   return (
-    <>
-      <LimbusBackground />
-      <LimbusSection books={limbusBooks} />
-    </>
+    <div className={`${archivo.variable} ${grotesk.variable} ${hand.variable}`}>
+      <LimbusScrap
+        theme="lilac"
+        books={data.limbus}
+        tagline="the fourteen literary works behind Project Moon's roster of sinners"
+        routes={{ home: "/", limbus: "/limbus", about: "/about" }}
+        showDrafts={false}
+      />
+    </div>
   );
 }

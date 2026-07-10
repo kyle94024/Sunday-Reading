@@ -31,10 +31,23 @@ function RatingLegend() {
   );
 }
 
-export function AboutScrap({ theme, text, contributors }: { theme: ScrapTheme; text: string; contributors: string[] }) {
+export function AboutScrap({
+  theme,
+  text,
+  contributors,
+  routes: routesProp,
+  showDrafts = true,
+}: {
+  theme: ScrapTheme;
+  text: string;
+  contributors: string[];
+  routes?: { home: string; limbus: string; about: string };
+  showDrafts?: boolean;
+}) {
   const ex = EXTRAS[theme];
-  const routes = SCRAP_ROUTES[theme];
-  const lr = theme === "lilac" ? lilacRails() : null;
+  const routes = routesProp ?? SCRAP_ROUTES[theme];
+  // shorter rail set: the about page is short, full rails ran past it
+  const lr = theme === "lilac" ? lilacRails(10) : null;
   return (
     <div className={`d-scrap2 t-${theme}`}>
       <div className="zf-edge zf-edge-left edge-gingham" aria-hidden />
@@ -70,7 +83,7 @@ export function AboutScrap({ theme, text, contributors }: { theme: ScrapTheme; t
           <div className="flex gap-6">
             <Link href={routes.home}>home</Link>
             <Link href={routes.limbus}>limbus</Link>
-            <Link href="/drafts">drafts</Link>
+            {showDrafts && <Link href="/drafts">drafts</Link>}
           </div>
         </nav>
 
@@ -146,7 +159,7 @@ export function AboutScrap({ theme, text, contributors }: { theme: ScrapTheme; t
 
         <footer className="mt-20 text-center">
           <p className="hand text-[22px]" style={{ color: "color-mix(in oklab, var(--ink) 70%, transparent)" }}>
-            {ex.word} ✿ sunday&rsquo;s shelf
+            {theme === "lilac" ? <>sunday&rsquo;s shelf ✿</> : <>{ex.word} ✿ sunday&rsquo;s shelf</>}
           </p>
           <p className="mt-1 text-[11px]" style={{ color: "color-mix(in oklab, var(--ink) 55%, transparent)" }}>
             critters &amp; props by{" "}

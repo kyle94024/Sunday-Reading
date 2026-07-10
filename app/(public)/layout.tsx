@@ -1,23 +1,22 @@
 import Link from "next/link";
-import { BookShelfNav } from "@/components/BookShelfNav";
 
+// The lilac pages carry their own nav, footer and background, so the
+// public shell stays out of the way — it only keeps the quiet admin
+// entrance (the little dot tucked under each page's footer).
 export default function PublicLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <>
-      <div className="grain" aria-hidden />
-      <BookShelfNav />
       <main className="relative z-10">{children}</main>
-      <footer className="relative z-10 mt-32 flex items-center justify-center gap-3 border-t border-violet-bright/10 py-10 text-xs uppercase tracking-[0.3em] text-ink-muted/60">
-        <span className="text-gradient-violet">Sunday&rsquo;s Shelf</span>
+      <div className="relative z-10 -mt-20 flex justify-center pb-8">
         <Link
           href="/admin/login"
           aria-label="admin"
           title="admin"
-          className="inline-block h-1.5 w-1.5 rounded-full bg-violet-bright/15 transition-all duration-500 hover:scale-150 hover:bg-violet-glow hover:shadow-[0_0_12px_rgba(192,132,252,0.9)]"
+          className="inline-block h-2 w-2 rounded-full bg-black/10 transition-all duration-500 hover:scale-150 hover:bg-black/40"
         />
-      </footer>
+      </div>
     </>
   );
 }
