@@ -5,7 +5,25 @@ import Link from "next/link";
 import type { Book } from "@/lib/db";
 import { romanize, yearLabel } from "../util";
 import { Marquee, SideRails } from "../zf/core";
-import { LC_STATUS, LcTheme, SinIcon, SINS, SinnerFace, SinnerStand, lcRails, riskClass } from "./lc";
+import { Chain, ClockGlyph, Die, Hex, LC_STATUS, LcTheme, SinIcon, SINS, lcRails, riskClass, sinnerNumeral, sinnerSlug } from "./lc";
+
+/* the book's mark, sans characters: the sinner's canonical numeral in a
+   hexagon; Dante gets his clock; the Golden Bough gets a star */
+function Emblem({ b, size, color }: { b: Book; size: number; color: string }) {
+  const num = sinnerNumeral(b.limbus_sinner);
+  const isDante = sinnerSlug(b.limbus_sinner) === "dante";
+  return (
+    <Hex size={size} color={color} glow={`${color}55`}>
+      {isDante ? (
+        <ClockGlyph size={size * 0.54} color={color} />
+      ) : num ? (
+        <span className="display" style={{ fontSize: size * 0.34, color }}>{num}</span>
+      ) : (
+        <span style={{ fontSize: size * 0.4, color, lineHeight: 1 }}>✦</span>
+      )}
+    </Hex>
+  );
+}
 
 const HERO: Record<LcTheme, { kicker: string; title: string; sub: string }> = {
   canto: { kicker: "sunday's shelf presents", title: "The Fourteen Cantos", sub: "the literary works behind Limbus Company, kept and judged faithfully" },
@@ -36,16 +54,11 @@ function CantoPlate({ b, i }: { b: Book; i: number }) {
       <span className="floret" style={{ top: 5, right: 8 }}>❖</span>
       <span className="floret" style={{ bottom: 5, left: 8 }}>❖</span>
       <span className="floret" style={{ bottom: 5, right: 8 }}>❖</span>
-      <span className="display hidden w-16 text-center sm:block" style={{ fontSize: 30, color: "var(--gold)" }} aria-hidden>
+      <span className="display hidden w-14 text-center sm:block" style={{ fontSize: 26, color: "var(--gold)", opacity: 0.85 }} aria-hidden>
         {romanize(i + 1)}
       </span>
-      <span className="relative hidden md:block" aria-hidden>
-        <span className="absolute inset-0 -z-[1] rounded-full" style={{ background: `radial-gradient(circle, ${color}44, transparent 70%)`, filter: "blur(6px)" }} />
-        {b.limbus_sinner ? (
-          <SinnerStand sinner={b.limbus_sinner} h={150} glow={`${color}66`} />
-        ) : (
-          <SinIcon sin="pride" size={64} style={{ filter: `drop-shadow(0 0 14px ${color}aa)` }} />
-        )}
+      <span className="hidden md:block" aria-hidden>
+        <Emblem b={b} size={92} color={color} />
       </span>
       <Cover book={b} w={78} h={112} />
       <div className="min-w-0 flex-1">
@@ -66,16 +79,7 @@ function TerminalRow({ b, i }: { b: Book; i: number }) {
   return (
     <li className="lc-row grid grid-cols-[44px_52px_1fr] items-center gap-4 px-4 py-3 sm:grid-cols-[44px_52px_1fr_auto]">
       <span className="display" style={{ fontSize: 24, color: "var(--gold)" }} aria-hidden>{String(i + 1).padStart(2, "0")}</span>
-      <span style={{ border: "1px solid var(--line)" }} className="overflow-hidden">
-        {b.limbus_sinner ? (
-          <SinnerFace sinner={b.limbus_sinner} size={50} />
-        ) : (
-          <span className="relative block" style={{ width: 50, height: 50 }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/drafts/lc/cg-goldenbough.png" alt="" className="absolute inset-0 h-full w-full object-cover" aria-hidden />
-          </span>
-        )}
-      </span>
+      <Emblem b={b} size={46} color={b.limbus_color || "#e8a33d"} />
       <div className="min-w-0">
         <div className="display truncate" style={{ fontSize: 21, color: "var(--ink)", letterSpacing: "0.03em" }}>{b.title.toUpperCase()}</div>
         <div style={{ fontSize: 11.5, color: "var(--soft)", letterSpacing: "0.14em", textTransform: "uppercase" }}>
@@ -98,13 +102,7 @@ function InvitationCard({ b }: { b: Book }) {
       <span className="floret" style={{ top: 5, left: 8 }}>✦</span>
       <span className="floret" style={{ top: 5, right: 8 }}>✦</span>
       <div className="flex justify-center">
-        {b.limbus_sinner ? (
-          <span className="cameo"><SinnerFace sinner={b.limbus_sinner} size={78} /></span>
-        ) : (
-          <span className="cameo grid place-items-center" style={{ width: 78, height: 78, background: "rgba(185,141,84,0.12)" }}>
-            <SinIcon sin="sloth" size={44} />
-          </span>
-        )}
+        <Emblem b={b} size={84} color={b.limbus_color || "#b98d54"} />
       </div>
       <div className="sc mt-4">the library extends its invitation</div>
       <h3 className="display mt-1.5 leading-tight" style={{ fontSize: "1.45rem", color: "var(--ink)" }}>{b.title}</h3>
@@ -126,15 +124,17 @@ function CaseFile({ b, i }: { b: Book; i: number }) {
     <article className="folder p-5 pt-6">
       <span className="folder-tab">CASE {String(i + 1).padStart(2, "0")}</span>
       <div className="flex flex-wrap items-start gap-5">
-        <span className="photo-d relative shrink-0" style={{ transform: `rotate(${i % 2 ? 2.5 : -2.5}deg)` }}>
+        <span className="photo-d relative grid shrink-0 place-items-center" style={{ transform: `rotate(${i % 2 ? 2.5 : -2.5}deg)`, minWidth: 96, minHeight: 96 }}>
           <span className="clip" style={{ left: 14 }} aria-hidden />
-          {b.limbus_sinner ? (
-            <SinnerFace sinner={b.limbus_sinner} size={86} />
-          ) : (
-            <span className="relative block overflow-hidden" style={{ width: 86, height: 86 }}>
+          {!b.limbus_sinner ? (
+            <span className="relative block overflow-hidden" style={{ width: 84, height: 84 }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/drafts/lc/cg-goldenbough.png" alt="" className="absolute inset-0 h-full w-full object-cover" aria-hidden />
             </span>
+          ) : i % 2 ? (
+            <Emblem b={b} size={64} color="var(--ink)" />
+          ) : (
+            <Die size={62} pips={(((i / 2) % 6) + 1) as 1 | 2 | 3 | 4 | 5 | 6} color="var(--ink)" rotate={i % 4 ? 8 : -8} />
           )}
         </span>
         <Cover book={b} w={62} h={90} className="hidden sm:block" />
@@ -187,10 +187,12 @@ export function LimbusFam({ theme, books }: { theme: LcTheme; books: Book[] }) {
           </p>
 
           {theme === "canto" && (
-            <div className="mt-7 flex items-end justify-center gap-5" aria-hidden>
-              <span className="hidden sm:block"><SinnerStand sinner="vergilius" h={190} glow="rgba(165,28,48,0.5)" /></span>
-              <SinnerStand sinner="dante" h={250} glow="rgba(201,164,92,0.6)" className="lc-flicker" />
-              <span className="hidden sm:block"><SinnerStand sinner="faust" h={190} flip glow="rgba(201,164,92,0.4)" /></span>
+            <div className="mt-8 flex items-center justify-center gap-8" aria-hidden>
+              <span className="hidden sm:block"><Chain links={4} size={13} style={{ opacity: 0.75 }} /></span>
+              <Hex size={150} glow="rgba(201,164,92,0.6)">
+                <ClockGlyph size={82} className="lc-flicker" />
+              </Hex>
+              <span className="hidden sm:block"><Chain links={4} size={13} style={{ opacity: 0.75 }} /></span>
             </div>
           )}
           {theme === "library" && (
@@ -254,7 +256,7 @@ export function LimbusFam({ theme, books }: { theme: LcTheme; books: Book[] }) {
             <Link href="/limbus" style={{ color: "var(--gold)" }}>the current page</Link>
           </p>
           <p className="mt-2" style={{ fontSize: 10.5, color: "var(--soft)", letterSpacing: "0.08em" }}>
-            character art © Project Moon · non-commercial fan shelf
+            sin iconography © Project Moon · non-commercial fan shelf
           </p>
         </footer>
       </div>

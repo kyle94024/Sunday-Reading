@@ -227,7 +227,7 @@ const LC_FAM: Tile[] = [
     n: "l·1",
     name: "The Fourteen Cantos",
     pitch:
-      "A gothic gold opera bill: blackletter masthead, Dante and company standing in the margins, each book a framed canto plate with its sinner's full sprite, sin-colored glow, and a wax-sealed status. Pairs with an About page styled as a dramatis personae.",
+      "A gothic gold opera bill: blackletter masthead, a chained clock-hexagon crest, each book a framed canto plate bearing its sinner's numbered hexagon in their canonical color, wax-sealed status. Pairs with an About page styled as a dramatis personae.",
     keeps: "every book & sinner mapping",
     changes: "cosmos violet → black, blood & gold",
     palette: ["#0c0a10", "#c9a45c", "#a51c30", "#e8dcc3"],
@@ -237,7 +237,7 @@ const LC_FAM: Tile[] = [
     n: "l·2",
     name: "Mephistopheles Terminal",
     pitch:
-      "The bus's departure board: phosphor-amber pixel type, a stops ticker, fourteen manifest rows with sinner headshots and status lamps (ARRIVED / IN TRANSIT / AWAITING BOARDING). About becomes the operator's license.",
+      "The bus's departure board: phosphor-amber pixel type, a stops ticker, fourteen manifest rows with numbered hex seals and status lamps (ARRIVED / IN TRANSIT / AWAITING BOARDING). About becomes the operator's license.",
     keeps: "the fourteen as a roster",
     changes: "shelf → transit manifest",
     palette: ["#090e0b", "#e8a33d", "#3fd67a", "#d9e6d4"],
@@ -247,7 +247,7 @@ const LC_FAM: Tile[] = [
     n: "l·3",
     name: "The Library",
     pitch:
-      "Candle-lit invitations, one per volume: oval cameo portraits, flickering sin sigils, wax dots in each sinner's color. The quietest and most ominous. About is the patron's record.",
+      "Candle-lit invitations, one per volume: hexagonal emblems in each sinner's color, flickering sin sigils, wax seals. The quietest and most ominous. About is the patron's record.",
     keeps: "the bookish reverence",
     changes: "grid of cards → a receiving hall",
     palette: ["#170d13", "#b98d54", "#8c3a44", "#e3d3c2"],
@@ -257,7 +257,7 @@ const LC_FAM: Tile[] = [
     n: "l·4",
     name: "Case Files",
     pitch:
-      "Manila folders in daylight: typewriter case files with paperclipped sinner photos, risk classes graded ZAYIN→ALEPH from your actual ratings, redaction bars, RETURNED / CHECKED OUT stamps. About is Manager K's personnel file.",
+      "Manila folders in daylight: typewriter case files with paperclipped evidence photos of clash dice and hex seals, risk classes graded ZAYIN→ALEPH from your actual ratings, redaction bars, RETURNED / CHECKED OUT stamps. About is Manager K's personnel file.",
     keeps: "all fourteen records",
     changes: "dark theme → classified manila",
     palette: ["#cfc19e", "#eadfc2", "#b3352c", "#33291c"],
@@ -277,10 +277,10 @@ export default function DraftsIndex() {
           Round four: Limbus &amp; About
         </h1>
         <p className="mt-4 max-w-xl font-serif text-lg text-white/70">
-          The /limbus and /about pages restyled four ways. The limbus drafts
-          use real Project Moon art — sprites in the margins, sinners on the
-          cards — while each matching About page keeps the theme with
-          candles, lamps, seals and stamps instead of characters. Every
+          The /limbus and /about pages restyled four ways using Project Moon
+          iconography rather than characters — chains, numbered sinner
+          hexagons, sin sigils, clash dice, the clock. Matching About pages
+          keep each theme with candles, lamps, seals and stamps. Every
           draft keeps the full fourteen-book history (about pages linked in
           each draft&rsquo;s nav, or via the about tab in the switcher).
         </p>
