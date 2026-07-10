@@ -5,7 +5,7 @@ import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import { RATING_LEVELS, RatingStar } from "@/components/RatingPips";
 import { SideRails } from "../zf/core";
-import { LcTheme, SinIcon, SinnerStand, lcRails } from "./lc";
+import { LcTheme, aboutRails } from "./lc";
 
 const COPY: Record<
   LcTheme,
@@ -48,7 +48,7 @@ export function AboutFam({
   text: string;
   contributors: string[];
 }) {
-  const rails = lcRails(theme);
+  const rails = aboutRails(theme);
   const copy = COPY[theme];
 
   const avatar =
@@ -135,24 +135,17 @@ export function AboutFam({
               <ReactMarkdown>{text}</ReactMarkdown>
             </div>
 
-            {theme === "canto" && (
-              <div className="mt-12 flex items-end gap-6 opacity-90" aria-hidden>
-                <SinnerStand sinner="dante" h={170} glow="rgba(201,164,92,0.5)" />
-                <div className="glowline mb-8 flex-1" />
+            {(theme === "canto" || theme === "library") && (
+              <div className="mt-12 flex items-center gap-4 opacity-90" aria-hidden>
+                <span style={{ color: "var(--gold)", fontSize: 20, filter: "drop-shadow(0 0 8px color-mix(in oklab, var(--gold) 55%, transparent))" }}>❦</span>
+                <div className="glowline flex-1" />
+                <span style={{ color: "var(--gold)", fontSize: 14 }}>✦</span>
               </div>
             )}
             {theme === "dossier" && (
               <div className="mt-10 flex items-center gap-3">
                 <span className="stamp">reviewed &amp; filed</span>
                 <span className="stamp" style={{ borderColor: "var(--gold)", color: "var(--gold)", transform: "rotate(3deg)" }}>do not circulate</span>
-              </div>
-            )}
-            {theme === "library" && (
-              <div className="mt-10 flex items-center gap-4 opacity-90" aria-hidden>
-                {(["gloom", "pride", "envy"] as const).map((s, i) => (
-                  <SinIcon key={s} sin={s} size={26} className="lc-flicker" style={{ animationDelay: `${-i}s` }} />
-                ))}
-                <div className="glowline flex-1" />
               </div>
             )}
           </div>
@@ -163,9 +156,6 @@ export function AboutFam({
           <p className="sc mt-5">
             the shelf keeps honest accounts ·{" "}
             <Link href="/about" style={{ color: "var(--gold)" }}>the current page</Link>
-          </p>
-          <p className="mt-2" style={{ fontSize: 10.5, color: "var(--soft)", letterSpacing: "0.08em" }}>
-            character art © Project Moon · non-commercial fan shelf
           </p>
         </footer>
       </div>

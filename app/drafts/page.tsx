@@ -277,11 +277,12 @@ export default function DraftsIndex() {
           Round four: Limbus &amp; About
         </h1>
         <p className="mt-4 max-w-xl font-serif text-lg text-white/70">
-          The /limbus and /about pages restyled four ways with real Project
-          Moon art — sprites in the margins, sinners on the cards. Every
-          draft keeps the full fourteen-book history and pairs with a
-          matching About page (linked in each draft&rsquo;s nav, or via the
-          about tab in the switcher).
+          The /limbus and /about pages restyled four ways. The limbus drafts
+          use real Project Moon art — sprites in the margins, sinners on the
+          cards — while each matching About page keeps the theme with
+          candles, lamps, seals and stamps instead of characters. Every
+          draft keeps the full fourteen-book history (about pages linked in
+          each draft&rsquo;s nav, or via the about tab in the switcher).
         </p>
 
         <FamilyHeading accent="#c9a45c">
