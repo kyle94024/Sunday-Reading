@@ -59,7 +59,7 @@ function HandNote({ children, rotate = -3, size = 21 }: { children: ReactNode; r
 /* ── sidebar pieces: images only, no words ── */
 
 /* pinned polaroid of a real cover, links to the shelf */
-function MiniShot({ book, r = -3, pin = "var(--a1)" }: { book?: Book; r?: number; pin?: string }) {
+export function MiniShot({ book, r = -3, pin = "var(--a1)" }: { book?: Book; r?: number; pin?: string }) {
   if (!book?.cover_url) return null;
   return (
     <Link

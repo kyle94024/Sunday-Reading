@@ -1,4 +1,4 @@
-import { getAllBooks, getSiteContentMap } from "@/lib/db";
+import { getAllBooks, getSiteContentMap, sql } from "@/lib/db";
 import type { Book } from "@/lib/db";
 
 export type DraftData = {
@@ -9,6 +9,26 @@ export type DraftData = {
   reviews: Book[];
   books: Book[]; // everything, for sidebar widgets (now-reading, stats…)
 };
+
+// About-page content for page-restyle drafts: the markdown bio plus the
+// contributor roster (same query the real /about runs).
+export async function getAboutData(): Promise<{ about: string; contributors: string[] }> {
+  const [content, guestRows] = await Promise.all([
+    getSiteContentMap(),
+    sql`
+      SELECT DISTINCT reviewer_name
+      FROM books
+      WHERE reviewer_name IS NOT NULL
+        AND reviewer_name <> ''
+        AND review_published = TRUE
+      ORDER BY reviewer_name
+    `,
+  ]);
+  const guests = (guestRows as { reviewer_name: string }[]).map(
+    (r) => r.reviewer_name
+  );
+  return { about: content.about ?? "", contributors: ["Kyle", ...guests] };
+}
 
 // One fetch shape shared by every draft page so all four render the same
 // live content — the comparison is purely about styling.

@@ -219,48 +219,28 @@ const ROUND1: Tile[] = [
   },
 ];
 
-// Round four: the /limbus and /about pages restyled, with real
-// Limbus Company art. Each tile pairs with an -about twin.
-const LC_FAM: Tile[] = [
+// Round four: the /limbus and /about pages in the Picnic Day style, so
+// the whole site reads as one place. Home is /drafts/picnic below.
+const PICNIC_SITE: Tile[] = [
   {
-    href: "/drafts/canto",
-    n: "l·1",
-    name: "The Fourteen Cantos",
+    href: "/drafts/picnic-limbus",
+    n: "p·L",
+    name: "Picnic Day · Limbus",
     pitch:
-      "A gothic gold opera bill: blackletter masthead, a chained clock-hexagon crest, each book a framed canto plate bearing its sinner's numbered hexagon in their canonical color, wax-sealed status. Pairs with an About page styled as a dramatis personae.",
-    keeps: "every book & sinner mapping",
-    changes: "cosmos violet → black, blood & gold",
-    palette: ["#0c0a10", "#c9a45c", "#a51c30", "#e8dcc3"],
+      "The fourteen on the picnic blanket: pinned polaroid covers, hand-written titles, washi and critters — and each book wears a small pastel hexagon with its sinner's canonical numeral (Dante gets a tiny clock, the Golden Bough a star). Status notes, heart ratings, and links back to reviews.",
+    keeps: "the full limbus history & sinner colors",
+    changes: "ominous → sunny; sprites → soft hexagons",
+    palette: ["#d9edf6", "#5f93bd", "#e8848f", "#33465a"],
   },
   {
-    href: "/drafts/terminal",
-    n: "l·2",
-    name: "Mephistopheles Terminal",
+    href: "/drafts/picnic-about",
+    n: "p·A",
+    name: "Picnic Day · About",
     pitch:
-      "The bus's departure board: phosphor-amber pixel type, a stops ticker, fourteen manifest rows with numbered hex seals and status lamps (ARRIVED / IN TRANSIT / AWAITING BOARDING). About becomes the operator's license.",
-    keeps: "the fourteen as a roster",
-    changes: "shelf → transit manifest",
-    palette: ["#090e0b", "#e8a33d", "#3fd67a", "#d9e6d4"],
-  },
-  {
-    href: "/drafts/library",
-    n: "l·3",
-    name: "The Library",
-    pitch:
-      "Candle-lit invitations, one per volume: hexagonal emblems in each sinner's color, flickering sin sigils, wax seals. The quietest and most ominous. About is the patron's record.",
-    keeps: "the bookish reverence",
-    changes: "grid of cards → a receiving hall",
-    palette: ["#170d13", "#b98d54", "#8c3a44", "#e3d3c2"],
-  },
-  {
-    href: "/drafts/dossier",
-    n: "l·4",
-    name: "Case Files",
-    pitch:
-      "Manila folders in daylight: typewriter case files with paperclipped evidence photos of clash dice and hex seals, risk classes graded ZAYIN→ALEPH from your actual ratings, redaction bars, RETURNED / CHECKED OUT stamps. About is Manager K's personnel file.",
-    keeps: "all fourteen records",
-    changes: "dark theme → classified manila",
-    palette: ["#cfc19e", "#eadfc2", "#b3352c", "#33291c"],
+      "The profile as a pinned polaroid, contributors as name-tag labels, the rating scale hand-written with its real colors, and the bio on lined letter paper — same critters in the margins as home.",
+    keeps: "everything the real /about says",
+    changes: "cosmic violet → picnic pastels",
+    palette: ["#d9edf6", "#5f93bd", "#ecc25c", "#fdfcf3"],
   },
 ];
 
@@ -274,23 +254,22 @@ export default function DraftsIndex() {
           Style drafts · unlisted
         </p>
         <h1 className="mt-3 font-display text-4xl tracking-[0.02em] sm:text-5xl">
-          Round four: Limbus &amp; About
+          Round four: the picnic site
         </h1>
         <p className="mt-4 max-w-xl font-serif text-lg text-white/70">
-          The /limbus and /about pages restyled four ways using Project Moon
-          iconography rather than characters — chains, numbered sinner
-          hexagons, sin sigils, clash dice, the clock. Matching About pages
-          keep each theme with candles, lamps, seals and stamps. Every
-          draft keeps the full fourteen-book history (about pages linked in
-          each draft&rsquo;s nav, or via the about tab in the switcher).
+          Picnic Day, extended to the whole site: home, limbus, and about in
+          one matching style, cross-linked in each page&rsquo;s nav (or via
+          the picnic·site tab in the switcher). The limbus page keeps its
+          full fourteen-book history with a soft hexagon numeral as the only
+          nod to the game.
         </p>
 
-        <FamilyHeading accent="#c9a45c">
-          The limbus four — ominous, on theme
+        <FamilyHeading accent="#5f93bd">
+          Picnic Day, three pages — home is s·3 below
         </FamilyHeading>
         <div className="mt-6 flex flex-col gap-4">
-          {LC_FAM.map((d) => (
-            <DraftTile key={d.href} d={d} accent="#c9a45c" />
+          {PICNIC_SITE.map((d) => (
+            <DraftTile key={d.href} d={d} accent="#5f93bd" />
           ))}
         </div>
 
