@@ -219,6 +219,51 @@ const ROUND1: Tile[] = [
   },
 ];
 
+// Round four: the /limbus and /about pages restyled, with real
+// Limbus Company art. Each tile pairs with an -about twin.
+const LC_FAM: Tile[] = [
+  {
+    href: "/drafts/canto",
+    n: "l·1",
+    name: "The Fourteen Cantos",
+    pitch:
+      "A gothic gold opera bill: blackletter masthead, Dante and company standing in the margins, each book a framed canto plate with its sinner's full sprite, sin-colored glow, and a wax-sealed status. Pairs with an About page styled as a dramatis personae.",
+    keeps: "every book & sinner mapping",
+    changes: "cosmos violet → black, blood & gold",
+    palette: ["#0c0a10", "#c9a45c", "#a51c30", "#e8dcc3"],
+  },
+  {
+    href: "/drafts/terminal",
+    n: "l·2",
+    name: "Mephistopheles Terminal",
+    pitch:
+      "The bus's departure board: phosphor-amber pixel type, a stops ticker, fourteen manifest rows with sinner headshots and status lamps (ARRIVED / IN TRANSIT / AWAITING BOARDING). About becomes the operator's license.",
+    keeps: "the fourteen as a roster",
+    changes: "shelf → transit manifest",
+    palette: ["#090e0b", "#e8a33d", "#3fd67a", "#d9e6d4"],
+  },
+  {
+    href: "/drafts/library",
+    n: "l·3",
+    name: "The Library",
+    pitch:
+      "Candle-lit invitations, one per volume: oval cameo portraits, flickering sin sigils, wax dots in each sinner's color. The quietest and most ominous. About is the patron's record.",
+    keeps: "the bookish reverence",
+    changes: "grid of cards → a receiving hall",
+    palette: ["#170d13", "#b98d54", "#8c3a44", "#e3d3c2"],
+  },
+  {
+    href: "/drafts/dossier",
+    n: "l·4",
+    name: "Case Files",
+    pitch:
+      "Manila folders in daylight: typewriter case files with paperclipped sinner photos, risk classes graded ZAYIN→ALEPH from your actual ratings, redaction bars, RETURNED / CHECKED OUT stamps. About is Manager K's personnel file.",
+    keeps: "all fourteen records",
+    changes: "dark theme → classified manila",
+    palette: ["#cfc19e", "#eadfc2", "#b3352c", "#33291c"],
+  },
+];
+
 export const metadata = { title: "Style drafts · Sunday's Shelf" };
 
 export default function DraftsIndex() {
@@ -229,14 +274,32 @@ export default function DraftsIndex() {
           Style drafts · unlisted
         </p>
         <h1 className="mt-3 font-display text-4xl tracking-[0.02em] sm:text-5xl">
-          Round three: three families
+          Round four: Limbus &amp; About
         </h1>
         <p className="mt-4 max-w-xl font-serif text-lg text-white/70">
-          Scrapbook, Sticker Club and the Tabloid each grew into a family.
-          What changed everywhere: the side margins are now real widget
-          columns (live data, not just doodles), review cards rotate through
-          different shapes, layering is fixed, and the cute dial went up.
-          Same live content throughout.
+          The /limbus and /about pages restyled four ways with real Project
+          Moon art — sprites in the margins, sinners on the cards. Every
+          draft keeps the full fourteen-book history and pairs with a
+          matching About page (linked in each draft&rsquo;s nav, or via the
+          about tab in the switcher).
+        </p>
+
+        <FamilyHeading accent="#c9a45c">
+          The limbus four — ominous, on theme
+        </FamilyHeading>
+        <div className="mt-6 flex flex-col gap-4">
+          {LC_FAM.map((d) => (
+            <DraftTile key={d.href} d={d} accent="#c9a45c" />
+          ))}
+        </div>
+
+        <h2 className="mt-16 font-mono text-[11px] uppercase tracking-[0.35em] text-white/40">
+          Round three: three families
+        </h2>
+        <p className="mt-2 max-w-xl font-serif text-white/60">
+          Scrapbook, Sticker Club and the Tabloid each grew into a family —
+          widget margins, rotating card shapes, more cute. Picnic Day is the
+          current front-runner.
         </p>
 
         <FamilyHeading accent="#e8a0a8">

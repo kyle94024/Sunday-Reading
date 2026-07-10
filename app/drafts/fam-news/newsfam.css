@@ -140,7 +140,7 @@ html:has(.d-news.t-digest), body:has(.d-news.t-digest) { background: #ece2ce; }
   border: 1px solid var(--line);
   background: var(--boxbg);
   padding: 9px 10px;
-  width: 140px;
+  width: 176px;
   font-size: 10.5px;
   line-height: 1.5;
   color: color-mix(in oklab, var(--ink) 82%, var(--bg));

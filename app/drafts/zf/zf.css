@@ -54,20 +54,20 @@
   position: absolute;
   top: 84px;
   bottom: 84px;
-  width: 152px;
+  width: 188px;
   display: none;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   pointer-events: none;
   z-index: 40;
 }
 .zf-rail > * { pointer-events: none; }
 .zf-rail .zf-hot, .zf-rail .zf-hot * { pointer-events: auto; }
-.zf-rail-left { left: calc(50vw - 655px); }
-.zf-rail-right { right: calc(50vw - 655px); }
-@media (min-width: 1310px) {
+.zf-rail-left { left: max(8px, calc(50vw - 668px)); }
+.zf-rail-right { right: max(8px, calc(50vw - 668px)); }
+@media (min-width: 1280px) {
   .zf-rail { display: flex; }
 }
 
@@ -77,14 +77,14 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 16px;
+  width: 24px;
   display: none;
   pointer-events: none;
   z-index: 39;
 }
-.zf-edge-left { left: max(2px, calc(50vw - 694px)); }
-.zf-edge-right { right: max(2px, calc(50vw - 694px)); }
-@media (min-width: 1390px) {
+.zf-edge-left { left: max(2px, calc(50vw - 702px)); }
+.zf-edge-right { right: max(2px, calc(50vw - 702px)); }
+@media (min-width: 1360px) {
   .zf-edge { display: block; }
 }
 

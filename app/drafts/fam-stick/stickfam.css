@@ -199,8 +199,8 @@ html:has(.d-stick2.t-honey), body:has(.d-stick2.t-honey) { background: #fdf5e0; 
 
 /* scalloped edge ribbons */
 .d-stick2 .edge-scallop-left {
-  background: radial-gradient(circle at 0 50%, var(--edge) 8px, transparent 8.6px) 0 0 / 16px 22px repeat-y;
+  background: radial-gradient(circle at 0 50%, var(--edge) 12px, transparent 12.6px) 0 0 / 24px 30px repeat-y;
 }
 .d-stick2 .edge-scallop-right {
-  background: radial-gradient(circle at 100% 50%, var(--edge) 8px, transparent 8.6px) 100% 0 / 16px 22px repeat-y;
+  background: radial-gradient(circle at 100% 50%, var(--edge) 12px, transparent 12.6px) 100% 0 / 24px 30px repeat-y;
 }

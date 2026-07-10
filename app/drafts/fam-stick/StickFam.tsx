@@ -27,25 +27,25 @@ const CAST: Record<
   mix: {
     lineup: ["chick", "rabbit", "frog", "teddy", "hamster"],
     mascots: ["chick", "frog", "rabbit", "teddy"],
-    doodads: ["butterfly", "bow", "blossom"],
+    doodads: ["butterfly", "bow", "blossom", "rainbow", "cupcake", "balloon"],
     word: "stuck on with love",
   },
   bunny: {
     lineup: ["rabbit", "carrot", "hamster", "loveletter", "rabbit"],
     mascots: ["rabbit", "hamster", "cat"],
-    doodads: ["carrot", "loveletter", "bow"],
+    doodads: ["carrot", "loveletter", "bow", "clover", "cupcake", "cherries"],
     word: "hopped here honestly",
   },
   pond: {
     lineup: ["frog", "lotus", "duck", "turtle", "frog"],
     mascots: ["frog", "duck", "turtle"],
-    doodads: ["lotus", "butterfly", "snail"],
+    doodads: ["lotus", "butterfly", "snail", "mushroom", "sunface", "clover"],
     word: "read by the pond",
   },
   honey: {
     lineup: ["bear", "honeypot", "bee", "teddy", "bee"],
     mascots: ["bear", "bee", "teddy"],
-    doodads: ["honeypot", "bee", "sunflower"],
+    doodads: ["honeypot", "bee", "sunflower", "cookie", "mushroom", "sunface"],
     word: "sweet as clover honey",
   },
 };
@@ -59,11 +59,11 @@ function MiniPeel({ book, r = 0 }: { book?: Book; r?: number }) {
     <Link
       href="/limbus"
       className="diecut zf-hot block"
-      style={{ padding: 5, background: "#fff", transform: `rotate(${r}deg)` }}
+      style={{ padding: 6, background: "#fff", transform: `rotate(${r}deg)` }}
       aria-label={book.title}
     >
-      <span className="relative block h-[62px] w-[44px] overflow-hidden rounded-[7px]">
-        <Image src={book.cover_url} alt="" fill sizes="44px" className="object-cover" />
+      <span className="relative block h-[86px] w-[60px] overflow-hidden rounded-[8px]">
+        <Image src={book.cover_url} alt="" fill sizes="60px" className="object-cover" />
       </span>
     </Link>
   );
@@ -268,26 +268,30 @@ export function StickFam({
       <SideRails
         interactive
         left={[
-          <Pic key="m0" name={cast.mascots[0]} size={50} />,
-          <Star key="s0" size={24} color="var(--a4)" />,
+          <Pic key="m0" name={cast.mascots[0]} size={68} />,
+          <Star key="s0" size={30} color="var(--a4)" />,
           <MiniPeel key="p0" book={shots[0]} r={-4} />,
-          <Pic key="d0" name={cast.doodads[0]} size={34} />,
-          <Pic key="m1" name={cast.mascots[1]} size={44} flip />,
-          <Sparkle key="k0" size={20} color="var(--a1)" />,
+          <Pic key="d0" name={cast.doodads[0]} size={46} />,
+          <Pic key="m1" name={cast.mascots[1]} size={58} flip />,
+          <Pic key="d3" name={cast.doodads[3]} size={44} />,
+          <Sparkle key="k0" size={26} color="var(--a1)" />,
           <MiniPeel key="p1" book={shots[1]} r={3} />,
-          <Pic key="d1" name={cast.doodads[1]} size={30} />,
-          <Pic key="m2" name={cast.mascots[2 % cast.mascots.length]} size={46} />,
+          <Pic key="d1" name={cast.doodads[1]} size={40} />,
+          <Pic key="d4" name={cast.doodads[4]} size={42} flip />,
+          <Pic key="m2" name={cast.mascots[2 % cast.mascots.length]} size={62} />,
         ]}
         right={[
           <MiniPeel key="p2" book={shots[2]} r={4} />,
-          <Pic key="m2" name={cast.mascots[2 % cast.mascots.length]} size={48} flip />,
-          <Pic key="d2" name={cast.doodads[2]} size={34} />,
-          <Star key="s1" size={20} color="var(--a2)" />,
-          <Pic key="l0" name={cast.lineup[0]} size={42} />,
+          <Pic key="m2" name={cast.mascots[2 % cast.mascots.length]} size={64} flip />,
+          <Pic key="d2" name={cast.doodads[2]} size={46} />,
+          <Star key="s1" size={26} color="var(--a2)" />,
+          <Pic key="l0" name={cast.lineup[0]} size={56} />,
+          <Pic key="d5" name={cast.doodads[5]} size={44} />,
           <MiniPeel key="p3" book={shots[3]} r={-3} />,
-          <Pic key="d3" name={cast.doodads[0]} size={28} flip />,
-          <Sparkle key="k1" size={22} color="var(--a3)" />,
-          <Pic key="m1" name={cast.mascots[1]} size={44} />,
+          <Pic key="d3b" name={cast.doodads[0]} size={38} flip />,
+          <Sparkle key="k1" size={28} color="var(--a3)" />,
+          <Pic key="d4b" name={cast.doodads[3]} size={40} flip />,
+          <Pic key="m1" name={cast.mascots[1]} size={58} />,
         ]}
       />
 

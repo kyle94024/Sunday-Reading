@@ -9,6 +9,26 @@ type Group = { id: string; label: string; items: Item[] };
 
 const GROUPS: Group[] = [
   {
+    id: "lc",
+    label: "limbus",
+    items: [
+      { href: "/drafts/canto", n: "canto", label: "The Fourteen Cantos" },
+      { href: "/drafts/terminal", n: "bus", label: "Mephistopheles Terminal" },
+      { href: "/drafts/library", n: "library", label: "The Library" },
+      { href: "/drafts/dossier", n: "files", label: "Case Files" },
+    ],
+  },
+  {
+    id: "lc-about",
+    label: "about",
+    items: [
+      { href: "/drafts/canto-about", n: "canto", label: "About · Cantos" },
+      { href: "/drafts/terminal-about", n: "bus", label: "About · Terminal" },
+      { href: "/drafts/library-about", n: "library", label: "About · Library" },
+      { href: "/drafts/dossier-about", n: "files", label: "About · Case Files" },
+    ],
+  },
+  {
     id: "scrap",
     label: "scrap",
     items: [

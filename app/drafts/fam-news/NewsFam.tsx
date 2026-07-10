@@ -42,11 +42,11 @@ function WShots({ limbus, from }: { limbus: Book[]; from: number }) {
   const three = limbus.filter((b) => b.cover_url).slice(from, from + 3);
   if (!three.length) return null;
   return (
-    <div className="mg zf-hot" style={{ padding: 7 }}>
-      <Link href="/limbus" className="flex justify-center gap-1.5" aria-label="The Limbus shelf">
+    <div className="mg zf-hot" style={{ padding: 8 }}>
+      <Link href="/limbus" className="flex justify-center gap-2" aria-label="The Limbus shelf">
         {three.map((b) => (
-          <span key={b.id} className="pic relative block h-[56px] w-[38px]">
-            <Image src={b.cover_url!} alt="" fill sizes="38px" className="object-cover" />
+          <span key={b.id} className="pic relative block h-[74px] w-[50px]">
+            <Image src={b.cover_url!} alt="" fill sizes="50px" className="object-cover" />
           </span>
         ))}
       </Link>
@@ -59,9 +59,9 @@ function WPortrait({ limbus, at }: { limbus: Book[]; at: number }) {
   const b = limbus.filter((x) => x.cover_url)[at];
   if (!b) return null;
   return (
-    <Link href="/limbus" className="mg zf-hot block" style={{ padding: 7, width: 104 }} aria-label={b.title}>
-      <span className="pic relative block h-[122px] w-full">
-        <Image src={b.cover_url!} alt="" fill sizes="90px" className="object-cover" />
+    <Link href="/limbus" className="mg zf-hot block" style={{ padding: 8, width: 148 }} aria-label={b.title}>
+      <span className="pic relative block h-[186px] w-full">
+        <Image src={b.cover_url!} alt="" fill sizes="132px" className="object-cover" />
       </span>
     </Link>
   );

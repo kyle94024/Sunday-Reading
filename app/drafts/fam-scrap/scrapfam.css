@@ -176,9 +176,9 @@ html:has(.d-scrap2.t-lav), body:has(.d-scrap2.t-lav) { background: #ece3f8; }
 /* gingham edge ribbons */
 .d-scrap2 .edge-gingham {
   background:
-    repeating-linear-gradient(0deg, var(--edge) 0 8px, transparent 8px 16px),
-    repeating-linear-gradient(90deg, var(--edge) 0 8px, transparent 8px 16px);
-  opacity: 0.5;
+    repeating-linear-gradient(0deg, var(--edge) 0 11px, transparent 11px 22px),
+    repeating-linear-gradient(90deg, var(--edge) 0 11px, transparent 11px 22px);
+  opacity: 0.55;
 }
 
 .d-scrap2 .doodle-note { color: var(--a1); }

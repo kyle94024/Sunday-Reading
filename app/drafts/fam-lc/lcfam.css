@@ -1,0 +1,264 @@
+/* ─── Limbus/About restyle family: four rooms, one company ────────────
+   canto: gothic gold opera · terminal: the Mephistopheles departure
+   board · library: candle-lit reading room · dossier: manila case
+   files. Namespaced .d-lc; themes set the vars. */
+
+/* canvas matches, so overscroll never flashes the wrong color */
+html:has(.d-lc.t-canto), body:has(.d-lc.t-canto) { background: #0c0a10; }
+html:has(.d-lc.t-terminal), body:has(.d-lc.t-terminal) { background: #090e0b; }
+html:has(.d-lc.t-library), body:has(.d-lc.t-library) { background: #170d13; }
+html:has(.d-lc.t-dossier), body:has(.d-lc.t-dossier) { background: #cfc19e; }
+
+.d-lc {
+  min-height: 100vh;
+  color: var(--ink);
+  font-family: var(--font-grotesk), sans-serif;
+  padding: 26px 16px 130px;
+  overflow-x: hidden;
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(var(--bg), var(--bg2) 60%, var(--bg));
+}
+/* grain, strictly behind content */
+.d-lc::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='190' height='190'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.75'/></svg>");
+}
+
+/* palettes */
+.d-lc.t-canto {
+  --bg: #0c0a10; --bg2: #17101a;
+  --panel: rgba(23, 16, 26, 0.82); --ink: #e8dcc3; --soft: #9d8f78;
+  --gold: #c9a45c; --red: #a51c30;
+  --line: rgba(201, 164, 92, 0.4);
+  --display: var(--font-gothic), serif;
+}
+.d-lc.t-terminal {
+  --bg: #090e0b; --bg2: #0e1510;
+  --panel: rgba(14, 22, 17, 0.88); --ink: #d9e6d4; --soft: #7d9581;
+  --gold: #e8a33d; --red: #e04545;
+  --line: rgba(232, 163, 61, 0.4);
+  --display: var(--font-pixel), monospace;
+}
+.d-lc.t-library {
+  --bg: #170d13; --bg2: #221219;
+  --panel: rgba(30, 17, 23, 0.85); --ink: #e3d3c2; --soft: #a08d7c;
+  --gold: #b98d54; --red: #8c3a44;
+  --line: rgba(185, 141, 84, 0.42);
+  --display: var(--font-italiana), serif;
+}
+.d-lc.t-dossier {
+  --bg: #cfc19e; --bg2: #c2b085;
+  --panel: #eadfc2; --ink: #33291c; --soft: #6f5f45;
+  --gold: #8a6a3c; --red: #b3352c;
+  --line: rgba(51, 41, 28, 0.45);
+  --display: var(--font-typewriter), monospace;
+}
+.d-lc.t-dossier { font-family: var(--font-courier), monospace; }
+
+.d-lc .display { font-family: var(--display); }
+.d-lc .serif { font-family: var(--font-cormorant), serif; }
+
+/* panels */
+.d-lc .lc-panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  position: relative;
+}
+.d-lc .lc-ornate {
+  border: 1px solid var(--line);
+  outline: 1px solid color-mix(in oklab, var(--gold) 30%, transparent);
+  outline-offset: 5px;
+  box-shadow: 0 0 0 5px var(--panel), 0 18px 40px -22px rgba(0, 0, 0, 0.8);
+}
+.d-lc .floret {
+  position: absolute;
+  color: var(--gold);
+  font-size: 11px;
+  line-height: 1;
+  opacity: 0.9;
+}
+
+/* small-caps kicker */
+.d-lc .sc {
+  font-size: 10.5px;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--soft);
+}
+.d-lc .sc.gold { color: var(--gold); }
+
+.d-lc .glowline {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0.7;
+}
+
+/* terminal board rows */
+.d-lc .lc-row {
+  border-bottom: 1px dashed color-mix(in oklab, var(--gold) 35%, transparent);
+  background: linear-gradient(180deg, transparent, rgba(232, 163, 61, 0.035));
+}
+.d-lc .lc-row:hover { background: rgba(232, 163, 61, 0.08); }
+.d-lc .lamp {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 9px currentColor;
+  background: currentColor;
+}
+
+/* library cameo */
+.d-lc .cameo {
+  border-radius: 50% / 42%;
+  overflow: hidden;
+  border: 2px solid var(--gold);
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--gold) 22%, transparent), 0 10px 26px -14px #000;
+  display: inline-block;
+}
+.d-lc .cameo img { display: block; }
+
+/* wax seal dot */
+.d-lc .wax {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: inset -2px -3px 4px rgba(0, 0, 0, 0.45), 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* dossier folder */
+.d-lc .folder {
+  background: var(--panel);
+  border: 1.5px solid color-mix(in oklab, var(--ink) 45%, transparent);
+  box-shadow: 0 4px 0 -1px #d6c8a4, 0 5px 0 -1px color-mix(in oklab, var(--ink) 40%, transparent), 0 18px 30px -18px rgba(40, 28, 12, 0.65);
+  position: relative;
+}
+.d-lc .folder-tab {
+  position: absolute;
+  top: -22px;
+  left: 18px;
+  background: var(--panel);
+  border: 1.5px solid color-mix(in oklab, var(--ink) 45%, transparent);
+  border-bottom: none;
+  padding: 3px 14px 1px;
+  font-family: var(--font-typewriter), monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+}
+.d-lc .stamp {
+  display: inline-block;
+  border: 2.5px solid var(--red);
+  color: var(--red);
+  font-family: var(--font-typewriter), monospace;
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 3px 10px 2px;
+  transform: rotate(-8deg);
+  opacity: 0.85;
+  border-radius: 3px;
+}
+.d-lc .redact {
+  display: inline-block;
+  background: var(--ink);
+  color: transparent;
+  border-radius: 2px;
+  user-select: none;
+}
+.d-lc .clip {
+  position: absolute;
+  top: -13px;
+  width: 14px;
+  height: 30px;
+  border: 2.5px solid #7d7466;
+  border-radius: 7px / 9px;
+  border-bottom-color: transparent;
+}
+.d-lc .photo-d {
+  background: #f5ecd4;
+  padding: 6px 6px 16px;
+  box-shadow: 0 8px 16px -9px rgba(40, 28, 12, 0.7);
+}
+
+/* prose for the about body */
+.d-lc .lc-prose { font-size: 1.06rem; line-height: 1.8; color: color-mix(in oklab, var(--ink) 92%, var(--bg)); }
+.d-lc.t-canto .lc-prose, .d-lc.t-library .lc-prose { font-family: var(--font-cormorant), serif; font-size: 1.18rem; }
+.d-lc .lc-prose p { margin: 0 0 1.15em; }
+.d-lc .lc-prose a {
+  color: var(--gold);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, var(--gold) 55%, transparent);
+  text-underline-offset: 3px;
+}
+.d-lc .lc-prose a:hover { color: var(--ink); }
+.d-lc .lc-prose strong { color: var(--ink); background: color-mix(in oklab, var(--gold) 22%, transparent); padding: 0 3px; }
+.d-lc .lc-prose h2 {
+  font-family: var(--display);
+  color: var(--gold);
+  font-size: 1.7em;
+  letter-spacing: 0.04em;
+  margin: 1.4em 0 0.5em;
+}
+
+.d-lc .nav a {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--soft);
+  text-decoration: none;
+}
+.d-lc .nav a:hover { color: var(--gold); }
+
+/* ambient */
+@keyframes lc-flicker {
+  0%, 100% { opacity: 1; }
+  47% { opacity: 1; } 49% { opacity: 0.66; } 51% { opacity: 0.94; }
+  78% { opacity: 1; } 80% { opacity: 0.78; } 82% { opacity: 1; }
+}
+.d-lc .lc-flicker { animation: lc-flicker 5.5s linear infinite; }
+@keyframes lc-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.15; } }
+.d-lc .lc-blink { animation: lc-blink 1.6s steps(2, start) infinite; }
+@keyframes lc-breathe { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+.d-lc .lc-breathe { animation: lc-breathe 4.5s ease-in-out infinite; }
+
+/* edge strips */
+.d-lc .edge-canto {
+  background:
+    linear-gradient(180deg, transparent, var(--gold), transparent) 50% 0 / 1.5px 100% no-repeat,
+    radial-gradient(circle at 50% 50%, var(--gold) 2.2px, transparent 3px) 0 0 / 100% 46px;
+  opacity: 0.55;
+}
+.d-lc .edge-terminal {
+  background: repeating-linear-gradient(45deg, var(--gold) 0 10px, transparent 10px 22px);
+  opacity: 0.3;
+}
+.d-lc .edge-library {
+  background:
+    linear-gradient(180deg, transparent, var(--gold), transparent) 30% 0 / 1px 100% no-repeat,
+    linear-gradient(180deg, transparent, var(--gold), transparent) 70% 0 / 1px 100% no-repeat;
+  opacity: 0.6;
+}
+.d-lc .edge-dossier {
+  background: repeating-linear-gradient(-45deg, var(--red) 0 12px, transparent 12px 26px);
+  opacity: 0.32;
+}
+
+/* status seal (canto/library) */
+.d-lc .seal {
+  font-size: 10px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--line);
+  padding: 4px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}

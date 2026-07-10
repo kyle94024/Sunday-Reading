@@ -28,22 +28,22 @@ const EXTRAS: Record<
 > = {
   kraft: {
     mascots: ["cat", "teddy", "rabbit"],
-    doodads: ["blossom", "bow", "tea"],
+    doodads: ["blossom", "bow", "tea", "cookie", "mushroom", "moonface"],
     word: "glued with too much glue",
   },
   berry: {
     mascots: ["rabbit", "cat", "teddy"],
-    doodads: ["strawberry", "bow", "ladybug"],
+    doodads: ["strawberry", "bow", "ladybug", "cherries", "cupcake", "clover"],
     word: "strawberry milk & margins",
   },
   picnic: {
     mascots: ["duck", "teddy", "rabbit"],
-    doodads: ["butterfly", "sunflower", "basket"],
+    doodads: ["butterfly", "sunflower", "basket", "rainbow", "balloon", "sunface"],
     word: "packed like a picnic",
   },
   lav: {
     mascots: ["rabbit", "cat", "butterfly"],
-    doodads: ["bouquet", "herb", "tulip"],
+    doodads: ["bouquet", "herb", "tulip", "moonface", "sparkles", "owl"],
     word: "pressed like lavender",
   },
 };
@@ -58,35 +58,35 @@ function HandNote({ children, rotate = -3, size = 21 }: { children: ReactNode; r
 
 /* ── sidebar pieces: images only, no words ── */
 
-/* tiny pinned polaroid of a real cover, links to the shelf */
+/* pinned polaroid of a real cover, links to the shelf */
 function MiniShot({ book, r = -3, pin = "var(--a1)" }: { book?: Book; r?: number; pin?: string }) {
   if (!book?.cover_url) return null;
   return (
     <Link
       href="/limbus"
       className="photo zf-hot relative block"
-      style={{ width: 64, padding: "5px 5px 13px", transform: `rotate(${r}deg)` }}
+      style={{ width: 88, padding: "6px 6px 16px", transform: `rotate(${r}deg)` }}
       aria-label={book.title}
     >
-      <span className="absolute -top-2 left-1/2 z-10 -translate-x-1/2"><Pushpin size={16} color={pin} /></span>
-      <span className="relative block h-[68px] w-full overflow-hidden">
-        <Image src={book.cover_url} alt="" fill sizes="64px" className="object-cover" />
+      <span className="absolute -top-2 left-1/2 z-10 -translate-x-1/2"><Pushpin size={19} color={pin} /></span>
+      <span className="relative block h-[96px] w-full overflow-hidden">
+        <Image src={book.cover_url} alt="" fill sizes="88px" className="object-cover" />
       </span>
     </Link>
   );
 }
 
-/* mini photo-booth strip, no caption */
+/* photo-booth strip, no caption */
 function WPhotoStrip({ books }: { books: Book[] }) {
   const three = books.filter((b) => b.cover_url).slice(4, 7);
   if (three.length < 3) return null;
   return (
-    <div className="sw zf-hot" style={{ width: 80, padding: 7, transform: "rotate(1.8deg)" }}>
+    <div className="sw zf-hot" style={{ width: 104, padding: 8, transform: "rotate(1.8deg)" }}>
       <span className="sw-tape" />
-      <Link href="/limbus" className="flex flex-col gap-1.5" aria-label="The Limbus shelf">
+      <Link href="/limbus" className="flex flex-col gap-2" aria-label="The Limbus shelf">
         {three.map((b) => (
-          <span key={b.id} className="relative block h-[50px] w-full overflow-hidden">
-            <Image src={b.cover_url!} alt="" fill sizes="66px" className="object-cover" />
+          <span key={b.id} className="relative block h-[66px] w-full overflow-hidden">
+            <Image src={b.cover_url!} alt="" fill sizes="88px" className="object-cover" />
           </span>
         ))}
       </Link>
@@ -287,28 +287,32 @@ export function ScrapFam({
       <SideRails
         interactive
         left={[
-          <Pic key="m0" name={ex.mascots[0]} size={48} />,
-          <Washi key="t0" w={64} h={16} color="color-mix(in oklab, var(--a3) 80%, white)" rotate={-7} />,
+          <Pic key="m0" name={ex.mascots[0]} size={66} />,
+          <Washi key="t0" w={86} h={20} color="color-mix(in oklab, var(--a3) 80%, white)" rotate={-7} />,
           <MiniShot key="p0" book={shots[0]} r={-4} />,
-          <Pic key="d0" name={ex.doodads[0]} size={34} />,
-          <Heart key="h0" size={20} color="var(--a1)" />,
-          <Pic key="m1" name={ex.mascots[1]} size={42} flip />,
+          <Pic key="d0" name={ex.doodads[0]} size={46} />,
+          <Heart key="h0" size={26} color="var(--a1)" />,
+          <Pic key="m1" name={ex.mascots[1]} size={58} flip />,
+          <Pic key="d3" name={ex.doodads[3]} size={42} />,
           <MiniShot key="p1" book={shots[1]} r={3} pin="var(--a2)" />,
-          <Pic key="d1" name={ex.doodads[1]} size={30} />,
-          <Pic key="m2" name={ex.mascots[2]} size={44} />,
-          <Star key="s0" size={24} color="var(--a3)" />,
+          <Pic key="d1" name={ex.doodads[1]} size={40} />,
+          <Pic key="m2" name={ex.mascots[2]} size={60} />,
+          <Pic key="d4" name={ex.doodads[4]} size={44} flip />,
+          <Star key="s0" size={30} color="var(--a3)" />,
         ]}
         right={[
           <MiniShot key="p2" book={shots[2]} r={4} pin="var(--a3)" />,
-          <Pic key="m2" name={ex.mascots[2]} size={46} flip />,
-          <Pic key="d2" name={ex.doodads[2]} size={34} />,
-          <Heart key="h1" size={18} color="var(--a2)" />,
-          <Pic key="m0" name={ex.mascots[0]} size={40} flip />,
+          <Pic key="m2" name={ex.mascots[2]} size={64} flip />,
+          <Pic key="d2" name={ex.doodads[2]} size={46} />,
+          <Heart key="h1" size={22} color="var(--a2)" />,
+          <Pic key="d5" name={ex.doodads[5]} size={44} />,
+          <Pic key="m0" name={ex.mascots[0]} size={54} flip />,
           <WPhotoStrip key="w2" books={limbus} />,
-          <Pic key="d0" name={ex.doodads[0]} size={28} flip />,
+          <Pic key="d0" name={ex.doodads[0]} size={38} flip />,
           <MiniShot key="p3" book={shots[3]} r={-3} />,
-          <Pic key="m1" name={ex.mascots[1]} size={44} />,
-          <Washi key="t1" w={58} h={15} color="color-mix(in oklab, var(--a1) 60%, white)" rotate={6} />,
+          <Pic key="d3" name={ex.doodads[3]} size={40} flip />,
+          <Pic key="m1" name={ex.mascots[1]} size={60} />,
+          <Washi key="t1" w={76} h={18} color="color-mix(in oklab, var(--a1) 60%, white)" rotate={6} />,
         ]}
       />
 
