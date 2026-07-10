@@ -223,6 +223,16 @@ const ROUND1: Tile[] = [
 // the home candidates. Each limbus draft cross-links its home + about.
 const CUTE_PAGES: Tile[] = [
   {
+    href: "/drafts/lilac",
+    n: "c·0",
+    name: "Lilac — the merge (home + limbus + about)",
+    pitch:
+      "Sticker Club's lavender graph paper and puffy die-cut look, wearing Lavender's clothes: Caveat handwriting, paper cards with pushpinned polaroids for articles and the fourteen, gingham checkerboard edges — and the margins covered top to bottom in sparkles, butterflies, stars and flowers of every size, each with a sticker ring. No sticker/club talk anywhere.",
+    keeps: "the best of both worlds",
+    changes: "a whole three-page site in one style",
+    palette: ["#f3eefc", "#8d6fd1", "#f9a8d4", "#3b3350"],
+  },
+  {
     href: "/drafts/picnic-limbus",
     n: "c·1",
     name: "Picnic Day · Limbus + About",

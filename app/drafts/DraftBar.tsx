@@ -9,10 +9,21 @@ type Group = { id: string; label: string; items: Item[] };
 
 const GROUPS: Group[] = [
   {
+    // the merged candidate: whole site in the lilac style
+    id: "lilac",
+    label: "lilac·site",
+    items: [
+      { href: "/drafts/lilac", n: "home", label: "Lilac · Home" },
+      { href: "/drafts/lilac-limbus", n: "limbus", label: "Lilac · Limbus" },
+      { href: "/drafts/lilac-about", n: "about", label: "Lilac · About" },
+    ],
+  },
+  {
     // cutesy limbus restyles (each cross-links its home + about in-page)
     id: "limbus",
     label: "limbus",
     items: [
+      { href: "/drafts/lilac-limbus", n: "lilac", label: "Limbus · Lilac" },
       { href: "/drafts/picnic-limbus", n: "picnic", label: "Limbus · Picnic Day" },
       { href: "/drafts/strawberry-limbus", n: "berry", label: "Limbus · Strawberry" },
       { href: "/drafts/lavender-limbus", n: "lav", label: "Limbus · Lavender" },
@@ -23,6 +34,7 @@ const GROUPS: Group[] = [
     id: "about",
     label: "about",
     items: [
+      { href: "/drafts/lilac-about", n: "lilac", label: "About · Lilac" },
       { href: "/drafts/picnic-about", n: "picnic", label: "About · Picnic Day" },
       { href: "/drafts/strawberry-about", n: "berry", label: "About · Strawberry" },
       { href: "/drafts/lavender-about", n: "lav", label: "About · Lavender" },

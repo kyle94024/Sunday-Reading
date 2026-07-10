@@ -6,7 +6,7 @@ import type { Book } from "@/lib/db";
 import { Hex, nameSlug, SINNER_NUM, TinyClock } from "../hexbits";
 import { jitter, yearLabel } from "../util";
 import { GlyphRating, Heart, Pic, Pushpin, SideRails, Star, Washi } from "../zf/core";
-import { EXTRAS, MiniShot } from "./ScrapFam";
+import { EXTRAS, lilacRails, MiniShot } from "./ScrapFam";
 import type { ScrapTheme } from "./ScrapFam";
 
 /* where each themed trio lives, so nav + review links stay in-style */
@@ -15,6 +15,7 @@ export const SCRAP_ROUTES: Record<ScrapTheme, { home: string; limbus: string; ab
   berry: { home: "/drafts/strawberry", limbus: "/drafts/strawberry-limbus", about: "/drafts/strawberry-about" },
   picnic: { home: "/drafts/picnic", limbus: "/drafts/picnic-limbus", about: "/drafts/picnic-about" },
   lav: { home: "/drafts/lavender", limbus: "/drafts/lavender-limbus", about: "/drafts/lavender-about" },
+  lilac: { home: "/drafts/lilac", limbus: "/drafts/lilac-limbus", about: "/drafts/lilac-about" },
 };
 
 function Badge({ b }: { b: Book }) {
@@ -97,6 +98,7 @@ export function LimbusScrap({ theme, books, tagline }: { theme: ScrapTheme; book
   const hung = books.filter((b) => b.cover_url).slice(2, 7);
   const shots = books.filter((b) => b.cover_url).slice(9, 13);
   const read = books.filter((b) => b.status === "read").length;
+  const lr = theme === "lilac" ? lilacRails() : null;
 
   return (
     <div className={`d-scrap2 t-${theme}`}>
@@ -105,7 +107,7 @@ export function LimbusScrap({ theme, books, tagline }: { theme: ScrapTheme; book
 
       <SideRails
         interactive
-        left={[
+        left={lr ? lr.left : [
           <Pic key="m0" name={ex.mascots[0]} size={64} />,
           <Washi key="t0" w={84} h={20} color="color-mix(in oklab, var(--a3) 80%, white)" rotate={-7} />,
           <MiniShot key="p0" book={shots[0]} r={-4} />,
@@ -118,7 +120,7 @@ export function LimbusScrap({ theme, books, tagline }: { theme: ScrapTheme; book
           <Pic key="m2" name={ex.mascots[2]} size={58} />,
           <Star key="s0" size={30} color="var(--a3)" />,
         ]}
-        right={[
+        right={lr ? lr.right : [
           <MiniShot key="p2" book={shots[2]} r={4} pin="var(--a3)" />,
           <Pic key="m0" name={ex.mascots[2]} size={62} flip />,
           <Pic key="d0" name={ex.doodads[4]} size={46} />,
@@ -180,7 +182,7 @@ export function LimbusScrap({ theme, books, tagline }: { theme: ScrapTheme; book
 
         <section className="mt-14">
           <div className="mb-8 flex flex-wrap items-center gap-4">
-            <h2><span className="label a2" style={{ fontSize: 14 }}>every book, one blanket</span></h2>
+            <h2><span className="label a2" style={{ fontSize: 14 }}>all fourteen, kept together</span></h2>
             <span className="hand doodle-note" style={{ fontSize: 21, display: "inline-block", transform: "rotate(-2deg)" }}>
               the hexagon = whose book it is!
             </span>

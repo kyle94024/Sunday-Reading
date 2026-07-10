@@ -45,6 +45,14 @@
 .zf-hop { animation: zf-hop 5s ease-in-out infinite; }
 .zf-wag { animation: zf-wag 2.6s ease-in-out infinite; transform-origin: 50% 90%; }
 
+/* puffy sticker ring: white die-cut outline + soft drop for any sprite */
+.zf-ring {
+  filter:
+    drop-shadow(2px 0 0 #fff) drop-shadow(-2px 0 0 #fff)
+    drop-shadow(0 2px 0 #fff) drop-shadow(0 -2px 0 #fff)
+    drop-shadow(0 7px 9px rgba(59, 51, 80, 0.28));
+}
+
 /* side rails — full margin columns: widgets + doodads, desktop only.
    Absolutely positioned inside the draft root (which must be
    position:relative) so they scroll WITH the page; items distribute

@@ -19,6 +19,7 @@ html:has(.d-scrap2.t-kraft), body:has(.d-scrap2.t-kraft) { background: #dcc9ae; 
 html:has(.d-scrap2.t-berry), body:has(.d-scrap2.t-berry) { background: #fbe4ea; }
 html:has(.d-scrap2.t-picnic), body:has(.d-scrap2.t-picnic) { background: #d9edf6; }
 html:has(.d-scrap2.t-lav), body:has(.d-scrap2.t-lav) { background: #ece3f8; }
+html:has(.d-scrap2.t-lilac), body:has(.d-scrap2.t-lilac) { background: #f3eefc; }
 
 /* palettes */
 .d-scrap2.t-kraft {
@@ -44,6 +45,18 @@ html:has(.d-scrap2.t-lav), body:has(.d-scrap2.t-lav) { background: #ece3f8; }
   --page: #fefcff; --ink: #46375e;
   --a1: #8d6fd1; --a2: #e8849b; --a3: #8fbf98;
   --edge: rgba(141, 111, 209, 0.45);
+}
+/* lilac: the sticker-club room wearing lavender's clothes — graph
+   paper background, scrap paper cards, gingham checkerboard edges */
+.d-scrap2.t-lilac {
+  --bg1: #f3eefc; --bg2: #ece4fb;
+  --page: #fffdfd; --ink: #3b3350;
+  --a1: #8d6fd1; --a2: #f9a8d4; --a3: #f2c14e;
+  --edge: rgba(141, 111, 209, 0.45);
+  background:
+    linear-gradient(rgba(167, 139, 250, 0.22) 1px, transparent 1px) 0 0 / 100% 26px,
+    linear-gradient(90deg, rgba(167, 139, 250, 0.22) 1px, transparent 1px) 0 0 / 26px 100%,
+    linear-gradient(var(--bg1), var(--bg2));
 }
 
 /* paper fiber + confetti sprinkles — absolute (scroll with the page)

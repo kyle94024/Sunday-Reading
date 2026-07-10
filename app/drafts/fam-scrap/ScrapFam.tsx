@@ -19,7 +19,7 @@ import {
   Washi,
 } from "../zf/core";
 
-export type ScrapTheme = "kraft" | "berry" | "picnic" | "lav";
+export type ScrapTheme = "kraft" | "berry" | "picnic" | "lav" | "lilac";
 
 /* per-theme extras: OpenMoji sprite names (files in public/drafts/om) */
 export const EXTRAS: Record<
@@ -46,7 +46,38 @@ export const EXTRAS: Record<
     doodads: ["bouquet", "herb", "tulip", "moonface", "sparkles", "owl"],
     word: "pressed like lavender",
   },
+  lilac: {
+    mascots: ["butterfly", "blossom", "tulip"],
+    doodads: ["sparkles", "star2", "blossom", "tulip", "butterfly", "glowstar"],
+    word: "pressed & sparkling",
+  },
 };
+
+/* lilac rails: nothing but sparkles, butterflies, stars and flowers in
+   many sizes, each wearing a puffy sticker ring — the sides fully
+   covered, no critters, no covers, no words */
+const LILAC_LEFT: [string, number][] = [
+  ["sparkles", 68], ["butterfly", 54], ["star2", 46], ["blossom", 60],
+  ["tulip", 48], ["glowstar", 38], ["sparkles", 40], ["blossom", 34],
+  ["butterfly", 68], ["star2", 56], ["tulip", 62], ["sparkles", 78],
+  ["blossom", 50], ["star2", 30], ["butterfly", 44], ["glowstar", 54],
+  ["sparkles", 34],
+];
+const LILAC_RIGHT: [string, number][] = [
+  ["star2", 62], ["blossom", 46], ["sparkles", 74], ["butterfly", 58],
+  ["glowstar", 42], ["tulip", 54], ["star2", 36], ["sparkles", 48],
+  ["blossom", 66], ["butterfly", 38], ["star2", 50], ["tulip", 42],
+  ["sparkles", 60], ["glowstar", 32], ["blossom", 40], ["butterfly", 64],
+  ["star2", 28],
+];
+
+export function lilacRails(): { left: ReactNode[]; right: ReactNode[] } {
+  const mk = (list: [string, number][], flipOn: number) =>
+    list.map(([name, size], i) => (
+      <Pic key={`${name}-${i}`} name={name} size={size} flip={i % 3 === flipOn} className="zf-ring" />
+    ));
+  return { left: mk(LILAC_LEFT, 1), right: mk(LILAC_RIGHT, 2) };
+}
 
 function HandNote({ children, rotate = -3, size = 21 }: { children: ReactNode; rotate?: number; size?: number }) {
   return (
@@ -277,6 +308,7 @@ export function ScrapFam({
   const ex = EXTRAS[theme];
   const hung = limbus.filter((b) => b.cover_url).slice(0, 5);
   const shots = limbus.filter((b) => b.cover_url).slice(7, 11); // rail polaroids
+  const lr = theme === "lilac" ? lilacRails() : null;
 
   return (
     <div className={`d-scrap2 t-${theme}`}>
@@ -286,7 +318,7 @@ export function ScrapFam({
 
       <SideRails
         interactive
-        left={[
+        left={lr ? lr.left : [
           <Pic key="m0" name={ex.mascots[0]} size={66} />,
           <Washi key="t0" w={86} h={20} color="color-mix(in oklab, var(--a3) 80%, white)" rotate={-7} />,
           <MiniShot key="p0" book={shots[0]} r={-4} />,
@@ -300,7 +332,7 @@ export function ScrapFam({
           <Pic key="d4" name={ex.doodads[4]} size={44} flip />,
           <Star key="s0" size={30} color="var(--a3)" />,
         ]}
-        right={[
+        right={lr ? lr.right : [
           <MiniShot key="p2" book={shots[2]} r={4} pin="var(--a3)" />,
           <Pic key="m2" name={ex.mascots[2]} size={64} flip />,
           <Pic key="d2" name={ex.doodads[2]} size={46} />,
