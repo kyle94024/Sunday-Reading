@@ -5,6 +5,8 @@ import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import { RATING_LEVELS, RatingStar } from "@/components/RatingPips";
 import { Heart, Pic, Pushpin, SideRails, Star, Washi } from "../zf/core";
+import { EXTRAS } from "./ScrapFam";
+import { SCRAP_ROUTES } from "./LimbusScrap";
 import type { ScrapTheme } from "./ScrapFam";
 
 function RatingLegend() {
@@ -30,6 +32,8 @@ function RatingLegend() {
 }
 
 export function AboutScrap({ theme, text, contributors }: { theme: ScrapTheme; text: string; contributors: string[] }) {
+  const ex = EXTRAS[theme];
+  const routes = SCRAP_ROUTES[theme];
   return (
     <div className={`d-scrap2 t-${theme}`}>
       <div className="zf-edge zf-edge-left edge-gingham" aria-hidden />
@@ -37,25 +41,25 @@ export function AboutScrap({ theme, text, contributors }: { theme: ScrapTheme; t
 
       <SideRails
         left={[
-          <Pic key="m0" name="rabbit" size={62} />,
+          <Pic key="m0" name={ex.mascots[2]} size={62} />,
           <Washi key="t0" w={80} h={20} color="color-mix(in oklab, var(--a3) 80%, white)" rotate={-7} />,
-          <Pic key="d0" name="rainbow" size={52} />,
+          <Pic key="d0" name={ex.doodads[3]} size={52} />,
           <Heart key="h0" size={26} color="var(--a1)" />,
-          <Pic key="m1" name="duck" size={56} flip />,
-          <Pic key="d1" name="butterfly" size={44} />,
-          <Pic key="d2" name="balloon" size={46} />,
-          <Pic key="m2" name="teddy" size={60} />,
+          <Pic key="m1" name={ex.mascots[0]} size={56} flip />,
+          <Pic key="d1" name={ex.doodads[0]} size={44} />,
+          <Pic key="d2" name={ex.doodads[4]} size={46} />,
+          <Pic key="m2" name={ex.mascots[1]} size={60} />,
           <Star key="s0" size={28} color="var(--a3)" />,
         ]}
         right={[
-          <Pic key="d0" name="sunface" size={52} />,
-          <Pic key="m0" name="teddy" size={60} flip />,
+          <Pic key="d0" name={ex.doodads[5]} size={52} />,
+          <Pic key="m0" name={ex.mascots[1]} size={60} flip />,
           <Heart key="h0" size={22} color="var(--a2)" />,
-          <Pic key="d1" name="sunflower" size={46} />,
-          <Pic key="m1" name="rabbit" size={56} flip />,
+          <Pic key="d1" name={ex.doodads[1]} size={46} />,
+          <Pic key="m1" name={ex.mascots[2]} size={56} flip />,
           <Washi key="t1" w={70} h={18} color="color-mix(in oklab, var(--a1) 60%, white)" rotate={6} />,
-          <Pic key="d2" name="basket" size={50} />,
-          <Pic key="m2" name="duck" size={54} />,
+          <Pic key="d2" name={ex.doodads[2]} size={50} />,
+          <Pic key="m2" name={ex.mascots[0]} size={54} />,
         ]}
       />
 
@@ -63,8 +67,8 @@ export function AboutScrap({ theme, text, contributors }: { theme: ScrapTheme; t
         <nav className="nav flex items-center justify-between">
           <span className="hand doodle-note" style={{ fontSize: 22, display: "inline-block", transform: "rotate(-2deg)" }}>est. 2026 ✿</span>
           <div className="flex gap-6">
-            <Link href="/drafts/picnic">home</Link>
-            <Link href="/drafts/picnic-limbus">limbus</Link>
+            <Link href={routes.home}>home</Link>
+            <Link href={routes.limbus}>limbus</Link>
             <Link href="/drafts">drafts</Link>
           </div>
         </nav>
@@ -81,7 +85,7 @@ export function AboutScrap({ theme, text, contributors }: { theme: ScrapTheme; t
           {/* profile card */}
           <aside className="page stitched relative self-start p-6 text-center" style={{ transform: "rotate(-0.8deg)" }}>
             <span className="absolute -top-2 left-1/2 -translate-x-1/2"><Pushpin size={22} color="var(--a1)" /></span>
-            <span className="pointer-events-none absolute -right-4 -top-7" aria-hidden><Pic name="rabbit" size={46} /></span>
+            <span className="pointer-events-none absolute -right-4 -top-7" aria-hidden><Pic name={ex.mascots[2]} size={46} /></span>
             <div className="flex justify-center">
               <span className="photo relative inline-block" style={{ width: 132, padding: "7px 7px 22px", transform: "rotate(2.5deg)" }}>
                 <span className="relative block h-[128px] w-full overflow-hidden">
@@ -121,7 +125,7 @@ export function AboutScrap({ theme, text, contributors }: { theme: ScrapTheme; t
             )}
             <section className="page lined prose relative" style={{ padding: "28px 32px 18px", transform: "rotate(0.4deg)", lineHeight: "27px" }}>
               <Washi w={110} h={24} color="color-mix(in oklab, var(--a1) 60%, white)" rotate={-4} className="absolute -top-3 left-10" />
-              <span className="pointer-events-none absolute -top-7 right-8" aria-hidden><Pic name="duck" size={46} /></span>
+              <span className="pointer-events-none absolute -top-7 right-8" aria-hidden><Pic name={ex.mascots[0]} size={46} /></span>
               <ReactMarkdown
                 components={{
                   h2: ({ children }) => (

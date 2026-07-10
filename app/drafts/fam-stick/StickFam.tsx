@@ -20,7 +20,7 @@ export type StickTheme = "mix" | "bunny" | "pond" | "honey";
 
 /* per-theme cast: OpenMoji sprite names (files in public/drafts/om).
    lineup marches under the title, mascots pop up on cards. */
-const CAST: Record<
+export const CAST: Record<
   StickTheme,
   { lineup: string[]; mascots: string[]; doodads: string[]; word: string }
 > = {
@@ -53,7 +53,7 @@ const CAST: Record<
 /* ── sidebar pieces: images only, no words ── */
 
 /* a die-cut mini sticker of a real cover, links to the shelf */
-function MiniPeel({ book, r = 0 }: { book?: Book; r?: number }) {
+export function MiniPeel({ book, r = 0 }: { book?: Book; r?: number }) {
   if (!book?.cover_url) return null;
   return (
     <Link

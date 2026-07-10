@@ -219,28 +219,48 @@ const ROUND1: Tile[] = [
   },
 ];
 
-// Round four: the /limbus and /about pages in the Picnic Day style, so
-// the whole site reads as one place. Home is /drafts/picnic below.
-const PICNIC_SITE: Tile[] = [
+// Round four: the /limbus and /about pages in cutesy styles matching
+// the home candidates. Each limbus draft cross-links its home + about.
+const CUTE_PAGES: Tile[] = [
   {
     href: "/drafts/picnic-limbus",
-    n: "p·L",
-    name: "Picnic Day · Limbus",
+    n: "c·1",
+    name: "Picnic Day · Limbus + About",
     pitch:
-      "The fourteen on the picnic blanket: pinned polaroid covers, hand-written titles, washi and critters — and each book wears a small pastel hexagon with its sinner's canonical numeral (Dante gets a tiny clock, the Golden Bough a star). Status notes, heart ratings, and links back to reviews.",
+      "The fourteen on the picnic blanket: pinned polaroid covers, hand-written titles, washi and critters — each book wears a small pastel hexagon with its sinner's canonical numeral (Dante a tiny clock, the Golden Bough a star). About is a pinned-polaroid profile with a hand-written rating scale.",
     keeps: "the full limbus history & sinner colors",
-    changes: "ominous → sunny; sprites → soft hexagons",
+    changes: "matches the picnic home",
     palette: ["#d9edf6", "#5f93bd", "#e8848f", "#33465a"],
   },
   {
-    href: "/drafts/picnic-about",
-    n: "p·A",
-    name: "Picnic Day · About",
+    href: "/drafts/strawberry-limbus",
+    n: "c·2",
+    name: "Strawberry Milk · Limbus + About",
     pitch:
-      "The profile as a pinned polaroid, contributors as name-tag labels, the rating scale hand-written with its real colors, and the bio on lined letter paper — same critters in the margins as home.",
-    keeps: "everything the real /about says",
-    changes: "cosmic violet → picnic pastels",
-    palette: ["#d9edf6", "#5f93bd", "#ecc25c", "#fdfcf3"],
+      "Same scrapbook bones dipped in strawberry milk: blush pages, berry-jam labels, bunnies and ladybugs in the margins. The hexagon numerals pop nicely on pink.",
+    keeps: "everything picnic keeps",
+    changes: "sky blue → blush pink",
+    palette: ["#fbe4ea", "#e05c74", "#8fbf98", "#58324a"],
+  },
+  {
+    href: "/drafts/lavender-limbus",
+    n: "c·3",
+    name: "Pressed Lavender · Limbus + About",
+    pitch:
+      "The quiet violet take: lilac paper, pressed-flower margins, owls and moons. Gentlest of the four — closest in spirit to the current site's violet, but soft.",
+    keeps: "everything picnic keeps",
+    changes: "sunny → dusk pastels",
+    palette: ["#ece3f8", "#8d6fd1", "#e8849b", "#46375e"],
+  },
+  {
+    href: "/drafts/stickers-limbus",
+    n: "c·4",
+    name: "Sticker Club · Limbus + About",
+    pitch:
+      "The fourteen as a sticker collection: puffy white-ring covers on graph paper, collected/peeling/on-the-sheet status chips, the critter lineup hopping under the title, hexagon numerals as club badges. About is a membership card.",
+    keeps: "the collect-them-all framing",
+    changes: "scrapbook paper → puffy stickers",
+    palette: ["#f3eefc", "#a78bfa", "#f9a8d4", "#3b3350"],
   },
 ];
 
@@ -254,21 +274,21 @@ export default function DraftsIndex() {
           Style drafts · unlisted
         </p>
         <h1 className="mt-3 font-display text-4xl tracking-[0.02em] sm:text-5xl">
-          Round four: the picnic site
+          Round four: limbus &amp; about, cutesy
         </h1>
         <p className="mt-4 max-w-xl font-serif text-lg text-white/70">
-          Picnic Day, extended to the whole site: home, limbus, and about in
-          one matching style, cross-linked in each page&rsquo;s nav (or via
-          the picnic·site tab in the switcher). The limbus page keeps its
-          full fourteen-book history with a soft hexagon numeral as the only
-          nod to the game.
+          The /limbus and /about pages in four cutesy styles matching the
+          home candidates — every one keeps the full fourteen-book history,
+          with a soft hexagon numeral as the only nod to the game. Each
+          limbus draft cross-links its matching home and about in the nav
+          (or use the limbus / about tabs in the switcher).
         </p>
 
         <FamilyHeading accent="#5f93bd">
-          Picnic Day, three pages — home is s·3 below
+          Four cutesy takes — each pairs with an about
         </FamilyHeading>
         <div className="mt-6 flex flex-col gap-4">
-          {PICNIC_SITE.map((d) => (
+          {CUTE_PAGES.map((d) => (
             <DraftTile key={d.href} d={d} accent="#5f93bd" />
           ))}
         </div>

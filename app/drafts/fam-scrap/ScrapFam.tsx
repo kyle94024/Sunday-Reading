@@ -22,7 +22,7 @@ import {
 export type ScrapTheme = "kraft" | "berry" | "picnic" | "lav";
 
 /* per-theme extras: OpenMoji sprite names (files in public/drafts/om) */
-const EXTRAS: Record<
+export const EXTRAS: Record<
   ScrapTheme,
   { mascots: string[]; doodads: string[]; word: string }
 > = {

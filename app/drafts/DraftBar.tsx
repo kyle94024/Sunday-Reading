@@ -9,13 +9,24 @@ type Group = { id: string; label: string; items: Item[] };
 
 const GROUPS: Group[] = [
   {
-    // the whole-site picnic set: home + limbus + about in one style
-    id: "site",
-    label: "picnic·site",
+    // cutesy limbus restyles (each cross-links its home + about in-page)
+    id: "limbus",
+    label: "limbus",
     items: [
-      { href: "/drafts/picnic", n: "home", label: "Picnic Day · Home" },
-      { href: "/drafts/picnic-limbus", n: "limbus", label: "Picnic Day · Limbus" },
-      { href: "/drafts/picnic-about", n: "about", label: "Picnic Day · About" },
+      { href: "/drafts/picnic-limbus", n: "picnic", label: "Limbus · Picnic Day" },
+      { href: "/drafts/strawberry-limbus", n: "berry", label: "Limbus · Strawberry" },
+      { href: "/drafts/lavender-limbus", n: "lav", label: "Limbus · Lavender" },
+      { href: "/drafts/stickers-limbus", n: "stick", label: "Limbus · Sticker Club" },
+    ],
+  },
+  {
+    id: "about",
+    label: "about",
+    items: [
+      { href: "/drafts/picnic-about", n: "picnic", label: "About · Picnic Day" },
+      { href: "/drafts/strawberry-about", n: "berry", label: "About · Strawberry" },
+      { href: "/drafts/lavender-about", n: "lav", label: "About · Lavender" },
+      { href: "/drafts/stickers-about", n: "stick", label: "About · Sticker Club" },
     ],
   },
   {

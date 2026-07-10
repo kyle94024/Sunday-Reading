@@ -2,51 +2,23 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import type { CSSProperties, ReactNode } from "react";
 import type { Book } from "@/lib/db";
+import { Hex, nameSlug, SINNER_NUM, TinyClock } from "../hexbits";
 import { jitter, yearLabel } from "../util";
 import { GlyphRating, Heart, Pic, Pushpin, SideRails, Star, Washi } from "../zf/core";
-import { MiniShot } from "./ScrapFam";
+import { EXTRAS, MiniShot } from "./ScrapFam";
 import type { ScrapTheme } from "./ScrapFam";
 
-/* the one limbus nod that survives the picnic: each sinner's canonical
-   numeral in a soft hexagon, colored with the book's limbus color */
-const SINNER_NUM: Record<string, string> = {
-  yisang: "I", faust: "II", donquixote: "III", ryoshu: "IV",
-  meursault: "V", honglu: "VI", heathcliff: "VII", ishmael: "VIII",
-  rodion: "IX", sinclair: "X", outis: "XI", gregor: "XII",
+/* where each themed trio lives, so nav + review links stay in-style */
+export const SCRAP_ROUTES: Record<ScrapTheme, { home: string; limbus: string; about: string }> = {
+  kraft: { home: "/drafts/scrapbook", limbus: "/drafts/scrapbook-limbus", about: "/drafts/scrapbook-about" },
+  berry: { home: "/drafts/strawberry", limbus: "/drafts/strawberry-limbus", about: "/drafts/strawberry-about" },
+  picnic: { home: "/drafts/picnic", limbus: "/drafts/picnic-limbus", about: "/drafts/picnic-about" },
+  lav: { home: "/drafts/lavender", limbus: "/drafts/lavender-limbus", about: "/drafts/lavender-about" },
 };
 
-function slug(name?: string | null): string | null {
-  if (!name) return null;
-  const s = name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z]/g, "");
-  return s || null;
-}
-
-function Hex({ size = 42, color = "var(--a1)", children, style }: { size?: number; color?: string; children?: ReactNode; style?: CSSProperties }) {
-  const h = size * 1.15;
-  return (
-    <span aria-hidden style={{ position: "relative", display: "inline-grid", placeItems: "center", width: size, height: h, ...style }}>
-      <svg viewBox="0 0 100 115" width={size} height={h} style={{ position: "absolute", inset: 0 }}>
-        <polygon points="50,3 96,30 96,85 50,112 4,85 4,30" fill={`color-mix(in oklab, ${color} 18%, white)`} stroke={color} strokeWidth="6" strokeLinejoin="round" />
-      </svg>
-      <span style={{ position: "relative", zIndex: 1, lineHeight: 1 }}>{children}</span>
-    </span>
-  );
-}
-
-function TinyClock({ size = 20, color = "var(--ink)" }: { size?: number; color?: string }) {
-  return (
-    <svg viewBox="0 0 100 100" width={size} height={size} aria-hidden>
-      <circle cx="50" cy="50" r="42" fill="none" stroke={color} strokeWidth="9" />
-      <line x1="50" y1="50" x2="50" y2="26" stroke={color} strokeWidth="9" strokeLinecap="round" />
-      <line x1="50" y1="50" x2="68" y2="58" stroke={color} strokeWidth="8" strokeLinecap="round" />
-    </svg>
-  );
-}
-
 function Badge({ b }: { b: Book }) {
-  const s = slug(b.limbus_sinner);
+  const s = nameSlug(b.limbus_sinner);
   const color = b.limbus_color || "#5f93bd";
   const num = s ? SINNER_NUM[s] : null;
   return (
@@ -71,16 +43,16 @@ function statusNote(b: Book): string {
   return b.status === "read" ? "finished! ✓" : b.status === "reading" ? "reading now…" : "someday pile";
 }
 
-function BookPage({ b, i }: { b: Book; i: number }) {
+function BookPage({ b, i, theme }: { b: Book; i: number; theme: ScrapTheme }) {
   const rating = b.rating != null ? Number(b.rating) : null;
-  const mascots = ["duck", "teddy", "rabbit"];
+  const mascots = EXTRAS[theme].mascots;
   return (
     <article className={`page relative ${i % 3 === 1 ? "stitched" : ""}`} style={{ padding: "22px 22px 16px", transform: `rotate(${jitter(i + 2, 0.9)}deg)` }}>
       {i % 4 === 0 && <Washi w={72} h={18} color="color-mix(in oklab, var(--a3) 80%, white)" rotate={-6} className="absolute -top-2 left-8" />}
       {i % 4 === 2 && <Washi w={60} h={16} color="color-mix(in oklab, var(--a2) 80%, white)" rotate={5} className="absolute -top-2 right-8" />}
       {i % 5 === 3 && (
         <span className="pointer-events-none absolute -top-7 right-6 z-[2]" aria-hidden>
-          <Pic name={mascots[i % 3]} size={44} />
+          <Pic name={mascots[i % mascots.length]} size={44} />
         </span>
       )}
       <div className="flex items-start gap-5">
@@ -108,7 +80,7 @@ function BookPage({ b, i }: { b: Book; i: number }) {
             </span>
             {rating != null && <GlyphRating rating={rating} glyph="♥" color="var(--a1)" size={15} showStar={b.show_star === true} starColor="#e0a92e" />}
             {b.review && b.review_published !== false && (
-              <Link href="/drafts/picnic" className="hand zf-wiggle" style={{ fontSize: 18, color: "var(--a1)" }}>
+              <Link href={SCRAP_ROUTES[theme].home} className="hand zf-wiggle" style={{ fontSize: 18, color: "var(--a1)" }}>
                 reviewed on the shelf →
               </Link>
             )}
@@ -120,6 +92,8 @@ function BookPage({ b, i }: { b: Book; i: number }) {
 }
 
 export function LimbusScrap({ theme, books, tagline }: { theme: ScrapTheme; books: Book[]; tagline: string }) {
+  const ex = EXTRAS[theme];
+  const routes = SCRAP_ROUTES[theme];
   const hung = books.filter((b) => b.cover_url).slice(2, 7);
   const shots = books.filter((b) => b.cover_url).slice(9, 13);
   const read = books.filter((b) => b.status === "read").length;
@@ -132,28 +106,28 @@ export function LimbusScrap({ theme, books, tagline }: { theme: ScrapTheme; book
       <SideRails
         interactive
         left={[
-          <Pic key="m0" name="duck" size={64} />,
+          <Pic key="m0" name={ex.mascots[0]} size={64} />,
           <Washi key="t0" w={84} h={20} color="color-mix(in oklab, var(--a3) 80%, white)" rotate={-7} />,
           <MiniShot key="p0" book={shots[0]} r={-4} />,
-          <Pic key="d0" name="butterfly" size={46} />,
+          <Pic key="d0" name={ex.doodads[0]} size={46} />,
           <Heart key="h0" size={26} color="var(--a1)" />,
-          <Pic key="m1" name="teddy" size={58} flip />,
-          <Pic key="d1" name="rainbow" size={48} />,
+          <Pic key="m1" name={ex.mascots[1]} size={58} flip />,
+          <Pic key="d1" name={ex.doodads[3]} size={48} />,
           <MiniShot key="p1" book={shots[1]} r={3} pin="var(--a2)" />,
-          <Pic key="d2" name="sunflower" size={42} />,
-          <Pic key="m2" name="rabbit" size={58} />,
+          <Pic key="d2" name={ex.doodads[1]} size={42} />,
+          <Pic key="m2" name={ex.mascots[2]} size={58} />,
           <Star key="s0" size={30} color="var(--a3)" />,
         ]}
         right={[
           <MiniShot key="p2" book={shots[2]} r={4} pin="var(--a3)" />,
-          <Pic key="m0" name="rabbit" size={62} flip />,
-          <Pic key="d0" name="balloon" size={46} />,
+          <Pic key="m0" name={ex.mascots[2]} size={62} flip />,
+          <Pic key="d0" name={ex.doodads[4]} size={46} />,
           <Heart key="h0" size={22} color="var(--a2)" />,
-          <Pic key="d1" name="sunface" size={46} />,
-          <Pic key="m1" name="duck" size={54} flip />,
-          <Pic key="d2" name="basket" size={48} />,
+          <Pic key="d1" name={ex.doodads[5]} size={46} />,
+          <Pic key="m1" name={ex.mascots[0]} size={54} flip />,
+          <Pic key="d2" name={ex.doodads[2]} size={48} />,
           <MiniShot key="p3" book={shots[3]} r={-3} />,
-          <Pic key="m2" name="teddy" size={56} />,
+          <Pic key="m2" name={ex.mascots[1]} size={56} />,
           <Washi key="t1" w={72} h={18} color="color-mix(in oklab, var(--a1) 60%, white)" rotate={6} />,
         ]}
       />
@@ -162,8 +136,8 @@ export function LimbusScrap({ theme, books, tagline }: { theme: ScrapTheme; book
         <nav className="nav flex items-center justify-between">
           <span className="hand doodle-note" style={{ fontSize: 22, display: "inline-block", transform: "rotate(-2deg)" }}>est. 2026 ✿</span>
           <div className="flex gap-6">
-            <Link href="/drafts/picnic">home</Link>
-            <Link href="/drafts/picnic-about">about</Link>
+            <Link href={routes.home}>home</Link>
+            <Link href={routes.about}>about</Link>
             <Link href="/drafts">drafts</Link>
           </div>
         </nav>
@@ -188,8 +162,8 @@ export function LimbusScrap({ theme, books, tagline }: { theme: ScrapTheme; book
         <header className="relative mx-auto mt-6 max-w-xl text-center">
           <div className="page stitched relative" style={{ padding: "32px 26px 24px", transform: "rotate(-0.6deg)" }}>
             <span className="absolute -top-2 left-1/2 -translate-x-1/2"><Pushpin size={24} color="var(--a1)" /></span>
-            <span className="pointer-events-none absolute -left-5 -top-8" aria-hidden><Pic name="teddy" size={48} /></span>
-            <span className="pointer-events-none absolute -right-4 -bottom-4" aria-hidden><Pic name="basket" size={44} /></span>
+            <span className="pointer-events-none absolute -left-5 -top-8" aria-hidden><Pic name={ex.mascots[1]} size={48} /></span>
+            <span className="pointer-events-none absolute -right-4 -bottom-4" aria-hidden><Pic name={ex.doodads[2]} size={44} /></span>
             <h1 className="flex flex-wrap items-center justify-center gap-2" style={{ fontSize: "clamp(1.6rem,5vw,2.4rem)" }}>
               {["The", "Limbus", "Fourteen"].map((w, i) => (
                 <span key={w} className={`label ${i % 2 ? "a1" : ""}`} style={{ transform: `rotate(${i % 2 ? 1.5 : -1.5}deg)` }}>{w}</span>
@@ -199,26 +173,26 @@ export function LimbusScrap({ theme, books, tagline }: { theme: ScrapTheme; book
               {tagline.toLowerCase()}
             </p>
             <p className="hand mt-1 text-[19px]" style={{ color: "var(--a1)" }}>
-              {read} of {books.length} finished — bring a blanket, stay a while ♡
+              {read} of {books.length} finished — stay a while ♡
             </p>
           </div>
         </header>
 
         <section className="mt-14">
           <div className="mb-8 flex flex-wrap items-center gap-4">
-            <h2><span className="label a2" style={{ fontSize: 14 }}>every book, one picnic blanket</span></h2>
+            <h2><span className="label a2" style={{ fontSize: 14 }}>every book, one blanket</span></h2>
             <span className="hand doodle-note" style={{ fontSize: 21, display: "inline-block", transform: "rotate(-2deg)" }}>
               the hexagon = whose book it is!
             </span>
           </div>
           <div className="grid gap-8 sm:grid-cols-2">
-            {books.map((b, i) => <BookPage key={b.id} b={b} i={i} />)}
+            {books.map((b, i) => <BookPage key={b.id} b={b} i={i} theme={theme} />)}
           </div>
         </section>
 
         <footer className="mt-20 text-center">
           <p className="hand text-[22px]" style={{ color: "color-mix(in oklab, var(--ink) 70%, transparent)" }}>
-            fourteen stories in the sun ✿ sunday&rsquo;s shelf
+            fourteen stories, {ex.word} ✿ sunday&rsquo;s shelf
           </p>
           <p className="mt-1 text-[11px]" style={{ color: "color-mix(in oklab, var(--ink) 55%, transparent)" }}>
             critters &amp; props by{" "}
