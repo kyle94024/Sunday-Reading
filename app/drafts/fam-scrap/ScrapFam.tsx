@@ -72,11 +72,28 @@ const LILAC_RIGHT: [string, number][] = [
 ];
 
 export function lilacRails(): { left: ReactNode[]; right: ReactNode[] } {
-  const mk = (list: [string, number][], flipOn: number) =>
-    list.map(([name, size], i) => (
-      <Pic key={`${name}-${i}`} name={name} size={size} flip={i % 3 === flipOn} className="zf-ring" />
-    ));
-  return { left: mk(LILAC_LEFT, 1), right: mk(LILAC_RIGHT, 2) };
+  // scattered, not tidy: each sprite gets a deterministic 1x–3x scale,
+  // slight rotation, x-drift (big ones may hang off-screen) and uneven
+  // vertical offsets. Static transforms live on an inner span so the
+  // rail's float/sway animation on the wrapper still plays.
+  const mk = (list: [string, number][], seed: number, flipOn: number) =>
+    list.map(([name, base], i) => {
+      const k = seed + i * 7;
+      const mult = 1 + ((jitter(k, 1) + 1) / 2) * 2; // 1x–3x
+      const size = Math.round(base * mult);
+      const rot = jitter(k + 3, 13).toFixed(1);
+      const dx = Math.round(jitter(k + 5, 1) * 70);
+      const dy = Math.round(jitter(k + 9, 1) * 52);
+      return (
+        <span
+          key={`${name}-${i}`}
+          style={{ display: "inline-block", transform: `translate(${dx}px, ${dy}px) rotate(${rot}deg)` }}
+        >
+          <Pic name={name} size={size} flip={i % 3 === flipOn} className="zf-ring" />
+        </span>
+      );
+    });
+  return { left: mk(LILAC_LEFT, 11, 1), right: mk(LILAC_RIGHT, 37, 2) };
 }
 
 function HandNote({ children, rotate = -3, size = 21 }: { children: ReactNode; rotate?: number; size?: number }) {
@@ -190,7 +207,7 @@ function ScrapCard({ book, i, theme, defaultOpen = false }: { book: Book; i: num
   const ratingRow =
     rating != null ? (
       <div className="mt-1.5">
-        <GlyphRating rating={rating} glyph="♥" color="var(--a1)" size={18} showStar={book.show_star === true} starColor="#e0a92e" />
+        <GlyphRating rating={rating} glyph="♥" color={theme === "lilac" ? "#e0463f" : "var(--a1)"} size={18} showStar={book.show_star === true} starColor="#e0a92e" />
       </div>
     ) : null;
 
@@ -358,7 +375,8 @@ export function ScrapFam({
           </div>
         </nav>
 
-        {/* hanging string: covers + a bow + an envelope */}
+        {/* hanging string: covers + a bow + an envelope (not on lilac) */}
+        {theme !== "lilac" && (
         <div className="string mt-8 hidden sm:block" aria-hidden>
           <svg className="line" viewBox="0 0 800 110" preserveAspectRatio="none">
             <path d="M0 18 Q 400 64 800 14" fill="none" stroke="color-mix(in oklab, var(--ink) 50%, transparent)" strokeWidth="2" />
@@ -377,8 +395,9 @@ export function ScrapFam({
             <Pic name="loveletter" size={42} />
           </span>
         </div>
+        )}
 
-        <header className="relative mx-auto mt-6 max-w-xl text-center">
+        <header className={`relative mx-auto ${theme === "lilac" ? "mt-14" : "mt-6"} max-w-xl text-center`}>
           <div className="page stitched relative" style={{ padding: "32px 26px 26px", transform: "rotate(-0.6deg)" }}>
             <span className="absolute -top-2 left-1/2 -translate-x-1/2"><Pushpin size={24} color="var(--a1)" /></span>
             <span className="pointer-events-none absolute -left-5 -top-8" aria-hidden><Pic name={ex.mascots[1]} size={48} /></span>
@@ -389,16 +408,24 @@ export function ScrapFam({
               ))}
             </h1>
             <p className="hand mt-3 text-[24px]" style={{ color: "color-mix(in oklab, var(--ink) 78%, transparent)" }}>
-              {tagline.toLowerCase()} ♡ kept by kyle
+              {tagline.toLowerCase()}{" "}
+              {theme === "lilac" ? <span style={{ color: "#e0463f" }}>♡</span> : <>♡ kept by kyle</>}
             </p>
           </div>
         </header>
 
-        <section className="page lined prose relative mx-auto mt-14 max-w-2xl" style={{ padding: "26px 30px 14px", transform: "rotate(0.35deg)", lineHeight: "27px" }}>
-          <Washi w={110} h={24} color="color-mix(in oklab, var(--a1) 60%, white)" rotate={-4} className="absolute -top-3 left-10" />
-          <HandNote size={22} rotate={-1}>the story so far —</HandNote>
-          <div className="mt-1"><IntroMd text={intro} /></div>
-        </section>
+        {/* intro: lilac gets the puffy sticker card, others lined paper */}
+        {theme === "lilac" ? (
+          <section className="stickcard prose relative mx-auto mt-14 max-w-2xl" style={{ padding: "30px 34px 18px", transform: "rotate(0.35deg)" }}>
+            <IntroMd text={intro} />
+          </section>
+        ) : (
+          <section className="page lined prose relative mx-auto mt-14 max-w-2xl" style={{ padding: "26px 30px 14px", transform: "rotate(0.35deg)", lineHeight: "27px" }}>
+            <Washi w={110} h={24} color="color-mix(in oklab, var(--a1) 60%, white)" rotate={-4} className="absolute -top-3 left-10" />
+            <HandNote size={22} rotate={-1}>the story so far —</HandNote>
+            <div className="mt-1"><IntroMd text={intro} /></div>
+          </section>
+        )}
 
         <section className="mt-16">
           <div className="flex items-center gap-4">

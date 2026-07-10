@@ -123,8 +123,13 @@ export function AboutScrap({ theme, text, contributors }: { theme: ScrapTheme; t
                 </div>
               </div>
             )}
-            <section className="page lined prose relative" style={{ padding: "28px 32px 18px", transform: "rotate(0.4deg)", lineHeight: "27px" }}>
-              <Washi w={110} h={24} color="color-mix(in oklab, var(--a1) 60%, white)" rotate={-4} className="absolute -top-3 left-10" />
+            <section
+              className={`${theme === "lilac" ? "stickcard" : "page lined"} prose relative`}
+              style={theme === "lilac" ? { padding: "30px 34px 18px", transform: "rotate(0.4deg)" } : { padding: "28px 32px 18px", transform: "rotate(0.4deg)", lineHeight: "27px" }}
+            >
+              {theme !== "lilac" && (
+                <Washi w={110} h={24} color="color-mix(in oklab, var(--a1) 60%, white)" rotate={-4} className="absolute -top-3 left-10" />
+              )}
               <span className="pointer-events-none absolute -top-7 right-8" aria-hidden><Pic name={ex.mascots[0]} size={46} /></span>
               <ReactMarkdown
                 components={{

@@ -124,6 +124,16 @@ html:has(.d-scrap2.t-lilac), body:has(.d-scrap2.t-lilac) { background: #f3eefc; 
   outline-offset: -9px;
 }
 
+/* puffy sticker card (sticker-club look) for note blocks on lilac */
+.d-scrap2 .stickcard {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow:
+    0 0 0 4px #fff,
+    0 0 0 5.5px color-mix(in oklab, var(--ink) 30%, transparent),
+    0 12px 24px -12px color-mix(in oklab, var(--ink) 45%, transparent);
+}
+
 /* polaroid photo */
 .d-scrap2 .photo {
   background: #fff;

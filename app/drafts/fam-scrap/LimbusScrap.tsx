@@ -79,7 +79,7 @@ function BookPage({ b, i, theme }: { b: Book; i: number; theme: ScrapTheme }) {
             <span className={`label ${b.status === "read" ? "a2" : b.status === "reading" ? "a3" : ""}`} style={{ fontSize: 10 }}>
               {statusNote(b)}
             </span>
-            {rating != null && <GlyphRating rating={rating} glyph="♥" color="var(--a1)" size={15} showStar={b.show_star === true} starColor="#e0a92e" />}
+            {rating != null && <GlyphRating rating={rating} glyph="♥" color={theme === "lilac" ? "#e0463f" : "var(--a1)"} size={15} showStar={b.show_star === true} starColor="#e0a92e" />}
             {b.review && b.review_published !== false && (
               <Link href={SCRAP_ROUTES[theme].home} className="hand zf-wiggle" style={{ fontSize: 18, color: "var(--a1)" }}>
                 reviewed on the shelf →
@@ -144,7 +144,8 @@ export function LimbusScrap({ theme, books, tagline }: { theme: ScrapTheme; book
           </div>
         </nav>
 
-        {/* hanging string of covers */}
+        {/* hanging string of covers (not on lilac) */}
+        {theme !== "lilac" && (
         <div className="string mt-8 hidden sm:block" aria-hidden>
           <svg className="line" viewBox="0 0 800 110" preserveAspectRatio="none">
             <path d="M0 18 Q 400 64 800 14" fill="none" stroke="color-mix(in oklab, var(--ink) 50%, transparent)" strokeWidth="2" />
@@ -160,8 +161,9 @@ export function LimbusScrap({ theme, books, tagline }: { theme: ScrapTheme; book
             <Pic name="bow" size={38} />
           </span>
         </div>
+        )}
 
-        <header className="relative mx-auto mt-6 max-w-xl text-center">
+        <header className={`relative mx-auto ${theme === "lilac" ? "mt-14" : "mt-6"} max-w-xl text-center`}>
           <div className="page stitched relative" style={{ padding: "32px 26px 24px", transform: "rotate(-0.6deg)" }}>
             <span className="absolute -top-2 left-1/2 -translate-x-1/2"><Pushpin size={24} color="var(--a1)" /></span>
             <span className="pointer-events-none absolute -left-5 -top-8" aria-hidden><Pic name={ex.mascots[1]} size={48} /></span>
@@ -175,7 +177,8 @@ export function LimbusScrap({ theme, books, tagline }: { theme: ScrapTheme; book
               {tagline.toLowerCase()}
             </p>
             <p className="hand mt-1 text-[19px]" style={{ color: "var(--a1)" }}>
-              {read} of {books.length} finished — stay a while ♡
+              {read} of {books.length} finished — stay a while{" "}
+              <span style={theme === "lilac" ? { color: "#e0463f" } : undefined}>♡</span>
             </p>
           </div>
         </header>
